@@ -53,9 +53,6 @@ textureLoader.load(
     const material = new THREE.MeshPhongMaterial({ map: texture });
     const earth = new THREE.Mesh(geometry, material);
 
-    // === 添加北京到纽约的线 ===
-    const latlngA: LatLng = { lat: 39.9042, lng: 116.4074 };
-    const latlngB: LatLng = { lat: 40.7128, lng: -74.0060 };
     const radius = 1.01;
 
     function getLongitudeArcPoints(
@@ -87,18 +84,31 @@ textureLoader.load(
       return points;
     }
 
-    // 使用新的函数生成经线弧线
-    const arcPoints = getLongitudeArcPoints(latlngA, latlngB, radius, 128);
-    const arcGeometry = new THREE.BufferGeometry().setFromPoints(arcPoints);
-    const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
-    const arcLine = new THREE.Line(arcGeometry, arcMaterial);
-
-    // === 用 Group 组合地球和线 ===
+    // 用 Group 组合地球和线
     const earthGroup = new THREE.Group();
     earthGroup.add(earth);
-    earthGroup.add(arcLine);
     scene.add(earthGroup);
 
+    // 加载多条线数据并绘制
+    fetch('/lines.json')
+      .then(res => res.json())
+      .then((data) => {
+        const routes = data.routes;
+        routes.forEach((route: LatLng[]) => {
+          if (route.length < 2) return;
+          for (let i = 0; i < route.length - 1; i++) {
+            const a = route[i];
+            const b = route[i + 1];
+            const arcPoints = getLongitudeArcPoints(a, b, radius, 128);
+            const arcGeometry = new THREE.BufferGeometry().setFromPoints(arcPoints);
+            const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
+            const arcLine = new THREE.Line(arcGeometry, arcMaterial);
+            earthGroup.add(arcLine);
+          }
+        });
+      });
+
+    //todo: 下面的海运路线有问题
     // 加载并显示海运线路
     fetch('/shipping_routes.json')
       .then((res) => res.json())
