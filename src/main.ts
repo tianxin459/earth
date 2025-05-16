@@ -13,7 +13,7 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.z = 3;
 
 // 监听滑块调整相机距离
-const zoomSlider = document.getElementById('zoom-slider') as HTMLInputElement;
+const zoomSlider = document.getElementById('zoom-slider') as HTMLInputElement | null;
 if (zoomSlider) {
   zoomSlider.addEventListener('input', () => {
     camera.position.z = Number(zoomSlider.value);
@@ -30,31 +30,40 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(5, 3, 5);
 scene.add(light);
 
+// 经纬度类型
+type LatLng = { lat: number; lng: number };
+
+// 经纬度转球面坐标
+function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector3 {
+  const phi = (90 - lat) * (Math.PI / 180);
+  const theta = (lng + 180) * (Math.PI / 180);
+  return new THREE.Vector3(
+    -radius * Math.sin(phi) * Math.cos(theta),
+    radius * Math.cos(phi),
+    radius * Math.sin(phi) * Math.sin(theta)
+  );
+}
+
 // 加载地球纹理
 const textureLoader = new THREE.TextureLoader();
 textureLoader.load(
   '/earth_atmos_2048.jpg',
-  function (texture) {
+  function (texture: THREE.Texture) {
     const geometry = new THREE.SphereGeometry(1, 64, 64);
     const material = new THREE.MeshPhongMaterial({ map: texture });
     const earth = new THREE.Mesh(geometry, material);
 
     // === 添加北京到纽约的线 ===
-    function latLngToVector3(lat: number, lng: number, radius: number) {
-      const phi = (90 - lat) * (Math.PI / 180);
-      const theta = (lng + 180) * (Math.PI / 180);
-      return new THREE.Vector3(
-        -radius * Math.sin(phi) * Math.cos(theta),
-        radius * Math.cos(phi),
-        radius * Math.sin(phi) * Math.sin(theta)
-      );
-    }
-
-    const latlngA = { lat: 39.9042, lng: 116.4074 };
-    const latlngB = { lat: 40.7128, lng: -74.0060 };
+    const latlngA: LatLng = { lat: 39.9042, lng: 116.4074 };
+    const latlngB: LatLng = { lat: 40.7128, lng: -74.0060 };
     const radius = 1.01;
 
-    function getLongitudeArcPoints(a: typeof latlngA, b: typeof latlngB, r: number, segments = 100) {
+    function getLongitudeArcPoints(
+      a: LatLng,
+      b: LatLng,
+      r: number,
+      segments = 100
+    ): THREE.Vector3[] {
       // 取起点纬度，插值经度
       const lat = a.lat;
       let lngStart = a.lng;
@@ -92,9 +101,9 @@ textureLoader.load(
 
     // 加载并显示海运线路
     fetch('/shipping_routes.json')
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((routes: [number, number][][]) => {
-        routes.forEach(route => {
+        routes.forEach((route: [number, number][]) => {
           const points = route.map(([lat, lng]) => latLngToVector3(lat, lng, radius + 0.05));
           const geometry = new THREE.BufferGeometry().setFromPoints(points);
           const material = new THREE.LineBasicMaterial({ color: 0x00ffff, linewidth: 1 });
@@ -108,13 +117,13 @@ textureLoader.load(
     let previousX = 0;
     let previousY = 0;
 
-    renderer.domElement.addEventListener('mousedown', (event) => {
+    renderer.domElement.addEventListener('mousedown', (event: MouseEvent) => {
       isDragging = true;
       previousX = event.clientX;
       previousY = event.clientY;
     });
 
-    renderer.domElement.addEventListener('mousemove', (event) => {
+    renderer.domElement.addEventListener('mousemove', (event: MouseEvent) => {
       if (!isDragging) return;
       const deltaX = event.clientX - previousX;
       const deltaY = event.clientY - previousY;
