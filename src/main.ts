@@ -47,6 +47,18 @@ function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector
   );
 }
 
+// 球面插值函数，返回 a 到 b 的球面插值点数组
+function getSlerpPoints(a: THREE.Vector3, b: THREE.Vector3, segments: number): THREE.Vector3[] {
+  const points: THREE.Vector3[] = [];
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    // 球面线性插值
+    const p = a.clone().lerp(b, t).normalize().multiplyScalar(a.length());
+    points.push(p);
+  }
+  return points;
+}
+
 // 加载地球纹理贴图
 const textureLoader = new THREE.TextureLoader();
 textureLoader.load(
@@ -103,19 +115,26 @@ textureLoader.load(
         const routes = data.routes;
         routes.forEach((route: LatLng[]) => {
           if (route.length < 2) return;
-          for (let i = 0; i < route.length - 1; i++) {
-            const a = route[i];
-            const b = route[i + 1];
-            // 生成两点间的球面插值点
-            const arcPoints = getLongitudeArcPoints(a, b, radius, 128);
-            // 创建线条几何体
-            const arcGeometry = new THREE.BufferGeometry().setFromPoints(arcPoints);
-            // 创建线条材质，黄色
-            const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
-            // 创建线条对象
-            const arcLine = new THREE.Line(arcGeometry, arcMaterial);
-            earthGroup.add(arcLine);
+          // 将所有点转换为球面坐标
+          const points: THREE.Vector3[] = route.map(p =>
+            latLngToVector3(p.lat, p.lng, radius)
+          );
+          // 对每一段做球面插值，拼接所有插值点（只从第一个点连到最后一个点，不回头）
+          const surfacePoints: THREE.Vector3[] = [];
+          const segmentsPerArc = 64;
+          for (let i = 0; i < points.length - 1; i++) {
+            const arc = getSlerpPoints(points[i], points[i + 1], segmentsPerArc);
+            // 避免重复点
+            if (i > 0) arc.shift();
+            surfacePoints.push(...arc);
           }
+          // 创建线条几何体
+          const arcGeometry = new THREE.BufferGeometry().setFromPoints(surfacePoints);
+          // 创建线条材质，黄色
+          const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
+          // 创建线条对象
+          const arcLine = new THREE.Line(arcGeometry, arcMaterial);
+          earthGroup.add(arcLine);
         });
       });
 
