@@ -108,6 +108,9 @@ textureLoader.load(
     earthGroup.add(earth);
     scene.add(earthGroup);
 
+    // 在地球加载和港口点创建部分，添加一个数组保存所有港口点 Mesh
+    const portSpheres: THREE.Mesh[] = [];
+
     // 加载多条线数据并绘制
     fetch('/lines.json')
       .then(res => res.json())
@@ -133,7 +136,7 @@ textureLoader.load(
 
         // 标注所有港口为绿色原点，并显示港口名称
         if (data.ports) {
-          data.ports.forEach((port: { lat: number; lng: number; name: string }) => {
+          data.ports.forEach((port: { lat: number; lng: number; name: string }, idx: number) => {
             // 让球体中心略微低于地球表面，使得一半球体嵌入地球
             const portRadius = radius + 0.002; // 比地球半径略大一点点
             const portPos = latLngToVector3(port.lat, port.lng, portRadius);
@@ -147,6 +150,8 @@ textureLoader.load(
             sphere.position.addScaledVector(normal, -0.0075);
 
             earthGroup.add(sphere);
+
+            portSpheres.push(sphere); // 保存港口点 Mesh
 
             // 显示港口名称
             const div = document.createElement('div');
@@ -241,6 +246,18 @@ textureLoader.load(
     // 动画循环，持续渲染场景
     function animate() {
       requestAnimationFrame(animate);
+
+      // 港口点波纹扩散动画
+      const t = performance.now() * 0.002; // 时间参数
+      portSpheres.forEach((sphere, i) => {
+        // 波纹效果：周期性scale快速扩散再回落
+        const phase = t + i * 0.5; // 每个点有相位差
+        // 0~1的波峰，波峰时scale最大，之后迅速回落
+        const ripple = Math.max(0, Math.sin(phase));
+        // 让scale在1~2之间变化，波峰后迅速回落
+        const scale = 1 + ripple * ripple * 1.2;
+        sphere.scale.set(scale, scale, scale);
+      });
 
       // 更新所有港口标签位置
       if ((window as any)._portLabels) {
