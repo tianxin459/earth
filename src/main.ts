@@ -11,7 +11,8 @@ const camera = new THREE.PerspectiveCamera(
   0.1, // 最近可见距离
   1000 // 最远可见距离
 );
-camera.position.z = 3; // 相机沿z轴拉远，便于看到整个地球
+// 初始时拉近相机，只显示地球局部（1.5缩放）
+camera.position.z = 1.5; // 1.5缩放
 
 // 监听滑块调整相机距离，实现缩放交互
 const zoomSlider = document.getElementById('zoom-slider') as HTMLInputElement | null;
@@ -117,6 +118,15 @@ textureLoader.load(
     // 创建一个Group，将地球和所有线条组合，便于整体变换
     const earthGroup = new THREE.Group();
     earthGroup.add(earth);
+
+    // 让美国正对屏幕（美国中心大致：lat=39, lng=-98）
+    const usLat = -39;
+    const usLng = -168;
+    // y轴旋转：让美国经度-98对准z轴正方向
+    earthGroup.rotation.y = THREE.MathUtils.degToRad(usLng + 180);
+    // x轴旋转：让美国纬度39对准赤道（z轴正方向），需负值
+    earthGroup.rotation.x = -THREE.MathUtils.degToRad(usLat);
+
     scene.add(earthGroup);
 
     // 在地球加载和港口点创建部分，添加一个数组保存所有港口点 Mesh
