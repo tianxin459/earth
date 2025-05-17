@@ -9,5 +9,24 @@
       { "lat": 35.6895, "lng": 139.6917 },
       { "lat": 37.7749, "lng": -122.4194 }
     ]
+  ],
+  "ports": [
+    { "name": "Shanghai", "lat": 31.2304, "lng": 121.4737 },
+    { "name": "Tianjin", "lat": 39.0328, "lng": 117.7360 },
+    { "name": "Qingdao", "lat": 36.0671, "lng": 120.3826 },
+    { "name": "Ningbo-Zhoushan", "lat": 29.8683, "lng": 121.5440 },
+    { "name": "Guangzhou", "lat": 23.1107, "lng": 113.3172 },
+    { "name": "Shenzhen", "lat": 22.5431, "lng": 114.0579 },
+    { "name": "Xiamen", "lat": 24.4798, "lng": 118.0894 },
+    { "name": "Dalian", "lat": 38.9140, "lng": 121.6147 },
+
+    { "name": "Los Angeles", "lat": 33.7405, "lng": -118.2775 },
+    { "name": "Long Beach", "lat": 33.7676, "lng": -118.1995 },
+    { "name": "New York", "lat": 40.6840, "lng": -74.0419 },
+    { "name": "Savannah", "lat": 32.0809, "lng": -81.0912 },
+    { "name": "Houston", "lat": 29.7280, "lng": -95.0865 },
+    { "name": "Seattle", "lat": 47.6019, "lng": -122.3355 },
+    { "name": "Oakland", "lat": 37.7950, "lng": -122.2780 },
+    { "name": "Charleston", "lat": 32.7831, "lng": -79.9337 }
   ]
 }

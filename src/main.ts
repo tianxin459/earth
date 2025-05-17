@@ -115,27 +115,79 @@ textureLoader.load(
         const routes = data.routes;
         routes.forEach((route: LatLng[]) => {
           if (route.length < 2) return;
-          // 将所有点转换为球面坐标
           const points: THREE.Vector3[] = route.map(p =>
             latLngToVector3(p.lat, p.lng, radius)
           );
-          // 对每一段做球面插值，拼接所有插值点（只从第一个点连到最后一个点，不回头）
           const surfacePoints: THREE.Vector3[] = [];
           const segmentsPerArc = 64;
           for (let i = 0; i < points.length - 1; i++) {
             const arc = getSlerpPoints(points[i], points[i + 1], segmentsPerArc);
-            // 避免重复点
             if (i > 0) arc.shift();
             surfacePoints.push(...arc);
           }
-          // 创建线条几何体
           const arcGeometry = new THREE.BufferGeometry().setFromPoints(surfacePoints);
-          // 创建线条材质，黄色
           const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
-          // 创建线条对象
           const arcLine = new THREE.Line(arcGeometry, arcMaterial);
           earthGroup.add(arcLine);
         });
+
+        // 标注所有港口为绿色原点，并显示港口名称
+        if (data.ports) {
+          data.ports.forEach((port: { lat: number; lng: number; name: string }) => {
+            // 让球体中心略微低于地球表面，使得一半球体嵌入地球
+            const portRadius = radius + 0.002; // 比地球半径略大一点点
+            const portPos = latLngToVector3(port.lat, port.lng, portRadius);
+            const sphereGeo = new THREE.SphereGeometry(0.015, 16, 16);
+            const sphereMat = new THREE.MeshBasicMaterial({ color: "green" });
+            const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+            sphere.position.copy(portPos);
+
+            // 让球体“朝外”方向只露出一半
+            const normal = portPos.clone().normalize();
+            sphere.position.addScaledVector(normal, -0.0075);
+
+            earthGroup.add(sphere);
+
+            // 显示港口名称
+            const div = document.createElement('div');
+            div.className = 'port-label';
+            div.textContent = port.name;
+            div.style.position = 'absolute';
+            div.style.color = 'lime';
+            div.style.fontSize = '12px';
+            div.style.pointerEvents = 'none';
+            document.body.appendChild(div);
+
+            // 更新标签位置
+            function updateLabelPosition() {
+              // 复制港口原始坐标
+              const worldPos = portPos.clone();
+              // 应用地球当前旋转
+              earthGroup.localToWorld(worldPos);
+
+              // 计算相机到港口点的向量
+              const cameraToPort = worldPos.clone().sub(camera.position).normalize();
+              // 计算地球中心到港口点的法线
+              const normal = worldPos.clone().normalize();
+              // 判断是否正面
+              const isFront = cameraToPort.dot(normal) < 0;
+
+              // 投影到屏幕
+              const vector = worldPos.project(camera);
+              const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+              const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
+              div.style.left = `${x}px`;
+              div.style.top = `${y}px`;
+              // 只显示正面的点的label
+              div.style.display = isFront ? 'block' : 'none';
+            }
+            // 每帧更新
+            renderer.domElement.addEventListener('render', updateLabelPosition);
+            // 兼容：在动画循环里统一更新
+            if (!(window as any)._portLabels) (window as any)._portLabels = [];
+            (window as any)._portLabels.push(updateLabelPosition);
+          });
+        }
       });
 
     // 加载并显示海运线路
@@ -189,6 +241,12 @@ textureLoader.load(
     // 动画循环，持续渲染场景
     function animate() {
       requestAnimationFrame(animate);
+
+      // 更新所有港口标签位置
+      if ((window as any)._portLabels) {
+        (window as any)._portLabels.forEach((fn: () => void) => fn());
+      }
+
       renderer.render(scene, camera);
     }
     animate();
