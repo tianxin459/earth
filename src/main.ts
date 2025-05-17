@@ -26,6 +26,17 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight); // 设置渲染区域大小为窗口大小
 document.getElementById('app')?.appendChild(renderer.domElement); // 将渲染画布添加到页面
 
+// 鼠标滚轮缩放操作
+renderer.domElement.addEventListener('wheel', (event: WheelEvent) => {
+  event.preventDefault();
+  // 缩放速度
+  const zoomSpeed = 0.2;
+  // 计算新的相机z轴位置
+  camera.position.z += event.deltaY * zoomSpeed * 0.01;
+  // 限制缩放范围
+  camera.position.z = Math.max(1.5, Math.min(10, camera.position.z));
+}, { passive: false });
+
 // 添加一个平行光源，参数为颜色和强度
 // 目的是让地球表面有明暗效果，提升立体感
 const light = new THREE.DirectionalLight(0xffffff, 1);
