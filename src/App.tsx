@@ -169,7 +169,7 @@ export const App: React.FC = () => {
         const portRadius = radius + 0.002;
         const portPos = latLngToVector3(port.lat, port.lng, portRadius);
         const torusGeo = new THREE.TorusGeometry(0.005, 0.001, 8, 16);
-        const torusMat = new THREE.MeshBasicMaterial({ color: "green" });
+        const torusMat = new THREE.MeshBasicMaterial({ color: "green", depthTest: false }); // 让港口环始终在最前面
         const torus = new THREE.Mesh(torusGeo, torusMat);
         torus.position.copy(portPos);
 
@@ -373,9 +373,9 @@ export const App: React.FC = () => {
     position: 'fixed',
     left: 0,
     top: 0,
-    height: 4,
+    height: 1,
     width: `${idleProgress * 100}%`,
-    background: idleProgress < 1 ? '#0ff' : '#0f08',
+    background: idleProgress < 1 ? '#929292' : '#00290087',
     zIndex: 99999,
     transition: 'width 0.2s linear, background 0.2s'
   };
