@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { ControlPanel } from './ControlPanel';
 
+const AUTO_ROTATE_TIMEOUT = 10000; // 10秒
+
 export const App: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const [idleProgress, setIdleProgress] = useState(0); // 0~1
 
   useEffect(() => {
     // Three.js 初始化
@@ -22,19 +25,47 @@ export const App: React.FC = () => {
 
     // 监听缩放滑块
     const zoomSlider = document.getElementById('zoom-slider') as HTMLInputElement | null;
+    const minZoom = 1.5;
+    const maxZoom = 150;
     if (zoomSlider) {
+      zoomSlider.min = String(minZoom);
+      zoomSlider.max = String(maxZoom);
+      zoomSlider.step = "0.01";
+      zoomSlider.value = String(minZoom);
       zoomSlider.addEventListener('input', () => {
         camera.position.z = Number(zoomSlider.value);
+        resetIdleTimer();
       });
     }
+
+    // --- 自动旋转相关逻辑 ---
+    let idleTimer: number | undefined;
+    let autoRotate = false;
+    let earthGroup: THREE.Group | null = null;
+    let idleStart = Date.now();
+    let animationFrameId: number;
+
+    function resetIdleTimer() {
+      autoRotate = false;
+      idleStart = Date.now();
+      setIdleProgress(0);
+      if (idleTimer) window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(() => {
+        autoRotate = true;
+        setIdleProgress(1);
+      }, AUTO_ROTATE_TIMEOUT);
+    }
+    // 初始化时启动idle计时
+    resetIdleTimer();
 
     // 鼠标滚轮缩放
     renderer.domElement.addEventListener('wheel', (event: WheelEvent) => {
       event.preventDefault();
       const zoomSpeed = 0.2;
       camera.position.z += event.deltaY * zoomSpeed * 0.01;
-      camera.position.z = Math.max(1.5, Math.min(10, camera.position.z));
+      camera.position.z = Math.max(minZoom, Math.min(maxZoom, camera.position.z));
       if (zoomSlider) zoomSlider.value = camera.position.z.toFixed(2);
+      resetIdleTimer();
     }, { passive: false });
 
     // 光源
@@ -197,7 +228,7 @@ export const App: React.FC = () => {
         const earth = new THREE.Mesh(geometry, material);
 
         const radius = 1.01;
-        const earthGroup = new THREE.Group();
+        earthGroup = new THREE.Group();
         earthGroup.add(earth);
 
         orientGroupToLatLng(earthGroup, -35, -168);
@@ -228,11 +259,11 @@ export const App: React.FC = () => {
               const arcGeometry = new THREE.BufferGeometry().setFromPoints(surfacePoints);
               const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
               const arcLine = new THREE.Line(arcGeometry, arcMaterial);
-              earthGroup.add(arcLine);
+              earthGroup!.add(arcLine);
             });
 
             if (data.ports) {
-              const portsResult = loadPorts(earthGroup, radius, data.ports);
+              const portsResult = loadPorts(earthGroup!, radius, data.ports);
               animatePorts = portsResult.animatePorts;
               portLabelUpdaters = portsResult.portLabelUpdaters;
             }
@@ -247,17 +278,21 @@ export const App: React.FC = () => {
           isDragging = true;
           previousX = event.clientX;
           previousY = event.clientY;
+          resetIdleTimer();
         });
 
         renderer.domElement.addEventListener('mousemove', (event: MouseEvent) => {
           if (!isDragging) return;
           const deltaX = event.clientX - previousX;
           const deltaY = event.clientY - previousY;
-          earthGroup.rotation.y += deltaX * 0.01;
-          earthGroup.rotation.x += deltaY * 0.01;
-          earthGroup.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earthGroup.rotation.x));
+          if (earthGroup) {
+            earthGroup.rotation.y += deltaX * 0.01;
+            earthGroup.rotation.x += deltaY * 0.01;
+            earthGroup.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earthGroup.rotation.x));
+          }
           previousX = event.clientX;
           previousY = event.clientY;
+          resetIdleTimer();
         });
 
         renderer.domElement.addEventListener('mouseup', () => {
@@ -269,10 +304,21 @@ export const App: React.FC = () => {
         });
 
         function animate() {
-          requestAnimationFrame(animate);
+          animationFrameId = requestAnimationFrame(animate);
+
+          // 进度条更新
+          if (!autoRotate) {
+            const elapsed = Date.now() - idleStart;
+            setIdleProgress(Math.min(1, elapsed / AUTO_ROTATE_TIMEOUT));
+          }
+
           lineAnimators.forEach(fn => fn());
           animatePorts();
           portLabelUpdaters.forEach(fn => fn());
+          // 自动旋转逻辑
+          if (autoRotate && earthGroup) {
+            earthGroup.rotation.y += 0.002; // 沿赤道缓慢旋转
+          }
           renderer.render(scene, camera);
         }
         animate();
@@ -296,18 +342,40 @@ export const App: React.FC = () => {
     }
     window.addEventListener('resize', handleResize);
 
+    // 任何用户操作都重置idle计时
+    ['mousedown', 'mousemove', 'mouseup', 'mouseleave', 'keydown', 'touchstart', 'touchmove'].forEach(evt =>
+      window.addEventListener(evt, resetIdleTimer)
+    );
+
     // 清理
     return () => {
       window.removeEventListener('resize', handleResize);
+      ['mousedown', 'mousemove', 'mouseup', 'mouseleave', 'keydown', 'touchstart', 'touchmove'].forEach(evt =>
+        window.removeEventListener(evt, resetIdleTimer)
+      );
       renderer.dispose();
       mountRef.current?.removeChild(renderer.domElement);
-      // 清理标签等
       document.querySelectorAll('.port-label').forEach(el => el.remove());
+      if (idleTimer) window.clearTimeout(idleTimer);
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
+  // 进度条样式
+  const progressBarStyle: React.CSSProperties = {
+    position: 'fixed',
+    left: 0,
+    top: 0,
+    height: 4,
+    width: `${idleProgress * 100}%`,
+    background: idleProgress < 1 ? '#0ff' : '#0f08',
+    zIndex: 99999,
+    transition: 'width 0.2s linear, background 0.2s'
+  };
+
   return (
     <>
+      <div style={progressBarStyle} />
       <ControlPanel />
       <div ref={mountRef} style={{ width: '100vw', height: '100vh' }} />
     </>
