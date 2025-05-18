@@ -121,19 +121,23 @@ function loadPorts(
   ports.forEach((port, i) => {
     const portRadius = radius + 0.002;
     const portPos = latLngToVector3(port.lat, port.lng, portRadius);
-    const sphereGeo = new THREE.SphereGeometry(0.015, 16, 16);
-    const sphereMat = new THREE.MeshBasicMaterial({ color: "green" });
-    const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-    sphere.position.copy(portPos);
+    // 将球体改为圆环
+    const torusGeo = new THREE.TorusGeometry(0.015, 0.001, 8, 16); // 外半径、管半径、分段
+    const torusMat = new THREE.MeshBasicMaterial({ color: "green" });
+    const torus = new THREE.Mesh(torusGeo, torusMat);
+    torus.position.copy(portPos);
 
-    // 让球体“朝外”方向只露出一半
+    // 让圆环“朝外”方向只露出一半
     const normal = portPos.clone().normalize();
-    sphere.position.addScaledVector(normal, -0.0075);
+    torus.position.addScaledVector(normal, -0.0075);
 
-    earthGroup.add(sphere);
+    // 让圆环法线朝外（即圆环面垂直于球面）
+    torus.lookAt(portPos.clone().add(normal));
+
+    earthGroup.add(torus);
 
     // 记录动画数据
-    portAnimators.push({ sphere, phaseOffset: i * 0.5 });
+    portAnimators.push({ sphere: torus, phaseOffset: i * 0.5 });
 
     // 显示港口名称
     const div = document.createElement('div');
