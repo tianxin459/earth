@@ -182,9 +182,10 @@ function loadPorts(
 }
 
 // 加载地球纹理贴图
+const earthTextureUrl = import.meta.env.BASE_URL + 'earth_atmos_2048.jpg';
 const textureLoader = new THREE.TextureLoader();
 textureLoader.load(
-  '/earth_atmos_2048.jpg', // 贴图路径
+  earthTextureUrl, // 贴图路径
   function (texture: THREE.Texture) {
     // 创建球体几何体，参数为半径、水平分段数、垂直分段数
     // 目的是生成一个高精度的球体用于贴图
@@ -216,7 +217,7 @@ textureLoader.load(
     let portLabelUpdaters: (() => void)[] = [];
 
     // 修改loadRoutes调用，捕获港口动画数据
-    fetch('/lines.json')
+    fetch(import.meta.env.BASE_URL + 'lines.json')
       .then(res => res.json())
       .then((data) => {
         const routes = data.routes;
