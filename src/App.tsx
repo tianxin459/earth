@@ -166,43 +166,64 @@ export const App: React.FC = () => {
       const portLabelUpdaters: (() => void)[] = [];
 
       ports.forEach((port, i) => {
-        const portRadius = radius + 0.002;
-        const portPos = latLngToVector3(port.lat, port.lng, portRadius);
-        const torusGeo = new THREE.TorusGeometry(0.005, 0.001, 8, 16);
-        const torusMat = new THREE.MeshBasicMaterial({ color: "green", depthTest: false }); // 让港口环始终在最前面
+        const portRadius = radius + 0.002; // 港口点略高于地球表面
+        const portPos = latLngToVector3(port.lat, port.lng, portRadius); // 经纬度转球面坐标
+        const torusGeo = new THREE.TorusGeometry(0.005, 0.001, 8, 16); // 小环形几何体
+        // depthTest: false 保证港口环始终渲染在最前面
+        const torusMat = new THREE.MeshBasicMaterial({ color: "green", depthTest: false });
         const torus = new THREE.Mesh(torusGeo, torusMat);
         torus.position.copy(portPos);
 
+        // 让环稍微浮出地表，并朝外法线方向
         const normal = portPos.clone().normalize();
         torus.position.addScaledVector(normal, -0.0075);
         torus.lookAt(portPos.clone().add(normal));
         earthGroup.add(torus);
 
+        // 用于动画的对象和相位
         portAnimators.push({ sphere: torus, phaseOffset: i * 0.5 });
 
-        // 标签
+        // 创建港口名称标签
         const div = document.createElement('div');
         div.className = 'port-label';
         div.textContent = port.name;
         document.body.appendChild(div);
 
+        /**
+         * 更新标签和港口点的可见性与屏幕位置
+         * 仅当前面可见时才显示
+         */
         function updateLabelPosition() {
+          // 计算港口点的世界坐标
           const worldPos = portPos.clone();
           earthGroup.localToWorld(worldPos);
+
+          // 计算相机到港口的方向
           const cameraToPort = worldPos.clone().sub(camera.position).normalize();
           const normal = worldPos.clone().normalize();
+          // dot < 0 说明在地球正面
           const isFront = cameraToPort.dot(normal) < 0;
+
+          // 控制3D对象显示/隐藏
+          torus.visible = isFront;
+
+          // 计算标签的屏幕投影位置
           const vector = worldPos.project(camera);
           const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
           const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
           div.style.left = `${x}px`;
           div.style.top = `${y}px`;
+          // 控制标签显示/隐藏
           div.style.display = isFront ? 'block' : 'none';
         }
+        // 每帧更新标签和可见性
         renderer.domElement.addEventListener('render', updateLabelPosition);
         portLabelUpdaters.push(updateLabelPosition);
       });
 
+      /**
+       * 港口点动画：呼吸脉冲效果
+       */
       function animatePorts() {
         const t = performance.now() * 0.002;
         portAnimators.forEach(({ sphere, phaseOffset }) => {
