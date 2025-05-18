@@ -88,33 +88,6 @@ textureLoader.load(
 
     const radius = 1.01; // 线条绘制时用的球半径，略大于地球表面
 
-    // 生成两点间球面插值点，用于绘制弧线
-    function getLongitudeArcPoints(
-      a: LatLng,
-      b: LatLng,
-      r: number,
-      segments = 100 // 插值段数，越大越平滑
-    ): THREE.Vector3[] {
-      const lat = a.lat;
-      let lngStart = a.lng;
-      let lngEnd = b.lng;
-      // 处理跨越180度经线的情况
-      if (Math.abs(lngEnd - lngStart) > 180) {
-        if (lngEnd > lngStart) {
-          lngStart += 360;
-        } else {
-          lngEnd += 360;
-        }
-      }
-      const points: THREE.Vector3[] = [];
-      for (let i = 0; i <= segments; i++) {
-        const t = i / segments;
-        const lng = lngStart + (lngEnd - lngStart) * t;
-        points.push(latLngToVector3(lat, lng, r));
-      }
-      return points;
-    }
-
     // 创建一个Group，将地球和所有线条组合，便于整体变换
     const earthGroup = new THREE.Group();
     earthGroup.add(earth);
@@ -157,7 +130,7 @@ textureLoader.load(
 
         // 标注所有港口为绿色原点，并显示港口名称
         if (data.ports) {
-          data.ports.forEach((port: { lat: number; lng: number; name: string }, idx: number) => {
+          data.ports.forEach((port: { lat: number; lng: number; name: string }) => {
             // 让球体中心略微低于地球表面，使得一半球体嵌入地球
             const portRadius = radius + 0.002; // 比地球半径略大一点点
             const portPos = latLngToVector3(port.lat, port.lng, portRadius);
@@ -216,22 +189,22 @@ textureLoader.load(
         }
       });
 
-    // 加载并显示海运线路
-    fetch('/shipping_routes.json')
-      .then((res) => res.json())
-      .then((routes: [number, number][][]) => {
-        routes.forEach((route: [number, number][]) => {
-          // 将每个点的经纬度转为球面坐标
-          const points = route.map(([lat, lng]) => latLngToVector3(lat, lng, radius + 0.05));
-          // 创建线条几何体
-          const geometry = new THREE.BufferGeometry().setFromPoints(points);
-          // 创建线条材质，青色
-          const material = new THREE.LineBasicMaterial({ color: 0x00ffff, linewidth: 1 });
-          // 创建线条对象
-          const line = new THREE.Line(geometry, material);
-          earthGroup.add(line);
-        });
-      });
+    // // 加载并显示海运线路
+    // fetch('/shipping_routes.json')
+    //   .then((res) => res.json())
+    //   .then((routes: [number, number][][]) => {
+    //     routes.forEach((route: [number, number][]) => {
+    //       // 将每个点的经纬度转为球面坐标
+    //       const points = route.map(([lat, lng]) => latLngToVector3(lat, lng, radius + 0.05));
+    //       // 创建线条几何体
+    //       const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    //       // 创建线条材质，青色
+    //       const material = new THREE.LineBasicMaterial({ color: 0x00ffff, linewidth: 1 });
+    //       // 创建线条对象
+    //       const line = new THREE.Line(geometry, material);
+    //       earthGroup.add(line);
+    //     });
+    //   });
 
     // 鼠标拖动旋转逻辑
     let isDragging = false;
