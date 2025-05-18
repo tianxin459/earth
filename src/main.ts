@@ -1,4 +1,7 @@
 import * as THREE from 'three';
+import { ControlPanel } from './ControlPanel';
+
+new ControlPanel({});
 
 // 创建一个Three.js场景，作为所有3D对象的容器
 const scene = new THREE.Scene();
@@ -207,6 +210,8 @@ function loadPorts(
 // 加载地球纹理贴图
 const earthTextureUrl = import.meta.env.BASE_URL + 'earth_atmos_2048.jpg';
 const loadingBar = document.getElementById('loading-bar');
+
+
 
 // 创建纹理加载器
 const textureLoader = new THREE.TextureLoader();
