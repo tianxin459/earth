@@ -42,6 +42,14 @@ export const App: React.FC = () => {
       });
     }
 
+    // 公共缩放方法
+    function zoomCamera(delta: number) {
+      camera.position.z += delta;
+      camera.position.z = Math.max(minZoom, Math.min(maxZoom, camera.position.z));
+      if (zoomSlider) zoomSlider.value = camera.position.z.toFixed(2);
+      resetIdleTimer();
+    }
+
     // --- 自动旋转相关逻辑 ---
     let idleTimer: number | undefined;
     let autoRotate = false;
@@ -66,10 +74,7 @@ export const App: React.FC = () => {
     renderer.domElement.addEventListener('wheel', (event: WheelEvent) => {
       event.preventDefault();
       const zoomSpeed = 0.2;
-      camera.position.z += event.deltaY * zoomSpeed * 0.01;
-      camera.position.z = Math.max(minZoom, Math.min(maxZoom, camera.position.z));
-      if (zoomSlider) zoomSlider.value = camera.position.z.toFixed(2);
-      resetIdleTimer();
+      zoomCamera(event.deltaY * zoomSpeed * 0.01);
     }, { passive: false });
 
     // 光源
@@ -110,6 +115,18 @@ export const App: React.FC = () => {
     ) {
       group.rotation.y = THREE.MathUtils.degToRad(lng + 180);
       group.rotation.x = -THREE.MathUtils.degToRad(lat);
+    }
+
+    // 公共旋转地球方法
+    function rotateEarthGroup(
+      earthGroup: THREE.Group | null,
+      deltaX: number,
+      deltaY: number
+    ) {
+      if (!earthGroup) return;
+      earthGroup.rotation.y += deltaX * 0.01;
+      earthGroup.rotation.x += deltaY * 0.01;
+      earthGroup.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earthGroup.rotation.x));
     }
 
     // 加载多条线数据并绘制（带小球动画）
@@ -299,6 +316,9 @@ export const App: React.FC = () => {
         let previousX = 0;
         let previousY = 0;
 
+        // 双指缩放
+        let lastTouchDistance = 0;
+
         renderer.domElement.addEventListener('mousedown', (event: MouseEvent) => {
           isDragging = true;
           previousX = event.clientX;
@@ -310,11 +330,7 @@ export const App: React.FC = () => {
           if (!isDragging) return;
           const deltaX = event.clientX - previousX;
           const deltaY = event.clientY - previousY;
-          if (earthGroup) {
-            earthGroup.rotation.y += deltaX * 0.01;
-            earthGroup.rotation.x += deltaY * 0.01;
-            earthGroup.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earthGroup.rotation.x));
-          }
+          rotateEarthGroup(earthGroup, deltaX, deltaY);
           previousX = event.clientX;
           previousY = event.clientY;
           resetIdleTimer();
@@ -326,6 +342,53 @@ export const App: React.FC = () => {
 
         renderer.domElement.addEventListener('mouseleave', () => {
           isDragging = false;
+        });
+
+        // === 手机单指拖动旋转 + 双指缩放 ===
+        renderer.domElement.addEventListener('touchstart', (event: TouchEvent) => {
+          if (event.touches.length === 1) {
+            isDragging = true;
+            previousX = event.touches[0].clientX;
+            previousY = event.touches[0].clientY;
+            resetIdleTimer();
+          } else if (event.touches.length === 2) {
+            isDragging = false;
+            // 记录双指初始距离
+            const dx = event.touches[0].clientX - event.touches[1].clientX;
+            const dy = event.touches[0].clientY - event.touches[1].clientY;
+            lastTouchDistance = Math.sqrt(dx * dx + dy * dy);
+          }
+        });
+
+        renderer.domElement.addEventListener('touchmove', (event: TouchEvent) => {
+          if (event.touches.length === 1 && isDragging) {
+            const touch = event.touches[0];
+            const deltaX = touch.clientX - previousX;
+            const deltaY = touch.clientY - previousY;
+            rotateEarthGroup(earthGroup, deltaX, deltaY);
+            previousX = touch.clientX;
+            previousY = touch.clientY;
+            resetIdleTimer();
+            event.preventDefault(); // 防止页面滚动
+          } else if (event.touches.length === 2) {
+            // 双指缩放
+            const dx = event.touches[0].clientX - event.touches[1].clientX;
+            const dy = event.touches[0].clientY - event.touches[1].clientY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (lastTouchDistance) {
+              const zoomSpeed = 0.01;
+              zoomCamera((lastTouchDistance - distance) * zoomSpeed);
+            }
+            lastTouchDistance = distance;
+            event.preventDefault();
+          }
+        }, { passive: false });
+
+        renderer.domElement.addEventListener('touchend', (event: TouchEvent) => {
+          isDragging = false;
+          if (event.touches.length < 2) {
+            lastTouchDistance = 0;
+          }
         });
 
         function animate() {
