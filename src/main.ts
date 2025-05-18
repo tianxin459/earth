@@ -183,10 +183,16 @@ function loadPorts(
 
 // 加载地球纹理贴图
 const earthTextureUrl = import.meta.env.BASE_URL + 'earth_atmos_2048.jpg';
+const loadingBar = document.getElementById('loading-bar');
+
 const textureLoader = new THREE.TextureLoader();
 textureLoader.load(
-  earthTextureUrl, // 贴图路径
+  earthTextureUrl,
   function (texture: THREE.Texture) {
+    // 加载完成，隐藏进度条
+    if (loadingBar) loadingBar.style.width = '100%';
+    setTimeout(() => { if (loadingBar) loadingBar.style.display = 'none'; }, 500);
+
     // 创建球体几何体，参数为半径、水平分段数、垂直分段数
     // 目的是生成一个高精度的球体用于贴图
     const geometry = new THREE.SphereGeometry(1, 64, 64);
@@ -291,6 +297,17 @@ textureLoader.load(
       renderer.render(scene, camera);
     }
     animate();
+  },
+  function (xhr) {
+    // 加载进度
+    if (loadingBar && xhr.lengthComputable) {
+      const percent = (xhr.loaded / xhr.total) * 100;
+      loadingBar.style.width = percent + '%';
+    }
+  },
+  function () {
+    // 加载出错
+    if (loadingBar) loadingBar.style.background = 'red';
   }
 );
 
