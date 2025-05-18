@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { ControlPanel } from './ControlPanel';
+import { createStarBg } from './Bg';
 
 const AUTO_ROTATE_TIMEOUT = 10000; // 10秒
 
@@ -22,6 +23,9 @@ export const App: React.FC = () => {
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     mountRef.current!.appendChild(renderer.domElement);
+
+    // 添加星空背景
+    const updateStarBg = createStarBg(scene);
 
     // 监听缩放滑块
     const zoomSlider = document.getElementById('zoom-slider') as HTMLInputElement | null;
@@ -305,6 +309,9 @@ export const App: React.FC = () => {
 
         function animate() {
           animationFrameId = requestAnimationFrame(animate);
+
+          // 星空动态旋转
+          updateStarBg(performance.now() * 0.001);
 
           // 进度条更新
           if (!autoRotate) {
