@@ -106,11 +106,6 @@ function loadRoutes(earthGroup: THREE.Group, radius: number) {
         const arcLine = new THREE.Line(arcGeometry, arcMaterial);
         earthGroup.add(arcLine);
       });
-
-      // 加载港口
-      if (data.ports) {
-        loadPorts(earthGroup, radius, data.ports);
-      }
     });
 }
 
@@ -120,8 +115,10 @@ function loadPorts(
   radius: number,
   ports: { lat: number; lng: number; name: string }[]
 ) {
-  const portSpheres: THREE.Mesh[] = [];
-  ports.forEach((port) => {
+  const portAnimators: { sphere: THREE.Mesh; phaseOffset: number }[] = [];
+  const portLabelUpdaters: (() => void)[] = [];
+
+  ports.forEach((port, i) => {
     const portRadius = radius + 0.002;
     const portPos = latLngToVector3(port.lat, port.lng, portRadius);
     const sphereGeo = new THREE.SphereGeometry(0.015, 16, 16);
@@ -134,7 +131,9 @@ function loadPorts(
     sphere.position.addScaledVector(normal, -0.0075);
 
     earthGroup.add(sphere);
-    portSpheres.push(sphere);
+
+    // 记录动画数据
+    portAnimators.push({ sphere, phaseOffset: i * 0.5 });
 
     // 显示港口名称
     const div = document.createElement('div');
@@ -160,15 +159,22 @@ function loadPorts(
       div.style.top = `${y}px`;
       div.style.display = isFront ? 'block' : 'none';
     }
-    // 每帧更新
     renderer.domElement.addEventListener('render', updateLabelPosition);
-    if (!(window as any)._portLabels) (window as any)._portLabels = [];
-    (window as any)._portLabels.push(updateLabelPosition);
+    portLabelUpdaters.push(updateLabelPosition);
   });
 
-  // 港口点波纹动画
-  if (!(window as any)._portSpheres) (window as any)._portSpheres = [];
-  (window as any)._portSpheres.push(...portSpheres);
+  // 封装动画函数
+  function animatePorts() {
+    const t = performance.now() * 0.002;
+    portAnimators.forEach(({ sphere, phaseOffset }) => {
+      const phase = t + phaseOffset;
+      const ripple = Math.max(0, Math.sin(phase));
+      const scale = 1 + ripple * ripple * 1.2;
+      sphere.scale.set(scale, scale, scale);
+    });
+  }
+
+  return { animatePorts, portLabelUpdaters };
 }
 
 // 加载地球纹理贴图
@@ -200,6 +206,41 @@ textureLoader.load(
 
     // 加载线条和港口
     loadRoutes(earthGroup, radius);
+
+    // 新增：声明动画数据变量
+    let animatePorts: () => void = () => {};
+    let portLabelUpdaters: (() => void)[] = [];
+
+    // 修改loadRoutes调用，捕获港口动画数据
+    fetch('/lines.json')
+      .then(res => res.json())
+      .then((data) => {
+        const routes = data.routes;
+        routes.forEach((route: LatLng[]) => {
+          if (route.length < 2) return;
+          const points: THREE.Vector3[] = route.map(p =>
+            latLngToVector3(p.lat, p.lng, radius)
+          );
+          const surfacePoints: THREE.Vector3[] = [];
+          const segmentsPerArc = 64;
+          for (let i = 0; i < points.length - 1; i++) {
+            const arc = getSlerpPoints(points[i], points[i + 1], segmentsPerArc);
+            if (i > 0) arc.shift();
+            surfacePoints.push(...arc);
+          }
+          const arcGeometry = new THREE.BufferGeometry().setFromPoints(surfacePoints);
+          const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
+          const arcLine = new THREE.Line(arcGeometry, arcMaterial);
+          earthGroup.add(arcLine);
+        });
+
+        // 加载港口
+        if (data.ports) {
+          const portsResult = loadPorts(earthGroup, radius, data.ports);
+          animatePorts = portsResult.animatePorts;
+          portLabelUpdaters = portsResult.portLabelUpdaters;
+        }
+      });
 
     // 鼠标拖动旋转逻辑
     let isDragging = false;
@@ -237,22 +278,10 @@ textureLoader.load(
       requestAnimationFrame(animate);
 
       // 港口点波纹扩散动画
-      const t = performance.now() * 0.002; // 时间参数
-      const portSpheres: THREE.Mesh[] = (window as any)._portSpheres || [];
-      portSpheres.forEach((sphere, i) => {
-        // 波纹效果：周期性scale快速扩散再回落
-        const phase = t + i * 0.5; // 每个点有相位差
-        // 0~1的波峰，波峰时scale最大，之后迅速回落
-        const ripple = Math.max(0, Math.sin(phase));
-        // 让scale在1~2之间变化，波峰后迅速回落
-        const scale = 1 + ripple * ripple * 1.2;
-        sphere.scale.set(scale, scale, scale);
-      });
+      animatePorts();
 
       // 更新所有港口标签位置
-      if ((window as any)._portLabels) {
-        (window as any)._portLabels.forEach((fn: () => void) => fn());
-      }
+      portLabelUpdaters.forEach(fn => fn());
 
       renderer.render(scene, camera);
     }
