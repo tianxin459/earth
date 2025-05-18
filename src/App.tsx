@@ -1,0 +1,315 @@
+import React, { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import { ControlPanel } from './ControlPanel';
+
+export const App: React.FC = () => {
+  const mountRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Three.js 初始化
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.z = 1.5;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    mountRef.current!.appendChild(renderer.domElement);
+
+    // 监听缩放滑块
+    const zoomSlider = document.getElementById('zoom-slider') as HTMLInputElement | null;
+    if (zoomSlider) {
+      zoomSlider.addEventListener('input', () => {
+        camera.position.z = Number(zoomSlider.value);
+      });
+    }
+
+    // 鼠标滚轮缩放
+    renderer.domElement.addEventListener('wheel', (event: WheelEvent) => {
+      event.preventDefault();
+      const zoomSpeed = 0.2;
+      camera.position.z += event.deltaY * zoomSpeed * 0.01;
+      camera.position.z = Math.max(1.5, Math.min(10, camera.position.z));
+      if (zoomSlider) zoomSlider.value = camera.position.z.toFixed(2);
+    }, { passive: false });
+
+    // 光源
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 3, 5);
+    scene.add(light);
+
+    // 经纬度类型
+    type LatLng = { lat: number; lng: number };
+
+    // 经纬度转球面坐标
+    function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector3 {
+      const phi = (90 - lat) * (Math.PI / 180);
+      const theta = (lng + 180) * (Math.PI / 180);
+      return new THREE.Vector3(
+        -radius * Math.sin(phi) * Math.cos(theta),
+        radius * Math.cos(phi),
+        radius * Math.sin(phi) * Math.sin(theta)
+      );
+    }
+
+    // 球面插值
+    function getSlerpPoints(a: THREE.Vector3, b: THREE.Vector3, segments: number): THREE.Vector3[] {
+      const points: THREE.Vector3[] = [];
+      for (let i = 0; i <= segments; i++) {
+        const t = i / segments;
+        const p = a.clone().lerp(b, t).normalize().multiplyScalar(a.length());
+        points.push(p);
+      }
+      return points;
+    }
+
+    // 让指定经纬度正对屏幕
+    function orientGroupToLatLng(
+      group: THREE.Group,
+      lat: number,
+      lng: number
+    ) {
+      group.rotation.y = THREE.MathUtils.degToRad(lng + 180);
+      group.rotation.x = -THREE.MathUtils.degToRad(lat);
+    }
+
+    // 加载多条线数据并绘制（带小球动画）
+    function loadRoutes(
+      earthGroup: THREE.Group,
+      radius: number,
+      registerAnim?: (anim: () => void) => void
+    ) {
+      fetch('/lines.json')
+        .then(res => res.json())
+        .then((data) => {
+          const routes = data.routes;
+          routes.forEach((route: LatLng[]) => {
+            if (route.length < 2) return;
+            const points: THREE.Vector3[] = route.map(p =>
+              latLngToVector3(p.lat, p.lng, radius)
+            );
+            const surfacePoints: THREE.Vector3[] = [];
+            const segmentsPerArc = 64;
+            for (let i = 0; i < points.length - 1; i++) {
+              const arc = getSlerpPoints(points[i], points[i + 1], segmentsPerArc);
+              if (i > 0) arc.shift();
+              surfacePoints.push(...arc);
+            }
+            const arcGeometry = new THREE.BufferGeometry().setFromPoints(surfacePoints);
+            const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
+            const arcLine = new THREE.Line(arcGeometry, arcMaterial);
+            earthGroup.add(arcLine);
+
+            const ballGeo = new THREE.SphereGeometry(0.002, 12, 12);
+            const ballMat = new THREE.MeshBasicMaterial({ color: "yellow" });
+            const ball = new THREE.Mesh(ballGeo, ballMat);
+            earthGroup.add(ball);
+
+            const phase = Math.random();
+            const total = surfacePoints.length;
+            function animateBall() {
+              const t = ((performance.now() * 0.00002 + phase) % 1);
+              const idx = Math.floor(t * (total - 1));
+              ball.position.copy(surfacePoints[idx]);
+            }
+            if (registerAnim) registerAnim(animateBall);
+          });
+        });
+    }
+
+    // 加载港口点并显示名称
+    function loadPorts(
+      earthGroup: THREE.Group,
+      radius: number,
+      ports: { lat: number; lng: number; name: string }[]
+    ) {
+      const portAnimators: { sphere: THREE.Mesh; phaseOffset: number }[] = [];
+      const portLabelUpdaters: (() => void)[] = [];
+
+      ports.forEach((port, i) => {
+        const portRadius = radius + 0.002;
+        const portPos = latLngToVector3(port.lat, port.lng, portRadius);
+        const torusGeo = new THREE.TorusGeometry(0.005, 0.001, 8, 16);
+        const torusMat = new THREE.MeshBasicMaterial({ color: "green" });
+        const torus = new THREE.Mesh(torusGeo, torusMat);
+        torus.position.copy(portPos);
+
+        const normal = portPos.clone().normalize();
+        torus.position.addScaledVector(normal, -0.0075);
+        torus.lookAt(portPos.clone().add(normal));
+        earthGroup.add(torus);
+
+        portAnimators.push({ sphere: torus, phaseOffset: i * 0.5 });
+
+        // 标签
+        const div = document.createElement('div');
+        div.className = 'port-label';
+        div.textContent = port.name;
+        document.body.appendChild(div);
+
+        function updateLabelPosition() {
+          const worldPos = portPos.clone();
+          earthGroup.localToWorld(worldPos);
+          const cameraToPort = worldPos.clone().sub(camera.position).normalize();
+          const normal = worldPos.clone().normalize();
+          const isFront = cameraToPort.dot(normal) < 0;
+          const vector = worldPos.project(camera);
+          const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+          const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
+          div.style.left = `${x}px`;
+          div.style.top = `${y}px`;
+          div.style.display = isFront ? 'block' : 'none';
+        }
+        renderer.domElement.addEventListener('render', updateLabelPosition);
+        portLabelUpdaters.push(updateLabelPosition);
+      });
+
+      function animatePorts() {
+        const t = performance.now() * 0.002;
+        portAnimators.forEach(({ sphere, phaseOffset }) => {
+          const phase = t + phaseOffset;
+          const ripple = Math.max(0, Math.sin(phase));
+          const scale = 1 + ripple * ripple * 1.2;
+          sphere.scale.set(scale, scale, scale);
+        });
+      }
+
+      return { animatePorts, portLabelUpdaters };
+    }
+
+    // 地球纹理
+    const earthTextureUrl = import.meta.env.BASE_URL + 'earth_atmos_2048.jpg';
+    const loadingBar = document.getElementById('loading-bar');
+
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(
+      earthTextureUrl,
+      function (texture: THREE.Texture) {
+        if (loadingBar) loadingBar.style.width = '100%';
+        setTimeout(() => { if (loadingBar) loadingBar.style.display = 'none'; }, 500);
+
+        const geometry = new THREE.SphereGeometry(1, 64, 64);
+        const material = new THREE.MeshPhongMaterial({ map: texture });
+        const earth = new THREE.Mesh(geometry, material);
+
+        const radius = 1.01;
+        const earthGroup = new THREE.Group();
+        earthGroup.add(earth);
+
+        orientGroupToLatLng(earthGroup, -35, -168);
+        scene.add(earthGroup);
+
+        const lineAnimators: (() => void)[] = [];
+        loadRoutes(earthGroup, radius, (anim) => lineAnimators.push(anim));
+
+        let animatePorts: () => void = () => {};
+        let portLabelUpdaters: (() => void)[] = [];
+
+        fetch(import.meta.env.BASE_URL + 'lines.json')
+          .then(res => res.json())
+          .then((data) => {
+            const routes = data.routes;
+            routes.forEach((route: LatLng[]) => {
+              if (route.length < 2) return;
+              const points: THREE.Vector3[] = route.map(p =>
+                latLngToVector3(p.lat, p.lng, radius)
+              );
+              const surfacePoints: THREE.Vector3[] = [];
+              const segmentsPerArc = 128;
+              for (let i = 0; i < points.length - 1; i++) {
+                const arc = getSlerpPoints(points[i], points[i + 1], segmentsPerArc);
+                if (i > 0) arc.shift();
+                surfacePoints.push(...arc);
+              }
+              const arcGeometry = new THREE.BufferGeometry().setFromPoints(surfacePoints);
+              const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
+              const arcLine = new THREE.Line(arcGeometry, arcMaterial);
+              earthGroup.add(arcLine);
+            });
+
+            if (data.ports) {
+              const portsResult = loadPorts(earthGroup, radius, data.ports);
+              animatePorts = portsResult.animatePorts;
+              portLabelUpdaters = portsResult.portLabelUpdaters;
+            }
+          });
+
+        // 鼠标拖动旋转
+        let isDragging = false;
+        let previousX = 0;
+        let previousY = 0;
+
+        renderer.domElement.addEventListener('mousedown', (event: MouseEvent) => {
+          isDragging = true;
+          previousX = event.clientX;
+          previousY = event.clientY;
+        });
+
+        renderer.domElement.addEventListener('mousemove', (event: MouseEvent) => {
+          if (!isDragging) return;
+          const deltaX = event.clientX - previousX;
+          const deltaY = event.clientY - previousY;
+          earthGroup.rotation.y += deltaX * 0.01;
+          earthGroup.rotation.x += deltaY * 0.01;
+          earthGroup.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earthGroup.rotation.x));
+          previousX = event.clientX;
+          previousY = event.clientY;
+        });
+
+        renderer.domElement.addEventListener('mouseup', () => {
+          isDragging = false;
+        });
+
+        renderer.domElement.addEventListener('mouseleave', () => {
+          isDragging = false;
+        });
+
+        function animate() {
+          requestAnimationFrame(animate);
+          lineAnimators.forEach(fn => fn());
+          animatePorts();
+          portLabelUpdaters.forEach(fn => fn());
+          renderer.render(scene, camera);
+        }
+        animate();
+      },
+      function (xhr) {
+        if (loadingBar && xhr.lengthComputable) {
+          const percent = (xhr.loaded / xhr.total) * 100;
+          loadingBar.style.width = percent + '%';
+        }
+      },
+      function () {
+        if (loadingBar) loadingBar.style.background = 'red';
+      }
+    );
+
+    // 响应窗口大小变化
+    function handleResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    window.addEventListener('resize', handleResize);
+
+    // 清理
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      renderer.dispose();
+      mountRef.current?.removeChild(renderer.domElement);
+      // 清理标签等
+      document.querySelectorAll('.port-label').forEach(el => el.remove());
+    };
+  }, []);
+
+  return (
+    <>
+      <ControlPanel />
+      <div ref={mountRef} style={{ width: '100vw', height: '100vh' }} />
+    </>
+  );
+};
