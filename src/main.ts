@@ -4,7 +4,6 @@ import * as THREE from 'three';
 const scene = new THREE.Scene();
 
 // 创建透视相机，参数依次为：视场角、宽高比、近裁剪面、远裁剪面
-// 目的是设置观察3D场景的视角和范围
 const camera = new THREE.PerspectiveCamera(
   75, // 视场角，决定可视范围的大小
   window.innerWidth / window.innerHeight, // 宽高比，防止画面变形
@@ -12,7 +11,7 @@ const camera = new THREE.PerspectiveCamera(
   1000 // 最远可见距离
 );
 // 初始时拉近相机，只显示地球局部（1.5缩放）
-camera.position.z = 1.5; // 1.5缩放
+camera.position.z = 1.5;
 
 // 监听滑块调整相机距离，实现缩放交互
 const zoomSlider = document.getElementById('zoom-slider') as HTMLInputElement | null;
@@ -30,16 +29,12 @@ document.getElementById('app')?.appendChild(renderer.domElement); // 将渲染�
 // 鼠标滚轮缩放操作
 renderer.domElement.addEventListener('wheel', (event: WheelEvent) => {
   event.preventDefault();
-  // 缩放速度
-  const zoomSpeed = 0.2;
-  // 计算新的相机z轴位置
-  camera.position.z += event.deltaY * zoomSpeed * 0.01;
-  // 限制缩放范围
-  camera.position.z = Math.max(1.5, Math.min(10, camera.position.z));
+  const zoomSpeed = 0.2; // 缩放速度
+  camera.position.z += event.deltaY * zoomSpeed * 0.01; // 计算新的相机z轴位置
+  camera.position.z = Math.max(1.5, Math.min(10, camera.position.z)); // 限制缩放范围
 }, { passive: false });
 
 // 添加一个平行光源，参数为颜色和强度
-// 目的是让地球表面有明暗效果，提升立体感
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(5, 3, 5); // 设置光源位置
 scene.add(light); // 将光源加入场景
@@ -48,7 +43,6 @@ scene.add(light); // 将光源加入场景
 type LatLng = { lat: number; lng: number };
 
 // 经纬度转球面坐标，参数为纬度、经度和球半径
-// 目的是将地理坐标转换为Three.js中的3D坐标
 function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180); // 纬度转球坐标
   const theta = (lng + 180) * (Math.PI / 180); // 经度转球坐标
@@ -83,28 +77,57 @@ function orientGroupToLatLng(
   group.rotation.x = -THREE.MathUtils.degToRad(lat);
 }
 
-// 加载多条线数据并绘制
-function loadRoutes(earthGroup: THREE.Group, radius: number) {
+// 加载多条线数据并绘制（带小球动画）
+function loadRoutes(
+  earthGroup: THREE.Group,
+  radius: number,
+  registerAnim?: (anim: () => void) => void
+) {
   fetch('/lines.json')
     .then(res => res.json())
     .then((data) => {
       const routes = data.routes;
-      routes.forEach((route: LatLng[]) => {
+      routes.forEach((route: LatLng[], routeIdx: number) => {
         if (route.length < 2) return;
+        // 将每个经纬度点转换为球面坐标
         const points: THREE.Vector3[] = route.map(p =>
           latLngToVector3(p.lat, p.lng, radius)
         );
         const surfacePoints: THREE.Vector3[] = [];
-        const segmentsPerArc = 64;
+        const segmentsPerArc = 64; // 每段插值点数
+        // 计算整条路线的所有插值点
         for (let i = 0; i < points.length - 1; i++) {
           const arc = getSlerpPoints(points[i], points[i + 1], segmentsPerArc);
-          if (i > 0) arc.shift();
+          if (i > 0) arc.shift(); // 避免重复点
           surfacePoints.push(...arc);
         }
+        // 绘制整条线
         const arcGeometry = new THREE.BufferGeometry().setFromPoints(surfacePoints);
         const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
         const arcLine = new THREE.Line(arcGeometry, arcMaterial);
         earthGroup.add(arcLine);
+
+        // 创建更小的小球（约3像素）
+        const ballGeo = new THREE.SphereGeometry(0.002, 12, 12); // 半径0.002
+        const ballMat = new THREE.MeshBasicMaterial({ color: "yellow" });
+        const ball = new THREE.Mesh(ballGeo, ballMat);
+        earthGroup.add(ball);
+
+        // 随机启动相位，保证每条线的小球错开
+        const phase = Math.random();
+
+        // 动画：小球沿线运动，启动时间错开
+        // 1. t为0~1循环，phase为启动错开（每条线的小球不同步）
+        // 2. 0.00002为速度系数，越小越慢
+        // 3. idx为当前帧小球应该在的插值点索引
+        // 4. 将小球位置设置到当前插值点，实现小球沿线条运动
+        const total = surfacePoints.length;
+        function animateBall() {
+          const t = ((performance.now() * 0.00002 + phase) % 1); // 计算当前动画进度（0~1），phase为随机起始偏移
+          const idx = Math.floor(t * (total - 1));              // 计算当前小球应该在的点索引
+          ball.position.copy(surfacePoints[idx]);                // 设置小球位置到该点
+        }
+        if (registerAnim) registerAnim(animateBall);
       });
     });
 }
@@ -119,10 +142,10 @@ function loadPorts(
   const portLabelUpdaters: (() => void)[] = [];
 
   ports.forEach((port, i) => {
-    const portRadius = radius + 0.002;
+    const portRadius = radius + 0.002; // 港口点略高于地球表面
     const portPos = latLngToVector3(port.lat, port.lng, portRadius);
-    // 将球体改为圆环
-    const torusGeo = new THREE.TorusGeometry(0.015, 0.001, 8, 16); // 外半径、管半径、分段
+    // 用圆环表示港口
+    const torusGeo = new THREE.TorusGeometry(0.005, 0.001, 8, 16); // 外半径、管半径、分段
     const torusMat = new THREE.MeshBasicMaterial({ color: "green" });
     const torus = new THREE.Mesh(torusGeo, torusMat);
     torus.position.copy(portPos);
@@ -155,7 +178,7 @@ function loadPorts(
       earthGroup.localToWorld(worldPos);
       const cameraToPort = worldPos.clone().sub(camera.position).normalize();
       const normal = worldPos.clone().normalize();
-      const isFront = cameraToPort.dot(normal) < 0;
+      const isFront = cameraToPort.dot(normal) < 0; // 判断是否在前面
       const vector = worldPos.project(camera);
       const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
       const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
@@ -167,7 +190,7 @@ function loadPorts(
     portLabelUpdaters.push(updateLabelPosition);
   });
 
-  // 封装动画函数
+  // 封装动画函数，港口点波纹扩散
   function animatePorts() {
     const t = performance.now() * 0.002;
     portAnimators.forEach(({ sphere, phaseOffset }) => {
@@ -185,16 +208,16 @@ function loadPorts(
 const earthTextureUrl = import.meta.env.BASE_URL + 'earth_atmos_2048.jpg';
 const loadingBar = document.getElementById('loading-bar');
 
+// 创建纹理加载器
 const textureLoader = new THREE.TextureLoader();
 textureLoader.load(
   earthTextureUrl,
   function (texture: THREE.Texture) {
-    // 加载完成，隐藏进度条
+    // 贴图加载完成，隐藏进度条
     if (loadingBar) loadingBar.style.width = '100%';
     setTimeout(() => { if (loadingBar) loadingBar.style.display = 'none'; }, 500);
 
     // 创建球体几何体，参数为半径、水平分段数、垂直分段数
-    // 目的是生成一个高精度的球体用于贴图
     const geometry = new THREE.SphereGeometry(1, 64, 64);
 
     // 创建球体材质，将贴图赋给材质
@@ -209,20 +232,21 @@ textureLoader.load(
     const earthGroup = new THREE.Group();
     earthGroup.add(earth);
 
-    // 让美国正对屏幕（美国中心大致：lat=39, lng=-98）
-    // Ellis: 实际上的坐标是-35 -168
+    // 让美国正对屏幕（美国中心大致：lat=39, lng=-98），实际坐标-35 -168
     orientGroupToLatLng(earthGroup, -35, -168);
 
     scene.add(earthGroup);
 
-    // 加载线条和港口
-    loadRoutes(earthGroup, radius);
+    // 线条小球动画函数数组
+    const lineAnimators: (() => void)[] = [];
+    // 加载线条，注册动画
+    loadRoutes(earthGroup, radius, (anim) => lineAnimators.push(anim));
 
     // 新增：声明动画数据变量
     let animatePorts: () => void = () => {};
     let portLabelUpdaters: (() => void)[] = [];
 
-    // 修改loadRoutes调用，捕获港口动画数据
+    // 额外加载港口和静态线条（如有需要）
     fetch(import.meta.env.BASE_URL + 'lines.json')
       .then(res => res.json())
       .then((data) => {
@@ -233,7 +257,7 @@ textureLoader.load(
             latLngToVector3(p.lat, p.lng, radius)
           );
           const surfacePoints: THREE.Vector3[] = [];
-          const segmentsPerArc = 64;
+          const segmentsPerArc = 128;
           for (let i = 0; i < points.length - 1; i++) {
             const arc = getSlerpPoints(points[i], points[i + 1], segmentsPerArc);
             if (i > 0) arc.shift();
@@ -288,6 +312,9 @@ textureLoader.load(
     function animate() {
       requestAnimationFrame(animate);
 
+      // 线条小球动画
+      lineAnimators.forEach(fn => fn());
+
       // 港口点波纹扩散动画
       animatePorts();
 
@@ -299,14 +326,14 @@ textureLoader.load(
     animate();
   },
   function (xhr) {
-    // 加载进度
+    // 加载进度，更新进度条
     if (loadingBar && xhr.lengthComputable) {
       const percent = (xhr.loaded / xhr.total) * 100;
       loadingBar.style.width = percent + '%';
     }
   },
   function () {
-    // 加载出错
+    // 加载出错，进度条变红
     if (loadingBar) loadingBar.style.background = 'red';
   }
 );
