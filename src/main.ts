@@ -71,6 +71,106 @@ function getSlerpPoints(a: THREE.Vector3, b: THREE.Vector3, segments: number): T
   return points;
 }
 
+// 让指定经纬度正对屏幕的工具函数
+function orientGroupToLatLng(
+  group: THREE.Group,
+  lat: number,
+  lng: number
+) {
+  // y轴旋转：让目标经度对准z轴正方向
+  group.rotation.y = THREE.MathUtils.degToRad(lng + 180);
+  // x轴旋转：让目标纬度对准赤道（z轴正方向），需负值
+  group.rotation.x = -THREE.MathUtils.degToRad(lat);
+}
+
+// 加载多条线数据并绘制
+function loadRoutes(earthGroup: THREE.Group, radius: number) {
+  fetch('/lines.json')
+    .then(res => res.json())
+    .then((data) => {
+      const routes = data.routes;
+      routes.forEach((route: LatLng[]) => {
+        if (route.length < 2) return;
+        const points: THREE.Vector3[] = route.map(p =>
+          latLngToVector3(p.lat, p.lng, radius)
+        );
+        const surfacePoints: THREE.Vector3[] = [];
+        const segmentsPerArc = 64;
+        for (let i = 0; i < points.length - 1; i++) {
+          const arc = getSlerpPoints(points[i], points[i + 1], segmentsPerArc);
+          if (i > 0) arc.shift();
+          surfacePoints.push(...arc);
+        }
+        const arcGeometry = new THREE.BufferGeometry().setFromPoints(surfacePoints);
+        const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
+        const arcLine = new THREE.Line(arcGeometry, arcMaterial);
+        earthGroup.add(arcLine);
+      });
+
+      // 加载港口
+      if (data.ports) {
+        loadPorts(earthGroup, radius, data.ports);
+      }
+    });
+}
+
+// 加载港口点并显示名称
+function loadPorts(
+  earthGroup: THREE.Group,
+  radius: number,
+  ports: { lat: number; lng: number; name: string }[]
+) {
+  const portSpheres: THREE.Mesh[] = [];
+  ports.forEach((port) => {
+    const portRadius = radius + 0.002;
+    const portPos = latLngToVector3(port.lat, port.lng, portRadius);
+    const sphereGeo = new THREE.SphereGeometry(0.015, 16, 16);
+    const sphereMat = new THREE.MeshBasicMaterial({ color: "green" });
+    const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+    sphere.position.copy(portPos);
+
+    // 让球体“朝外”方向只露出一半
+    const normal = portPos.clone().normalize();
+    sphere.position.addScaledVector(normal, -0.0075);
+
+    earthGroup.add(sphere);
+    portSpheres.push(sphere);
+
+    // 显示港口名称
+    const div = document.createElement('div');
+    div.className = 'port-label';
+    div.textContent = port.name;
+    div.style.position = 'absolute';
+    div.style.color = 'lime';
+    div.style.fontSize = '12px';
+    div.style.pointerEvents = 'none';
+    document.body.appendChild(div);
+
+    // 更新标签位置
+    function updateLabelPosition() {
+      const worldPos = portPos.clone();
+      earthGroup.localToWorld(worldPos);
+      const cameraToPort = worldPos.clone().sub(camera.position).normalize();
+      const normal = worldPos.clone().normalize();
+      const isFront = cameraToPort.dot(normal) < 0;
+      const vector = worldPos.project(camera);
+      const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+      const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
+      div.style.left = `${x}px`;
+      div.style.top = `${y}px`;
+      div.style.display = isFront ? 'block' : 'none';
+    }
+    // 每帧更新
+    renderer.domElement.addEventListener('render', updateLabelPosition);
+    if (!(window as any)._portLabels) (window as any)._portLabels = [];
+    (window as any)._portLabels.push(updateLabelPosition);
+  });
+
+  // 港口点波纹动画
+  if (!(window as any)._portSpheres) (window as any)._portSpheres = [];
+  (window as any)._portSpheres.push(...portSpheres);
+}
+
 // 加载地球纹理贴图
 const textureLoader = new THREE.TextureLoader();
 textureLoader.load(
@@ -93,118 +193,13 @@ textureLoader.load(
     earthGroup.add(earth);
 
     // 让美国正对屏幕（美国中心大致：lat=39, lng=-98）
-    const usLat = -39;
-    const usLng = -168;
-    // y轴旋转：让美国经度-98对准z轴正方向
-    earthGroup.rotation.y = THREE.MathUtils.degToRad(usLng + 180);
-    // x轴旋转：让美国纬度39对准赤道（z轴正方向），需负值
-    earthGroup.rotation.x = -THREE.MathUtils.degToRad(usLat);
+    // Ellis: 实际上的坐标是-35 -168
+    orientGroupToLatLng(earthGroup, -35, -168);
 
     scene.add(earthGroup);
 
-    // 在地球加载和港口点创建部分，添加一个数组保存所有港口点 Mesh
-    const portSpheres: THREE.Mesh[] = [];
-
-    // 加载多条线数据并绘制
-    fetch('/lines.json')
-      .then(res => res.json())
-      .then((data) => {
-        const routes = data.routes;
-        routes.forEach((route: LatLng[]) => {
-          if (route.length < 2) return;
-          const points: THREE.Vector3[] = route.map(p =>
-            latLngToVector3(p.lat, p.lng, radius)
-          );
-          const surfacePoints: THREE.Vector3[] = [];
-          const segmentsPerArc = 64;
-          for (let i = 0; i < points.length - 1; i++) {
-            const arc = getSlerpPoints(points[i], points[i + 1], segmentsPerArc);
-            if (i > 0) arc.shift();
-            surfacePoints.push(...arc);
-          }
-          const arcGeometry = new THREE.BufferGeometry().setFromPoints(surfacePoints);
-          const arcMaterial = new THREE.LineBasicMaterial({ color: "yellow" });
-          const arcLine = new THREE.Line(arcGeometry, arcMaterial);
-          earthGroup.add(arcLine);
-        });
-
-        // 标注所有港口为绿色原点，并显示港口名称
-        if (data.ports) {
-          data.ports.forEach((port: { lat: number; lng: number; name: string }) => {
-            // 让球体中心略微低于地球表面，使得一半球体嵌入地球
-            const portRadius = radius + 0.002; // 比地球半径略大一点点
-            const portPos = latLngToVector3(port.lat, port.lng, portRadius);
-            const sphereGeo = new THREE.SphereGeometry(0.015, 16, 16);
-            const sphereMat = new THREE.MeshBasicMaterial({ color: "green" });
-            const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-            sphere.position.copy(portPos);
-
-            // 让球体“朝外”方向只露出一半
-            const normal = portPos.clone().normalize();
-            sphere.position.addScaledVector(normal, -0.0075);
-
-            earthGroup.add(sphere);
-
-            portSpheres.push(sphere); // 保存港口点 Mesh
-
-            // 显示港口名称
-            const div = document.createElement('div');
-            div.className = 'port-label';
-            div.textContent = port.name;
-            div.style.position = 'absolute';
-            div.style.color = 'lime';
-            div.style.fontSize = '12px';
-            div.style.pointerEvents = 'none';
-            document.body.appendChild(div);
-
-            // 更新标签位置
-            function updateLabelPosition() {
-              // 复制港口原始坐标
-              const worldPos = portPos.clone();
-              // 应用地球当前旋转
-              earthGroup.localToWorld(worldPos);
-
-              // 计算相机到港口点的向量
-              const cameraToPort = worldPos.clone().sub(camera.position).normalize();
-              // 计算地球中心到港口点的法线
-              const normal = worldPos.clone().normalize();
-              // 判断是否正面
-              const isFront = cameraToPort.dot(normal) < 0;
-
-              // 投影到屏幕
-              const vector = worldPos.project(camera);
-              const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
-              const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
-              div.style.left = `${x}px`;
-              div.style.top = `${y}px`;
-              // 只显示正面的点的label
-              div.style.display = isFront ? 'block' : 'none';
-            }
-            // 每帧更新
-            renderer.domElement.addEventListener('render', updateLabelPosition);
-            // 兼容：在动画循环里统一更新
-            if (!(window as any)._portLabels) (window as any)._portLabels = [];
-            (window as any)._portLabels.push(updateLabelPosition);
-          });
-        }
-      });
-
-    // // 加载并显示海运线路
-    // fetch('/shipping_routes.json')
-    //   .then((res) => res.json())
-    //   .then((routes: [number, number][][]) => {
-    //     routes.forEach((route: [number, number][]) => {
-    //       // 将每个点的经纬度转为球面坐标
-    //       const points = route.map(([lat, lng]) => latLngToVector3(lat, lng, radius + 0.05));
-    //       // 创建线条几何体
-    //       const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    //       // 创建线条材质，青色
-    //       const material = new THREE.LineBasicMaterial({ color: 0x00ffff, linewidth: 1 });
-    //       // 创建线条对象
-    //       const line = new THREE.Line(geometry, material);
-    //       earthGroup.add(line);
-    //     });
-    //   });
+    // 加载线条和港口
+    loadRoutes(earthGroup, radius);
 
     // 鼠标拖动旋转逻辑
     let isDragging = false;
@@ -243,6 +238,7 @@ textureLoader.load(
 
       // 港口点波纹扩散动画
       const t = performance.now() * 0.002; // 时间参数
+      const portSpheres: THREE.Mesh[] = (window as any)._portSpheres || [];
       portSpheres.forEach((sphere, i) => {
         // 波纹效果：周期性scale快速扩散再回落
         const phase = t + i * 0.5; // 每个点有相位差
