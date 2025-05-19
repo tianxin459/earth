@@ -22,4 +22,4 @@ git commit -m "Update deployment"
 git push origin github_pages
 
 # 切回主分支
-git checkout main
+git checkout main_wmt
