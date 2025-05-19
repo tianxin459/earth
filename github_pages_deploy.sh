@@ -16,10 +16,6 @@ find . -maxdepth 1 ! -name '.git' ! -name 'dist' ! -name '.' ! -name '..' -exec 
 # 复制 dist 内容到根目录
 cp -r dist/* .
 
-
-# 删除dist文件夹
-find . -maxdepth 1   -name 'dist' -exec rm -rf {} +
-
 # 提交并推送
 git add .
 git commit -m "Update deployment"
