@@ -11,7 +11,7 @@ npm run build
 git checkout github_pages
 
 # 删除旧文件（保留 .git 目录）
-find . -maxdepth 1 ! -name '.git' ! -name '.' ! -name '..' -exec rm -rf {} +
+find . -maxdepth 1 ! -name '.git' ! -name 'dist' ! -name '.' ! -name '..' -exec rm -rf {} +
 
 # 复制 dist 内容到根目录
 cp -r dist/* .
