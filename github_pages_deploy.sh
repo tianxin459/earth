@@ -23,6 +23,3 @@ find .  -name 'dist' -exec rm -rf {} +
 git add .
 git commit -m "Update deployment"
 git push origin github_pages
-
-# 切回主分支
-git checkout main_wmt
