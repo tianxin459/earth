@@ -123,9 +123,11 @@ const EarthLine: React.FC = () => {
               <span style="color:#ff0080;">${d.dstPort}</span>
             </div>
             <div style="margin-bottom:4px;">
+              <span style="color:#ff8c00;">PO Count：</span>
               <span style="font-weight:bold;">${d.poCount}</span>
             </div>
             <div>
+              <span style="color:#ffd700;">Cost：</span>
               <span style="font-weight:bold;">${d.cost.toLocaleString()}</span>
             </div>
           </div>
@@ -250,15 +252,15 @@ const EarthLine: React.FC = () => {
         ">
           <div>
             <span style="color:#00ffe7;">Port：</span>
-            <span style="font-weight:bold;">${d.port}</span>
+            <span style="font-weight:bold;">${d.port + ""}</span>
           </div>
           <div>
             <span style="color:#ffd700;">Cost：</span>
-            <span style="font-weight:bold;">${totals.totalCost.toLocaleString()}</span>
+            <span style="font-weight:bold;">${totals.totalCost + ""}</span>
           </div>
           <div>
             <span style="color:#ff8c00;">PO Count：</span>
-            <span style="font-weight:bold;">${totals.totalPOCount}</span>
+            <span style="font-weight:bold;">${totals.totalPOCount + ""}</span>
           </div>
         </div>
           `;
@@ -267,7 +269,7 @@ const EarthLine: React.FC = () => {
 
       // Add auto-rotation
       myGlobe.controls().autoRotate = true;
-      myGlobe.controls().autoRotateSpeed = 0.6;
+      myGlobe.controls().autoRotateSpeed = 0.5;
     });
 
     return () => {
