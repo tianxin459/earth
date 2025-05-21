@@ -54,12 +54,12 @@ const EarthLine: React.FC = () => {
       const fromPOCountCostGroup = _.groupBy(routes, "srcPort");
       const toPOCountCostGroup = _.groupBy(routes, "dstPort");
       const fromPortTotals = _.mapValues(fromPOCountCostGroup, (items) => ({
-        totalCost: _.sumBy(items, "cost"),
-        totalPOCount: _.sumBy(items, "poCount"),
+        totalCost: Math.round(_.sumBy(items, "cost")),
+        totalPOCount: Math.round(_.sumBy(items, "poCount")),
       }));
       const toPortTotals = _.mapValues(toPOCountCostGroup, (items) => ({
-        totalCost: _.sumBy(items, "cost"),
-        totalPOCount: _.sumBy(items, "poCount"),
+        totalCost: Math.round(_.sumBy(items, "cost")),
+        totalPOCount: Math.round(_.sumBy(items, "poCount")),
       }));
 
       const POINT_ALTITUDE = 0.03;
@@ -195,7 +195,7 @@ const EarthLine: React.FC = () => {
               : d.type === "to"
               ? toPortTotals[d.port]
               : { totalCost: 0 };
-          return `${d.port}  ${totals.totalCost}`;
+          return `${d.port}  (${totals.totalCost})`;
         })
         .labelSize((d: any) => {
           const totals =
@@ -270,6 +270,16 @@ const EarthLine: React.FC = () => {
       // Add auto-rotation
       myGlobe.controls().autoRotate = true;
       myGlobe.controls().autoRotateSpeed = 0.5;
+
+      // Pause rotation on mouse enter, resume on mouse leave
+      if (globeRef.current) {
+        globeRef.current.addEventListener("mouseenter", () => {
+          myGlobe.controls().autoRotate = false;
+        });
+        globeRef.current.addEventListener("mouseleave", () => {
+          myGlobe.controls().autoRotate = true;
+        });
+      }
     });
 
     return () => {
