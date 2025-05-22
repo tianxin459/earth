@@ -91,47 +91,41 @@ const EarthLine: React.FC = () => {
       });
 
       const myGlobe = new Globe(globeRef.current!)
-        .globeImageUrl(
-          "//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg"
-        )
-        .bumpImageUrl(
-          "//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png"
-        )
-        .backgroundImageUrl(
-          "//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png"
-        )
+        .globeImageUrl("/img/earth-night.jpg")
+        .bumpImageUrl("/img/earth-topology.png")
+        .backgroundImageUrl("/img/night-sky.png")
         .pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 })
         .arcLabel(
           (d: any) => `
-          <div style="
-            background: #181c2f;
-            color: #fff;
-            padding: 14px 22px;
-            border-radius: 14px;
-            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25);
-            font-size: 1.15em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 8px #000a;
-            border: 2px solid #00ffe7;
-            min-width: 220px;
-            text-align: left;
-          ">
-            <div style="font-size:1.2em;font-weight:bold;margin-bottom:6px;">
-              <span style="color:#00ffe7;">${d.srcPort}</span>
-              <span style="margin: 0 10px;font-size:1.1em;">→</span>
-              <span style="color:#ff0080;">${d.dstPort}</span>
+            <div style="
+              background: #181c2f;
+              color: #fff;
+              padding: 14px 22px;
+              border-radius: 14px;
+              box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25);
+              font-size: 1.15em;
+              font-weight: 500;
+              letter-spacing: 1px;
+              text-shadow: 0 2px 8px #000a;
+              border: 2px solid #00ffe7;
+              min-width: 220px;
+              text-align: left;
+            ">
+              <div style="font-size:1.2em;font-weight:bold;margin-bottom:6px;">
+                <span style="color:#00ffe7;">${d.srcPort}</span>
+                <span style="margin: 0 10px;font-size:1.1em;">→</span>
+                <span style="color:#ff0080;">${d.dstPort}</span>
+              </div>
+              <div style="margin-bottom:4px;">
+                <span style="color:#ff8c00;">PO Count：</span>
+                <span style="font-weight:bold;">${d.poCount}</span>
+              </div>
+              <div>
+                <span style="color:#ffd700;">Cost：</span>
+                <span style="font-weight:bold;">${d.cost.toLocaleString()}</span>
+              </div>
             </div>
-            <div style="margin-bottom:4px;">
-              <span style="color:#ff8c00;">PO Count：</span>
-              <span style="font-weight:bold;">${d.poCount}</span>
-            </div>
-            <div>
-              <span style="color:#ffd700;">Cost：</span>
-              <span style="font-weight:bold;">${d.cost.toLocaleString()}</span>
-            </div>
-          </div>
-        `
+          `
         )
         .arcStartLat((d: any) => {
           const { start } = shortestArcLatLng(
