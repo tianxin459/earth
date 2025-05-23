@@ -6,6 +6,7 @@ import _ from "lodash";
 import Globe from "globe.gl";
 
 const OPACITY = 0.22;
+const base = import.meta.env?.PUBLIC_URL || "";
 
 type Port = {
   port: string;
@@ -21,13 +22,14 @@ const EarthLine: React.FC = () => {
     let material: ShaderMaterial | null = null;
     let timer: ReturnType<typeof setInterval>;
 
+    // Use relative paths for assets and data to work with GitHub Pages
+    // Use relative path for assets (adjust if using Vite or other build tools)
     Promise.all([
-      // Load day and night textures, and fetch data files
-      new TextureLoader().loadAsync("/img/2k_earth_day.jpg"),
-      new TextureLoader().loadAsync("/img/2k_earth_night.jpg"),
-      fetch("/from.json").then((res) => res.json()),
-      fetch("/to.json").then((res) => res.json()),
-      fetch("/fromToPOCountCost.json").then((res) => res.json()),
+      new TextureLoader().loadAsync(`${base}/img/2k_earth_day.jpg`),
+      new TextureLoader().loadAsync(`${base}/img/2k_earth_night.jpg`),
+      fetch(`${base}/from.json`).then((res) => res.json()),
+      fetch(`${base}/to.json`).then((res) => res.json()),
+      fetch(`${base}/fromToPOCountCost.json`).then((res) => res.json()),
     ]).then(([dayTexture, nightTexture, fromData, toData, routeData]) => {
       // Initialize custom shader material for day/night effect
       material = new ShaderMaterial({
