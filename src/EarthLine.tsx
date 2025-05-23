@@ -6,7 +6,7 @@ import _ from "lodash";
 import Globe from "globe.gl";
 
 const OPACITY = 0.22;
-const base = import.meta.env?.PUBLIC_URL || "";
+const base = import.meta.env.BASE_URL || "/";
 
 type Port = {
   port: string;
@@ -25,11 +25,11 @@ const EarthLine: React.FC = () => {
     // Use relative paths for assets and data to work with GitHub Pages
     // Use relative path for assets (adjust if using Vite or other build tools)
     Promise.all([
-      new TextureLoader().loadAsync(`${base}/img/2k_earth_day.jpg`),
-      new TextureLoader().loadAsync(`${base}/img/2k_earth_night.jpg`),
-      fetch(`${base}/from.json`).then((res) => res.json()),
-      fetch(`${base}/to.json`).then((res) => res.json()),
-      fetch(`${base}/fromToPOCountCost.json`).then((res) => res.json()),
+      new TextureLoader().loadAsync(base + "img/2k_earth_day.jpg"),
+      new TextureLoader().loadAsync(base + "img/2k_earth_night.jpg"),
+      fetch(`${base}from.json`).then((res) => res.json()),
+      fetch(`${base}to.json`).then((res) => res.json()),
+      fetch(`${base}fromToPOCountCost.json`).then((res) => res.json()),
     ]).then(([dayTexture, nightTexture, fromData, toData, routeData]) => {
       // Initialize custom shader material for day/night effect
       material = new ShaderMaterial({
@@ -46,7 +46,7 @@ const EarthLine: React.FC = () => {
       // Initialize the globe instance
       const myGlobe = new Globe(globeRef.current!)
         .globeMaterial(material)
-        .backgroundImageUrl("/img/night-sky.png")
+        .backgroundImageUrl(base + "img/night-sky.png")
         .showAtmosphere(true)
         .atmosphereAltitude(0.25);
 
