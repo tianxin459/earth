@@ -1,9 +1,19 @@
 import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
 import { calculateSunDirection } from "./config/utils";
 import { dayNightShader } from "./config/dayNightShader";
 import { TextureLoader, ShaderMaterial } from "three";
 import _ from "lodash";
 import Globe from "globe.gl";
+import { renderPortTooltip } from "./components/PortTooltipRenderer";
+import { renderArcTooltip } from "./components/ArcTooltipRenderer";
+
+const GlobeContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #10131a 0%, #05070d 100%);
+  overflow: hidden;
+`;
 
 const OPACITY = 1;
 const base = import.meta.env.BASE_URL || "/";
@@ -179,38 +189,13 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
       // Configure globe arcs and points
       myGlobe
         .pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 })
-        .arcLabel(
-          (d: any) => `
-            <div style="
-              background: rgba(24,28,47,0.96);
-              color: #fff;
-              padding: 12px 20px;
-              border-radius: 12px;
-              box-shadow: 0 4px 24px 0 #0008;
-              font-size: 1.08em;
-              font-weight: 500;
-              letter-spacing: 0.5px;
-              text-shadow: 0 2px 8px #000a;
-              border: 1.5px solid #00ffe7;
-              min-width: 180px;
-              text-align: left;
-              line-height: 1.6;
-            ">
-              <div style="font-size:1.15em;font-weight:bold;margin-bottom:4px;">
-                <span style="color:#00ffe7;">${d.srcPort}</span>
-                <span style="margin: 0 8px;font-size:1.1em;">→</span>
-                <span style="color:#ff0080;">${d.dstPort}</span>
-              </div>
-              <div>
-                <span style="color:#ff8c00;">POCount: </span>
-                <span style="font-weight:bold;">${d.poCount}</span>
-              </div>
-              <div>
-                <span style="color:#ffd700;">Cost: </span>
-                <span style="font-weight:bold;">${d.cost.toLocaleString()}</span>
-              </div>
-            </div>
-          `
+        .arcLabel((d: any) => 
+          renderArcTooltip({
+            srcPort: d.srcPort,
+            dstPort: d.dstPort,
+            poCount: d.poCount,
+            cost: d.cost
+          })
         )
         // Use great circle path for realistic routes
         .arcStartLat((d: any) => {
@@ -350,55 +335,16 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
         .labelAltitude(POINT_ALTITUDE)
         .labelDotOrientation("top")
         .labelIncludeDot(true)
-        // Custom HTML label tooltip
+        // Custom HTML label tooltip using styled component
         .labelLabel((d: any) => {
           const totals = getTotals(d, fromPortTotals, toPortTotals);
           
-          // Format cost with appropriate unit
-          const formatCost = (cost: number) => {
-            if (cost >= 1e12) {
-              return `$${(cost / 1e12).toFixed(2)}T`;
-            } else if (cost >= 1e9) {
-              return `$${(cost / 1e9).toFixed(2)}B`;
-            } else if (cost >= 1e6) {
-              return `$${(cost / 1e6).toFixed(2)}M`;
-            } else if (cost >= 1e3) {
-              return `$${(cost / 1e3).toFixed(2)}K`;
-            } else {
-              return `$${cost.toFixed(2)}`;
-            }
-          };
-          
-          return `
-            <div style="
-              display: flex;
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 4px;
-              padding: 10px 18px;
-              border-radius: 14px;
-              background: #181c2f;
-              box-shadow: 0 0 16px 4px #06a292cc, 0 0 32px 8px #ff008088;
-              font-size: 0.7em;
-              color: #c32020;
-              letter-spacing: 1px;
-              text-shadow: 0 2px 8px #000a, 0 0 8px #00ffe7;
-              border: 2px solid #00ffe7;
-            ">
-              <div>
-              <span style="color:#00ffe7;">Port：</span>
-              <span style="font-weight:bold;">${d.port + ""}</span>
-              </div>
-              <div>
-              <span style="color:#ffd700;">Cost：</span>
-              <span style="font-weight:bold;">${formatCost(totals.totalCost)}</span>
-              </div>
-              <div>
-              <span style="color:#ff8c00;">PO Count：</span>
-              <span style="font-weight:bold;">${totals.totalPOCount + ""}</span>
-              </div>
-            </div>
-        `;
+          return renderPortTooltip({
+            port: d.port,
+            cost: totals.totalCost,
+            poCount: totals.totalPOCount,
+            type: d.type
+          });
         })
         .labelsTransitionDuration(0);
 
@@ -429,18 +375,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
     };
   }, [fromData, toData, routeData]);
 
-  return (
-    <div
-      ref={globeRef}
-      style={{
-        width: "100vw",
-        height: "100vh",
-        background:
-          "radial-gradient(ellipse at center, #10131a 0%, #05070d 100%)",
-        overflow: "hidden",
-      }}
-    />
-  );
+  return <GlobeContainer ref={globeRef} />;
 };
 
 export default EarthLine;
