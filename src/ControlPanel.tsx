@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 interface ControlPanelProps {
@@ -119,6 +119,7 @@ const StatusText = styled.div<{ status: 'loading' | 'ready' | 'error' }>`
 
 const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const togglePanel = () => {
     setIsExpanded(!isExpanded);
@@ -140,8 +141,27 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData })
     console.log('Settings functionality to be implemented');
   };
 
+  // 点击外部区域收起面板
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isExpanded && panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        setIsExpanded(false);
+      }
+    };
+
+    // 只在展开状态时添加监听器
+    if (isExpanded) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    // 清理监听器
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isExpanded]);
+
   return (
-    <PanelContainer isExpanded={isExpanded}>
+    <PanelContainer ref={panelRef} isExpanded={isExpanded}>
       <PanelContent isExpanded={isExpanded}>
         <PanelHeader>
           ▪ CONTROL PANEL ▪
