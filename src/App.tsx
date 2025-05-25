@@ -2,8 +2,54 @@ import React, { useState, useEffect } from "react";
 import EarthLine from "./EarthLine";
 import ControlPanel from "./ControlPanel";
 import Dashboard from "./Dashboard";
+import styled from "styled-components";
 
 const base = import.meta.env.BASE_URL || "/";
+
+const FullScreenOverlay = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #10131a 0%, #05070d 100%);
+  color: #fff;
+  font-size: 1.2em;
+`;
+
+const MessageBox = styled.div<{ borderColor: string; titleColor: string }>`
+  background: rgba(24, 28, 47, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid ${props => props.borderColor};
+  text-align: center;
+  backdrop-filter: blur(5px);
+  
+  h3 {
+    color: ${props => props.titleColor};
+    margin-bottom: 10px;
+  }
+`;
+
+const RetryButton = styled.button`
+  background: #00ffe7;
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #00d4b8;
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+`;
 
 const App: React.FC = () => {
   const [fromData, setFromData] = useState<any[]>([]);
@@ -48,78 +94,46 @@ const App: React.FC = () => {
     loadData();
   }, []);
 
+  // 渲染错误状态
   if (error) {
     return (
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        background: "radial-gradient(ellipse at center, #10131a 0%, #05070d 100%)",
-        color: "#fff",
-        fontSize: "1.2em"
-      }}>
-        <div style={{
-          background: "rgba(24, 28, 47, 0.95)",
-          padding: "20px",
-          borderRadius: "12px",
-          border: "1px solid #ff0080",
-          textAlign: "center"
-        }}>
-          <h3 style={{ color: "#ff0080", marginBottom: "10px" }}>Error Loading Data</h3>
+      <FullScreenOverlay>
+        <MessageBox borderColor="#ff0080" titleColor="#ff0080">
+          <h3>Error Loading Data</h3>
           <p>{error}</p>
-          <button
-            onClick={loadData}
-            style={{
-              background: "#00ffe7",
-              color: "#000",
-              border: "none",
-              padding: "8px 16px",
-              borderRadius: "6px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              marginTop: "10px"
-            }}
-          >
+          <RetryButton onClick={loadData}>
             Retry
-          </button>
-        </div>
-      </div>
+          </RetryButton>
+        </MessageBox>
+      </FullScreenOverlay>
     );
   }
+
+  // 渲染加载状态
+  if (isLoading) {
+    return (
+      <FullScreenOverlay>
+        <MessageBox borderColor="#00ffe7" titleColor="#00ffe7">
+          <h3>Loading Data...</h3>
+          <p>Please wait while we load the shipping data.</p>
+        </MessageBox>
+      </FullScreenOverlay>
+    );
+  }
+
+  // 渲染主界面
+  const hasData = fromData.length > 0 && toData.length > 0 && routeData.length > 0;
 
   return (
     <>
       <ControlPanel isLoading={isLoading} onRefreshData={loadData} />
       <Dashboard routeData={routeData} />
-      {!isLoading && fromData.length > 0 && toData.length > 0 && routeData.length > 0 && (
+      {hasData && (
         <EarthLine 
           fromData={fromData}
           toData={toData}
           routeData={routeData}
         />
-      )}
-      {isLoading && (
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          background: "radial-gradient(ellipse at center, #10131a 0%, #05070d 100%)",
-          color: "#fff",
-          fontSize: "1.2em"
-        }}>
-          <div style={{
-            background: "rgba(24, 28, 47, 0.95)",
-            padding: "20px",
-            borderRadius: "12px",
-            border: "1px solid #00ffe7",
-            textAlign: "center"
-          }}>
-            <h3 style={{ color: "#00ffe7", marginBottom: "10px" }}>Loading Data...</h3>
-            <p>Please wait while we load the shipping data.</p>
-          </div>
-        </div>
       )}
     </>
   );
