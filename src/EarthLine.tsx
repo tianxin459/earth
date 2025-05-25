@@ -33,6 +33,31 @@ function greatCircleDistance(
   return c; // Returns distance in radians
 }
 
+// Helper function to find the shortest great circle path avoiding poles
+function getGreatCirclePath(
+  start: { lat: number; lng: number },
+  end: { lat: number; lng: number }
+) {
+  // Normalize longitudes to [-180, 180]
+  const normalizeLng = (lng: number) => ((lng + 540) % 360) - 180;
+  
+  const startLng = normalizeLng(start.lng);
+  const endLng = normalizeLng(end.lng);
+  
+  // Calculate the shortest longitude difference
+  let lngDiff = endLng - startLng;
+  if (Math.abs(lngDiff) > 180) {
+    lngDiff = lngDiff > 0 ? lngDiff - 360 : lngDiff + 360;
+  }
+  
+  const finalEndLng = startLng + lngDiff;
+  
+  return {
+    start: { lat: start.lat, lng: startLng },
+    end: { lat: end.lat, lng: finalEndLng }
+  };
+}
+
 const EarthLine: React.FC = () => {
   const globeRef = useRef<HTMLDivElement>(null);
 
@@ -124,127 +149,6 @@ const EarthLine: React.FC = () => {
 
       const POINT_ALTITUDE = 0.03;
 
-      // Helper to compute shortest arc (not over the pole)
-      function shortestArcLatLng(
-        start: { lat: number; lng: number },
-        end: { lat: number; lng: number }
-      ) {
-        let lngDiff = end.lng - start.lng;
-        if (Math.abs(lngDiff) > 180) {
-          if (lngDiff > 0) {
-            end = { ...end, lng: end.lng - 360 };
-          } else {
-            end = { ...end, lng: end.lng + 360 };
-          }
-        }
-        return { start, end };
-      }
-
-      // Helper to compute realistic shipping routes (avoiding polar routes)
-      function getShippingRoute(
-        start: { lat: number; lng: number },
-        end: { lat: number; lng: number }
-      ) {
-        const startLat = start.lat;
-        const startLng = start.lng;
-        const endLat = end.lat;
-        const endLng = end.lng;
-
-        // Normalize longitudes to [-180, 180]
-        const normStartLng = ((startLng + 540) % 360) - 180;
-        const normEndLng = ((endLng + 540) % 360) - 180;
-
-        // Calculate longitude difference
-        let lngDiff = normEndLng - normStartLng;
-
-        // Choose direction that avoids crossing date line unnecessarily
-        if (Math.abs(lngDiff) > 180) {
-          if (lngDiff > 0) {
-            lngDiff = lngDiff - 360;
-          } else {
-            lngDiff = lngDiff + 360;
-          }
-        }
-
-        const finalEndLng = normStartLng + lngDiff;
-
-        // Define shipping route waypoints based on ocean regions
-        const waypoints = [];
-
-        // Trans-Pacific routes (Asia <-> Americas)
-        if (Math.abs(lngDiff) > 120) {
-          // Major Pacific crossing
-          if (startLat > 20 && endLat > 20) {
-            // Northern Pacific route
-            waypoints.push(
-              { lat: Math.max(startLat, 30), lng: normStartLng + lngDiff * 0.2 },
-              { lat: 45, lng: normStartLng + lngDiff * 0.4 },
-              { lat: 50, lng: normStartLng + lngDiff * 0.6 },
-              { lat: Math.max(endLat, 30), lng: normStartLng + lngDiff * 0.8 }
-            );
-          } else if (startLat < -10 && endLat < -10) {
-            // Southern Pacific route
-            waypoints.push(
-              { lat: Math.min(startLat, -15), lng: normStartLng + lngDiff * 0.25 },
-              { lat: -25, lng: normStartLng + lngDiff * 0.5 },
-              { lat: Math.min(endLat, -15), lng: normStartLng + lngDiff * 0.75 }
-            );
-          } else {
-            // Mixed latitude Pacific route
-            waypoints.push(
-              { lat: startLat > 0 ? 25 : -10, lng: normStartLng + lngDiff * 0.3 },
-              { lat: endLat > 0 ? 25 : -10, lng: normStartLng + lngDiff * 0.7 }
-            );
-          }
-        }
-        // Trans-Atlantic routes (Europe/Africa <-> Americas)
-        else if (
-          ((normStartLng > -30 && normStartLng < 40) && (normEndLng > -100 && normEndLng < -50)) ||
-          ((normEndLng > -30 && normEndLng < 40) && (normStartLng > -100 && normStartLng < -50))
-        ) {
-          // Atlantic crossing
-          if (startLat > 30 || endLat > 30) {
-            // North Atlantic route
-            waypoints.push(
-              { lat: Math.max(Math.max(startLat, endLat), 40), lng: normStartLng + lngDiff * 0.3 },
-              { lat: Math.max(Math.max(startLat, endLat), 45), lng: normStartLng + lngDiff * 0.7 }
-            );
-          } else if (startLat < 10 && endLat < 10) {
-            // South Atlantic route
-            waypoints.push(
-              { lat: Math.min(Math.min(startLat, endLat), 0), lng: normStartLng + lngDiff * 0.4 },
-              { lat: Math.min(Math.min(startLat, endLat), -5), lng: normStartLng + lngDiff * 0.6 }
-            );
-          } else {
-            // Mixed Atlantic route
-            waypoints.push(
-              { lat: (startLat + endLat) / 2, lng: normStartLng + lngDiff * 0.5 }
-            );
-          }
-        }
-        // Regional routes or other ocean crossings
-        else {
-          // For shorter distances or regional routes, add minimal waypoints
-          if (Math.abs(lngDiff) > 60) {
-            waypoints.push(
-              { lat: (startLat + endLat) / 2 + 5, lng: normStartLng + lngDiff * 0.4 },
-              { lat: (startLat + endLat) / 2 + 5, lng: normStartLng + lngDiff * 0.6 }
-            );
-          } else if (Math.abs(startLat - endLat) > 30) {
-            // Large latitude difference
-            waypoints.push(
-              { lat: startLat + (endLat - startLat) * 0.5, lng: normStartLng + lngDiff * 0.5 }
-            );
-          }
-        }
-
-        return {
-          start: { lat: startLat, lng: normStartLng },
-          end: { lat: endLat, lng: finalEndLng },
-          waypoints: waypoints
-        };
-      }
-
       // Filter ports with totalCost > 0
       const filteredPorts = [...fromPorts, ...toPorts].filter((d: any) => {
         const totals =
@@ -292,37 +196,37 @@ const EarthLine: React.FC = () => {
             </div>
           `
         )
-        // Use custom shipping route waypoints
+        // Use great circle path for realistic routes
         .arcStartLat((d: any) => {
-          const route = getShippingRoute(
+          const path = getGreatCirclePath(
             { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
-          return route.start.lat;
+          return path.start.lat;
         })
         .arcStartLng((d: any) => {
-          const route = getShippingRoute(
+          const path = getGreatCirclePath(
             { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
-          return route.start.lng;
+          return path.start.lng;
         })
         .arcEndLat((d: any) => {
-          const route = getShippingRoute(
+          const path = getGreatCirclePath(
             { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
-          return route.end.lat;
+          return path.end.lat;
         })
         .arcEndLng((d: any) => {
-          const route = getShippingRoute(
+          const path = getGreatCirclePath(
             { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
-          return route.end.lng;
+          return path.end.lng;
         })
-        // Add waypoints for realistic shipping routes
-        .arcCurveResolution(64)
+        // Increase resolution for smoother arcs
+        .arcCurveResolution(128)
         .arcAltitude((d: any) => {
           // Calculate great circle distance between ports
           const distance = greatCircleDistance(
@@ -330,18 +234,31 @@ const EarthLine: React.FC = () => {
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
           
-          // Convert distance to a reasonable altitude
-          // Distance is in radians (0 to π), so we scale it appropriately
-          // For shorter distances, lower altitude; for longer distances, higher altitude
-          const minAltitude = 0.05;  // Minimum arc height
-          const maxAltitude = 0.4;   // Maximum arc height
+          // 调整高度设置，确保弧线始终在地球表面之上
+          const minAltitude = 0.2;  // 最小高度，短距离连线
+          const maxAltitude = 0.3;  // 最大高度，长距离连线
           
-          // Scale the distance (0 to π) to altitude range
+          // 根据大圆距离计算标准化距离
           const normalizedDistance = distance / Math.PI;
-          const altitude = minAltitude + (maxAltitude - minAltitude) * normalizedDistance;
           
-          return altitude;
+          // 使用更平滑的曲线函数
+          const baseAltitude = minAltitude + (maxAltitude - minAltitude) * 
+            (0.5 + 0.5 * Math.sin(normalizedDistance * Math.PI - Math.PI/2));
+          
+          // 为非常短的距离设置最小可见高度
+          if (distance < 0.05) { // 距离小于约3度
+            return Math.max(0.01, minAltitude);
+          }
+          
+          // 为跨洋航线适当增加高度，但保持合理范围
+          if (distance > Math.PI * 0.4) { // 距离大于72度
+            return Math.min(baseAltitude * 1.1, maxAltitude);
+          }
+          
+          return baseAltitude;
         })
+        // 完全移除自动缩放，使用我们的自定义高度计算
+        .arcAltitudeAutoScale(0) // 完全禁用自动缩放
         // Arc animation and color
         .arcDashLength(0.25)
         .arcDashGap(1)
