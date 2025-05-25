@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import EarthLine from "./EarthLine";
+import App from "./App";
 
 const root = createRoot(document.getElementById("root")!);
-root.render(<EarthLine />);
+root.render(<App />);

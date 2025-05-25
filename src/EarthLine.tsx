@@ -15,6 +15,12 @@ type Port = {
   type: "from" | "to";
 };
 
+interface EarthLineProps {
+  fromData: any[];
+  toData: any[];
+  routeData: any[];
+}
+
 // Helper function to calculate great circle distance in radians
 function greatCircleDistance(
   start: { lat: number; lng: number },
@@ -58,22 +64,22 @@ function getGreatCirclePath(
   };
 }
 
-const EarthLine: React.FC = () => {
+const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) => {
   const globeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!fromData || !toData || !routeData) {
+      return; // Wait for data to be loaded
+    }
+
     let material: ShaderMaterial | null = null;
     let timer: ReturnType<typeof setInterval>;
 
-    // Use relative paths for assets and data to work with GitHub Pages
-    // Use relative path for assets (adjust if using Vite or other build tools)
+    // Load only textures since data is passed as props
     Promise.all([
       new TextureLoader().loadAsync(base + "img/2k_earth_day.jpg"),
       new TextureLoader().loadAsync(base + "img/2k_earth_night.jpg"),
-      fetch(`${base}from.json`).then((res) => res.json()),
-      fetch(`${base}to.json`).then((res) => res.json()),
-      fetch(`${base}fromToPOCountCost.json`).then((res) => res.json()),
-    ]).then(([dayTexture, nightTexture, fromData, toData, routeData]) => {
+    ]).then(([dayTexture, nightTexture]) => {
       // Initialize custom shader material for day/night effect
       material = new ShaderMaterial({
         uniforms: {
@@ -235,8 +241,8 @@ const EarthLine: React.FC = () => {
           );
           
           // 调整高度设置，确保弧线始终在地球表面之上
-          const minAltitude = 0.2;  // 最小高度，短距离连线
-          const maxAltitude = 0.3;  // 最大高度，长距离连线
+          const minAltitude = 0.02;  // 最小高度，短距离连线
+          const maxAltitude = 0.15;  // 最大高度，长距离连线
           
           // 根据大圆距离计算标准化距离
           const normalizedDistance = distance / Math.PI;
@@ -400,7 +406,7 @@ const EarthLine: React.FC = () => {
       clearInterval(timer);
       if (globeRef.current) globeRef.current.innerHTML = "";
     };
-  }, []);
+  }, [fromData, toData, routeData]);
 
   return (
     <div
