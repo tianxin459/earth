@@ -135,7 +135,7 @@ const Dashboard: React.FC<DashboardProps> = ({ routeData }) => {
   return (
     <DashboardContainer>
       <HeaderSection>
-        ▪ SHIPPING ANALYTICS COMMAND CENTER ▪
+        ▪ PO ANALYTICS VISUAL CENTER ▪
       </HeaderSection>
 
       <MainContent>
