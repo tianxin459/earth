@@ -303,7 +303,23 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
               : d.type === "to"
               ? toPortTotals[d.port]
               : { totalCost: 0 };
-          return `${d.port}  (${totals.totalCost})`;
+          
+          // Format cost with appropriate unit
+          const formatCost = (cost: number) => {
+            if (cost >= 1e12) {
+              return `$${(cost / 1e12).toFixed(2)}T`;
+            } else if (cost >= 1e9) {
+              return `$${(cost / 1e9).toFixed(2)}B`;
+            } else if (cost >= 1e6) {
+              return `$${(cost / 1e6).toFixed(2)}M`;
+            } else if (cost >= 1e3) {
+              return `$${(cost / 1e3).toFixed(2)}K`;
+            } else {
+              return `$${cost.toFixed(2)}`;
+            }
+          };
+          
+          return `${d.port}  (${formatCost(totals.totalCost)})`;
         })
         // Label size based on total cost
         .labelSize((d: any) => {
@@ -347,6 +363,22 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
               : d.type === "to"
               ? toPortTotals[d.port]
               : { totalCost: 0, totalPOCount: 0 };
+          
+          // Format cost with appropriate unit
+          const formatCost = (cost: number) => {
+            if (cost >= 1e12) {
+              return `$${(cost / 1e12).toFixed(2)}T`;
+            } else if (cost >= 1e9) {
+              return `$${(cost / 1e9).toFixed(2)}B`;
+            } else if (cost >= 1e6) {
+              return `$${(cost / 1e6).toFixed(2)}M`;
+            } else if (cost >= 1e3) {
+              return `$${(cost / 1e3).toFixed(2)}K`;
+            } else {
+              return `$${cost.toFixed(2)}`;
+            }
+          };
+          
           return `
             <div style="
               display: flex;
@@ -370,7 +402,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
               </div>
               <div>
               <span style="color:#ffd700;">Cost：</span>
-              <span style="font-weight:bold;">${totals.totalCost + ""}</span>
+              <span style="font-weight:bold;">${formatCost(totals.totalCost)}</span>
               </div>
               <div>
               <span style="color:#ff8c00;">PO Count：</span>
