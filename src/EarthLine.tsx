@@ -153,7 +153,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
         totalPOCount: Math.round(_.sumBy(items, "poCount")),
       }));
 
-      const POINT_ALTITUDE = 0.03;
+      const POINT_ALTITUDE = 0;
 
       // Filter ports with totalCost > 0
       const filteredPorts = [...fromPorts, ...toPorts].filter((d: any) => {
@@ -352,7 +352,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
           d.type === "from" ? "#00ffe7" : "rgba(255, 165, 0, 0.75)"
         )
         .labelResolution(3)
-        .labelAltitude(POINT_ALTITUDE + 0.01)
+        .labelAltitude(POINT_ALTITUDE)
         .labelDotOrientation("top")
         .labelIncludeDot(true)
         // Custom HTML label tooltip
