@@ -64,6 +64,16 @@ function getGreatCirclePath(
   };
 }
 
+function getTotals(d: any, fromPortTotals: any, toPortTotals: any) {
+  if (d.type === "from") {
+    return fromPortTotals[d.port] || { totalCost: 0, totalPOCount: 0 };
+  } else if (d.type === "to") {
+    return toPortTotals[d.port] || { totalCost: 0, totalPOCount: 0 };
+  } else {
+    return { totalCost: 0, totalPOCount: 0 };
+  }
+}
+
 const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) => {
   const globeRef = useRef<HTMLDivElement>(null);
 
@@ -297,12 +307,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
         .labelLat((d: any) => d.lat)
         .labelLng((d: any) => d.lng)
         .labelText((d: any) => {
-          const totals =
-            d.type === "from"
-              ? fromPortTotals[d.port]
-              : d.type === "to"
-              ? toPortTotals[d.port]
-              : { totalCost: 0 };
+          const totals = getTotals(d, fromPortTotals, toPortTotals);
           
           // Format cost with appropriate unit
           const formatCost = (cost: number) => {
@@ -319,16 +324,11 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
             }
           };
           
-          return `${d.port}  (${formatCost(totals.totalCost)})`;
+          return `${d.port}\n(${formatCost(totals.totalCost)})`;
         })
         // Label size based on total cost
         .labelSize((d: any) => {
-          const totals =
-            d.type === "from"
-              ? fromPortTotals[d.port]
-              : d.type === "to"
-              ? toPortTotals[d.port]
-              : { totalCost: 1 };
+          const totals = getTotals(d, fromPortTotals, toPortTotals);
           return Math.max(
             0.7,
             Math.min(2.5, Math.sqrt(totals.totalCost) * 4e-4)
@@ -336,12 +336,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
         })
         // Dot radius based on total cost
         .labelDotRadius((d: any) => {
-          const totals =
-            d.type === "from"
-              ? fromPortTotals[d.port]
-              : d.type === "to"
-              ? toPortTotals[d.port]
-              : { totalCost: 1 };
+          const totals = getTotals(d, fromPortTotals, toPortTotals);
           const minRadius = 0.12;
           const maxRadius = 1;
           const scale = Math.sqrt(totals.totalCost) * 2e-3;
@@ -357,12 +352,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
         .labelIncludeDot(true)
         // Custom HTML label tooltip
         .labelLabel((d: any) => {
-          const totals =
-            d.type === "from"
-              ? fromPortTotals[d.port]
-              : d.type === "to"
-              ? toPortTotals[d.port]
-              : { totalCost: 0, totalPOCount: 0 };
+          const totals = getTotals(d, fromPortTotals, toPortTotals);
           
           // Format cost with appropriate unit
           const formatCost = (cost: number) => {
@@ -388,10 +378,9 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
               padding: 10px 18px;
               border-radius: 14px;
               background: #181c2f;
-              box-shadow: 0 0 16px 4px #00ffe7cc, 0 0 32px 8px #ff008088;
-              font-size: 1.08em;
-              font-weight: bold;
-              color: #fff;
+              box-shadow: 0 0 16px 4px #06a292cc, 0 0 32px 8px #ff008088;
+              font-size: 0.7em;
+              color: #c32020;
               letter-spacing: 1px;
               text-shadow: 0 2px 8px #000a, 0 0 8px #00ffe7;
               border: 2px solid #00ffe7;
