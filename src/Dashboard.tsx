@@ -1,8 +1,85 @@
 import React, { useMemo } from "react";
+import styled from "styled-components";
 
 interface DashboardProps {
   routeData: any[];
 }
+
+const DashboardContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  color: #4dd0e1;
+  border: none;
+  z-index: 1000;
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+`;
+
+const HeaderSection = styled.div`
+  background: rgba(15, 25, 35, 0.8);
+  backdrop-filter: blur(10px);
+  color: #4dd0e1;
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(77, 208, 225, 0.2);
+`;
+
+const MainContent = styled.div`
+  padding: 12px 20px;
+  display: flex;
+  gap: 15px;
+  align-items: stretch;
+  justify-content: space-between;
+`;
+
+const StatsGrid = styled.div`
+  display: flex;
+  justify-content: right;
+  gap: 12px;
+  flex: 1;
+`;
+
+const StatsCard = styled.div`
+  background: linear-gradient(135deg, rgba(30, 35, 40, 0.9), rgba(20, 25, 30, 0.9));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(50, 55, 60, 0.6);
+  border-radius: 8px;
+  padding: 12px 16px;
+  text-align: center;
+  min-width: 110px;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(77, 208, 225, 0.3);
+  }
+`;
+
+const StatsLabel = styled.div`
+  font-size: 9px;
+  opacity: 0.7;
+  margin-bottom: 2px;
+  color: #ebebeb;
+`;
+
+const StatsValue = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+  color: #4dd0e1;
+`;
 
 const Dashboard: React.FC<DashboardProps> = ({ routeData }) => {
   const stats = useMemo(() => {
@@ -56,188 +133,35 @@ const Dashboard: React.FC<DashboardProps> = ({ routeData }) => {
   };
 
   return (
-    <div style={{
-      position: "fixed",
-      top: "20px",
-      right: "20px",
-      width: "350px",
-      background: "linear-gradient(135deg, rgba(15, 25, 45, 0.95), rgba(8, 15, 28, 0.98))",
-      color: "#00ffe7",
-      borderRadius: "12px",
-      border: "2px solid #00ffe7",
-      boxShadow: "0 0 30px rgba(0, 255, 231, 0.3), inset 0 0 20px rgba(0, 255, 231, 0.1)",
-      zIndex: 1000,
-      fontFamily: "'Orbitron', 'Courier New', monospace",
-      overflow: "hidden"
-    }}>
-      {/* Header */}
-      <div style={{
-        background: "linear-gradient(90deg, #00ffe7, #0099cc)",
-        color: "#000",
-        padding: "12px 20px",
-        fontSize: "16px",
-        fontWeight: "bold",
-        textAlign: "center",
-        textTransform: "uppercase",
-        letterSpacing: "2px",
-        boxShadow: "0 2px 10px rgba(0, 255, 231, 0.5)"
-      }}>
-        ◢ SHIPPING ANALYTICS ◣
-      </div>
+    <DashboardContainer>
+      <HeaderSection>
+        ▪ SHIPPING ANALYTICS COMMAND CENTER ▪
+      </HeaderSection>
 
-      {/* Main Stats Grid */}
-      <div style={{ padding: "20px" }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "15px",
-          marginBottom: "20px"
-        }}>
-          {/* Total Routes */}
-          <div style={{
-            background: "rgba(0, 255, 231, 0.1)",
-            border: "1px solid #00ffe7",
-            borderRadius: "8px",
-            padding: "15px",
-            textAlign: "center",
-            position: "relative",
-            overflow: "hidden"
-          }}>
-            <div style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              height: "2px",
-              background: "linear-gradient(90deg, transparent, #00ffe7, transparent)",
-              animation: "scan 2s infinite"
-            }}></div>
-            <div style={{ fontSize: "12px", opacity: 0.8, marginBottom: "5px" }}>ACTIVE ROUTES</div>
-            <div style={{ fontSize: "24px", fontWeight: "bold" }}>{formatNumber(stats.totalRoutes)}</div>
-          </div>
+      <MainContent>
+        <StatsGrid>
+          <StatsCard>
+            <StatsLabel>ACTIVE ROUTES</StatsLabel>
+            <StatsValue>{formatNumber(stats.totalRoutes)}</StatsValue>
+          </StatsCard>
 
-          {/* Total Cost */}
-          <div style={{
-            background: "rgba(255, 0, 128, 0.1)",
-            border: "1px solid #ff0080",
-            borderRadius: "8px",
-            padding: "15px",
-            textAlign: "center",
-            color: "#ff0080"
-          }}>
-            <div style={{ fontSize: "12px", opacity: 0.8, marginBottom: "5px" }}>TOTAL COST</div>
-            <div style={{ fontSize: "24px", fontWeight: "bold" }}>${formatNumber(stats.totalCost)}</div>
-          </div>
+          <StatsCard>
+            <StatsLabel>TOTAL COST</StatsLabel>
+            <StatsValue>${formatNumber(stats.totalCost)}</StatsValue>
+          </StatsCard>
 
-          {/* Total PO Count */}
-          <div style={{
-            background: "rgba(255, 140, 0, 0.1)",
-            border: "1px solid #ff8c00",
-            borderRadius: "8px",
-            padding: "15px",
-            textAlign: "center",
-            color: "#ff8c00"
-          }}>
-            <div style={{ fontSize: "12px", opacity: 0.8, marginBottom: "5px" }}>PURCHASE ORDERS</div>
-            <div style={{ fontSize: "24px", fontWeight: "bold" }}>{formatNumber(stats.totalPOCount)}</div>
-          </div>
+          <StatsCard>
+            <StatsLabel>PURCHASE ORDERS</StatsLabel>
+            <StatsValue>{formatNumber(stats.totalPOCount)}</StatsValue>
+          </StatsCard>
 
-          {/* Avg Cost */}
-          <div style={{
-            background: "rgba(255, 215, 0, 0.1)",
-            border: "1px solid #ffd700",
-            borderRadius: "8px",
-            padding: "15px",
-            textAlign: "center",
-            color: "#ffd700"
-          }}>
-            <div style={{ fontSize: "12px", opacity: 0.8, marginBottom: "5px" }}>AVG COST</div>
-            <div style={{ fontSize: "20px", fontWeight: "bold" }}>${formatNumber(stats.avgCostPerRoute)}</div>
-          </div>
-        </div>
-
-        {/* Cost Distribution */}
-        <div style={{
-          background: "rgba(0, 0, 0, 0.3)",
-          border: "1px solid #00ffe7",
-          borderRadius: "8px",
-          padding: "15px",
-          marginBottom: "20px"
-        }}>
-          <div style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "10px", textAlign: "center" }}>
-            ◢ COST DISTRIBUTION ◣
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ color: "#00ff00" }}>LOW</div>
-              <div style={{ fontSize: "16px", fontWeight: "bold" }}>{stats.costDistribution.low}</div>
-              <div style={{ fontSize: "10px", opacity: 0.7 }}>&lt;50K</div>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ color: "#ffff00" }}>MID</div>
-              <div style={{ fontSize: "16px", fontWeight: "bold" }}>{stats.costDistribution.medium}</div>
-              <div style={{ fontSize: "10px", opacity: 0.7 }}>50K-200K</div>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ color: "#ff0080" }}>HIGH</div>
-              <div style={{ fontSize: "16px", fontWeight: "bold" }}>{stats.costDistribution.high}</div>
-              <div style={{ fontSize: "10px", opacity: 0.7 }}>&gt;200K</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Top Routes */}
-        <div style={{
-          background: "rgba(0, 0, 0, 0.3)",
-          border: "1px solid #ff0080",
-          borderRadius: "8px",
-          padding: "15px"
-        }}>
-          <div style={{ 
-            fontSize: "14px", 
-            fontWeight: "bold", 
-            marginBottom: "10px", 
-            textAlign: "center",
-            color: "#ff0080"
-          }}>
-            ◢ TOP COST ROUTES ◣
-          </div>
-          <div style={{ maxHeight: "150px", overflowY: "auto" }}>
-            {stats.topRoutes.map((route, index) => (
-              <div key={index} style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "8px 10px",
-                margin: "5px 0",
-                background: "rgba(255, 0, 128, 0.1)",
-                borderRadius: "4px",
-                border: "1px solid rgba(255, 0, 128, 0.3)",
-                fontSize: "11px"
-              }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: "bold", color: "#00ffe7" }}>
-                    {route.from} → {route.to}
-                  </div>
-                  <div style={{ opacity: 0.8 }}>PO: {route.poCount}</div>
-                </div>
-                <div style={{ fontWeight: "bold", color: "#ffd700" }}>
-                  ${formatNumber(route.cost)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Animated border effect */}
-      <style>{`
-        @keyframes scan {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-      `}</style>
-    </div>
+          <StatsCard>
+            <StatsLabel>AVG COST</StatsLabel>
+            <StatsValue>${formatNumber(stats.avgCostPerRoute)}</StatsValue>
+          </StatsCard>
+        </StatsGrid>
+      </MainContent>
+    </DashboardContainer>
   );
 };
 
