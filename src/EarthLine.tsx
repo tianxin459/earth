@@ -5,7 +5,7 @@ import { TextureLoader, ShaderMaterial } from "three";
 import _ from "lodash";
 import Globe from "globe.gl";
 
-const OPACITY = 0.22;
+const OPACITY = 1;
 const base = import.meta.env.BASE_URL || "/";
 
 type Port = {
@@ -122,6 +122,111 @@ const EarthLine: React.FC = () => {
         return { start, end };
       }
 
+      // Helper to compute realistic shipping routes (avoiding polar routes)
+      function getShippingRoute(
+        start: { lat: number; lng: number },
+        end: { lat: number; lng: number }
+      ) {
+        const startLat = start.lat;
+        const startLng = start.lng;
+        const endLat = end.lat;
+        const endLng = end.lng;
+
+        // Normalize longitudes to [-180, 180]
+        const normStartLng = ((startLng + 540) % 360) - 180;
+        const normEndLng = ((endLng + 540) % 360) - 180;
+
+        // Calculate longitude difference
+        let lngDiff = normEndLng - normStartLng;
+
+        // Choose direction that avoids crossing date line unnecessarily
+        if (Math.abs(lngDiff) > 180) {
+          if (lngDiff > 0) {
+            lngDiff = lngDiff - 360;
+          } else {
+            lngDiff = lngDiff + 360;
+          }
+        }
+
+        const finalEndLng = normStartLng + lngDiff;
+
+        // Define shipping route waypoints based on ocean regions
+        const waypoints = [];
+
+        // Trans-Pacific routes (Asia <-> Americas)
+        if (Math.abs(lngDiff) > 120) {
+          // Major Pacific crossing
+          if (startLat > 20 && endLat > 20) {
+            // Northern Pacific route
+            waypoints.push(
+              { lat: Math.max(startLat, 30), lng: normStartLng + lngDiff * 0.2 },
+              { lat: 45, lng: normStartLng + lngDiff * 0.4 },
+              { lat: 50, lng: normStartLng + lngDiff * 0.6 },
+              { lat: Math.max(endLat, 30), lng: normStartLng + lngDiff * 0.8 }
+            );
+          } else if (startLat < -10 && endLat < -10) {
+            // Southern Pacific route
+            waypoints.push(
+              { lat: Math.min(startLat, -15), lng: normStartLng + lngDiff * 0.25 },
+              { lat: -25, lng: normStartLng + lngDiff * 0.5 },
+              { lat: Math.min(endLat, -15), lng: normStartLng + lngDiff * 0.75 }
+            );
+          } else {
+            // Mixed latitude Pacific route
+            waypoints.push(
+              { lat: startLat > 0 ? 25 : -10, lng: normStartLng + lngDiff * 0.3 },
+              { lat: endLat > 0 ? 25 : -10, lng: normStartLng + lngDiff * 0.7 }
+            );
+          }
+        }
+        // Trans-Atlantic routes (Europe/Africa <-> Americas)
+        else if (
+          ((normStartLng > -30 && normStartLng < 40) && (normEndLng > -100 && normEndLng < -50)) ||
+          ((normEndLng > -30 && normEndLng < 40) && (normStartLng > -100 && normStartLng < -50))
+        ) {
+          // Atlantic crossing
+          if (startLat > 30 || endLat > 30) {
+            // North Atlantic route
+            waypoints.push(
+              { lat: Math.max(Math.max(startLat, endLat), 40), lng: normStartLng + lngDiff * 0.3 },
+              { lat: Math.max(Math.max(startLat, endLat), 45), lng: normStartLng + lngDiff * 0.7 }
+            );
+          } else if (startLat < 10 && endLat < 10) {
+            // South Atlantic route
+            waypoints.push(
+              { lat: Math.min(Math.min(startLat, endLat), 0), lng: normStartLng + lngDiff * 0.4 },
+              { lat: Math.min(Math.min(startLat, endLat), -5), lng: normStartLng + lngDiff * 0.6 }
+            );
+          } else {
+            // Mixed Atlantic route
+            waypoints.push(
+              { lat: (startLat + endLat) / 2, lng: normStartLng + lngDiff * 0.5 }
+            );
+          }
+        }
+        // Regional routes or other ocean crossings
+        else {
+          // For shorter distances or regional routes, add minimal waypoints
+          if (Math.abs(lngDiff) > 60) {
+            waypoints.push(
+              { lat: (startLat + endLat) / 2 + 5, lng: normStartLng + lngDiff * 0.4 },
+              { lat: (startLat + endLat) / 2 + 5, lng: normStartLng + lngDiff * 0.6 }
+            );
+          } else if (Math.abs(startLat - endLat) > 30) {
+            // Large latitude difference
+            waypoints.push(
+              { lat: startLat + (endLat - startLat) * 0.5, lng: normStartLng + lngDiff * 0.5 }
+            );
+          }
+        }
+
+        return {
+          start: { lat: startLat, lng: normStartLng },
+          end: { lat: endLat, lng: finalEndLng },
+          waypoints: waypoints
+        };
+      }
+
       // Filter ports with totalCost > 0
       const filteredPorts = [...fromPorts, ...toPorts].filter((d: any) => {
         const totals =
@@ -169,35 +274,48 @@ const EarthLine: React.FC = () => {
             </div>
           `
         )
-        // Arc start and end positions, using shortest arc
+        // Use custom shipping route waypoints
         .arcStartLat((d: any) => {
-          const { start } = shortestArcLatLng(
+          const route = getShippingRoute(
             { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
-          return start.lat;
+          return route.start.lat;
         })
         .arcStartLng((d: any) => {
-          const { start } = shortestArcLatLng(
+          const route = getShippingRoute(
             { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
-          return start.lng;
+          return route.start.lng;
         })
         .arcEndLat((d: any) => {
-          const { end } = shortestArcLatLng(
+          const route = getShippingRoute(
             { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
-          return end.lat;
+          return route.end.lat;
         })
         .arcEndLng((d: any) => {
-          const { end } = shortestArcLatLng(
+          const route = getShippingRoute(
             { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
-          // Normalize longitude to [-180, 180]
-          return ((end.lng + 540) % 360) - 180;
+          return route.end.lng;
+        })
+        // Add waypoints for realistic shipping routes
+        .arcCurveResolution(64)
+        .arcAltitude((d: any) => {
+          // Higher altitude for longer routes
+          const route = getShippingRoute(
+            { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
+            { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
+          );
+          const distance = Math.sqrt(
+            Math.pow(route.end.lat - route.start.lat, 2) + 
+            Math.pow(route.end.lng - route.start.lng, 2)
+          );
+          return Math.min(0.4, Math.max(0.1, distance * 0.001));
         })
         // Arc animation and color
         .arcDashLength(0.25)
