@@ -15,6 +15,24 @@ type Port = {
   type: "from" | "to";
 };
 
+// Helper function to calculate great circle distance in radians
+function greatCircleDistance(
+  start: { lat: number; lng: number },
+  end: { lat: number; lng: number }
+): number {
+  const lat1 = (start.lat * Math.PI) / 180;
+  const lat2 = (end.lat * Math.PI) / 180;
+  const deltaLat = ((end.lat - start.lat) * Math.PI) / 180;
+  const deltaLng = ((end.lng - start.lng) * Math.PI) / 180;
+
+  const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+    Math.cos(lat1) * Math.cos(lat2) *
+    Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  
+  return c; // Returns distance in radians
+}
+
 const EarthLine: React.FC = () => {
   const globeRef = useRef<HTMLDivElement>(null);
 
@@ -306,16 +324,23 @@ const EarthLine: React.FC = () => {
         // Add waypoints for realistic shipping routes
         .arcCurveResolution(64)
         .arcAltitude((d: any) => {
-          // Higher altitude for longer routes
-          const route = getShippingRoute(
+          // Calculate great circle distance between ports
+          const distance = greatCircleDistance(
             { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
             { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
           );
-          const distance = Math.sqrt(
-            Math.pow(route.end.lat - route.start.lat, 2) + 
-            Math.pow(route.end.lng - route.start.lng, 2)
-          );
-          return Math.min(0.4, Math.max(0.1, distance * 0.001));
+          
+          // Convert distance to a reasonable altitude
+          // Distance is in radians (0 to π), so we scale it appropriately
+          // For shorter distances, lower altitude; for longer distances, higher altitude
+          const minAltitude = 0.05;  // Minimum arc height
+          const maxAltitude = 0.4;   // Maximum arc height
+          
+          // Scale the distance (0 to π) to altitude range
+          const normalizedDistance = distance / Math.PI;
+          const altitude = minAltitude + (maxAltitude - minAltitude) * normalizedDistance;
+          
+          return altitude;
         })
         // Arc animation and color
         .arcDashLength(0.25)
