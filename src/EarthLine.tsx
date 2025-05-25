@@ -241,8 +241,8 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
           );
           
           // 调整高度设置，确保弧线始终在地球表面之上
-          const minAltitude = 0.02;  // 最小高度，短距离连线
-          const maxAltitude = 0.15;  // 最大高度，长距离连线
+          const minAltitude = 0.2;  // 最小高度，短距离连线
+          const maxAltitude = 0.3;  // 最大高度，长距离连线
           
           // 根据大圆距离计算标准化距离
           const normalizedDistance = distance / Math.PI;
