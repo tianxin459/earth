@@ -1,0 +1,37 @@
+{
+    "otif": {
+        "description": "On Time In Full - A measure of delivery performance.",
+        "value": 95.5,
+        "unit": "%"
+    },
+    "ontimedelivery": {
+        "description": "Percentage of orders delivered on time.",
+        "value": 92.3,
+        "unit": "%"
+    },
+    "instock": {
+        "description": "Percentage of items in stock.",
+        "value": 88.7,
+        "unit": "%"
+    },
+    "ordercreation_qty": {
+        "description": "order creation in week",
+        "value": 25000,
+        "unit": ""
+    },
+    "ordercreation_cost": {
+        "description": "order creation by cost in week",
+        "value": 2500000,
+        "unit": "$"
+    },
+    "sales_qty": {
+        "description": "sales in week",
+        "value": 20000,
+        "unit": ""
+    },
+    "sales_price": {
+        "description": "sales by price in week",
+        "value": 2000000,
+        "unit": "$"
+    }
+}

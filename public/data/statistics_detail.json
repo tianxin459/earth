@@ -1,0 +1,7002 @@
+[
+  {
+    "DepartmentID": "D0001",
+    "qty": 26,
+    "unitcost": 101,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0002",
+    "qty": 25,
+    "unitcost": 96,
+    "unitprice": 101,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0003",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0004",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0005",
+    "qty": 27,
+    "unitcost": 96,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0006",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0007",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0008",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0009",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0010",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0011",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0012",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0013",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0014",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0015",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0016",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0017",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0018",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0019",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0020",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0021",
+    "qty": 27,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0022",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0023",
+    "qty": 24,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0024",
+    "qty": 27,
+    "unitcost": 101,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0025",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0026",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0027",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0028",
+    "qty": 29,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0029",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0030",
+    "qty": 20,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0031",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0032",
+    "qty": 26,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0033",
+    "qty": 26,
+    "unitcost": 96,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0034",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0035",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0036",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0037",
+    "qty": 24,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0038",
+    "qty": 20,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0039",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0040",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0041",
+    "qty": 28,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0042",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0043",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0044",
+    "qty": 24,
+    "unitcost": 97,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0045",
+    "qty": 24,
+    "unitcost": 96,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0046",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0047",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0048",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0049",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0050",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0051",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0052",
+    "qty": 20,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0053",
+    "qty": 29,
+    "unitcost": 102,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0054",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0055",
+    "qty": 25,
+    "unitcost": 96,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0056",
+    "qty": 21,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0057",
+    "qty": 20,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0058",
+    "qty": 26,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0059",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0060",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0061",
+    "qty": 28,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0062",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0063",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0064",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0065",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0066",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0067",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0068",
+    "qty": 26,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0069",
+    "qty": 29,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0070",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0071",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0072",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0073",
+    "qty": 22,
+    "unitcost": 102,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0074",
+    "qty": 20,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0075",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0076",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0077",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0078",
+    "qty": 20,
+    "unitcost": 101,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0079",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0080",
+    "qty": 20,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0081",
+    "qty": 25,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0082",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0083",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0084",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0085",
+    "qty": 27,
+    "unitcost": 96,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0086",
+    "qty": 26,
+    "unitcost": 96,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0087",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0088",
+    "qty": 23,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0089",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0090",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0091",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0092",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0093",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0094",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0095",
+    "qty": 21,
+    "unitcost": 102,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0096",
+    "qty": 29,
+    "unitcost": 96,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0097",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0098",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0099",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0100",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0101",
+    "qty": 24,
+    "unitcost": 96,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0102",
+    "qty": 21,
+    "unitcost": 102,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0103",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0104",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0105",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0106",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0107",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0108",
+    "qty": 25,
+    "unitcost": 102,
+    "unitprice": 100,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0109",
+    "qty": 21,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0110",
+    "qty": 26,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0111",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0112",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0113",
+    "qty": 21,
+    "unitcost": 103,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0114",
+    "qty": 26,
+    "unitcost": 96,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0115",
+    "qty": 26,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0116",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0117",
+    "qty": 26,
+    "unitcost": 98,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0118",
+    "qty": 28,
+    "unitcost": 102,
+    "unitprice": 99,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0119",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0120",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0121",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0122",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0123",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0124",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0125",
+    "qty": 26,
+    "unitcost": 98,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0126",
+    "qty": 21,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0127",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0128",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0129",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0130",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0131",
+    "qty": 24,
+    "unitcost": 95,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0132",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0133",
+    "qty": 26,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0134",
+    "qty": 24,
+    "unitcost": 96,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0135",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0136",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0137",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0138",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0139",
+    "qty": 28,
+    "unitcost": 102,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0140",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0141",
+    "qty": 21,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0142",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0143",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0144",
+    "qty": 21,
+    "unitcost": 102,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0145",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0146",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0147",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0148",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0149",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0150",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0151",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0152",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0153",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0154",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0155",
+    "qty": 21,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0156",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0157",
+    "qty": 26,
+    "unitcost": 98,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0158",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0159",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0160",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0161",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0162",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0163",
+    "qty": 24,
+    "unitcost": 103,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0164",
+    "qty": 28,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0165",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0166",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0167",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0168",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0169",
+    "qty": 24,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0170",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0171",
+    "qty": 27,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0172",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0173",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0174",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0175",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0176",
+    "qty": 28,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0177",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0178",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0179",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0180",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0181",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0182",
+    "qty": 23,
+    "unitcost": 103,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0183",
+    "qty": 28,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0184",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0185",
+    "qty": 24,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0186",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0187",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0188",
+    "qty": 28,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0189",
+    "qty": 26,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0190",
+    "qty": 22,
+    "unitcost": 95,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0191",
+    "qty": 26,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0192",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0193",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0194",
+    "qty": 29,
+    "unitcost": 96,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0195",
+    "qty": 25,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0196",
+    "qty": 29,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0197",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0198",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0199",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0200",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0201",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0202",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0203",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0204",
+    "qty": 20,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0205",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0206",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0207",
+    "qty": 22,
+    "unitcost": 101,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0208",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0209",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0210",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0211",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0212",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0213",
+    "qty": 29,
+    "unitcost": 95,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0214",
+    "qty": 25,
+    "unitcost": 102,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0215",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0216",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0217",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0218",
+    "qty": 24,
+    "unitcost": 96,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0219",
+    "qty": 22,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0220",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0221",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0222",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0223",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 104,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0224",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0225",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0226",
+    "qty": 24,
+    "unitcost": 97,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0227",
+    "qty": 22,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0228",
+    "qty": 26,
+    "unitcost": 100,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0229",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0230",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0231",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0232",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0233",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0234",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0235",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0236",
+    "qty": 22,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0237",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0238",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0239",
+    "qty": 27,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0240",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0241",
+    "qty": 20,
+    "unitcost": 103,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0242",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0243",
+    "qty": 27,
+    "unitcost": 104,
+    "unitprice": 97,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0244",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0245",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0246",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0247",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0248",
+    "qty": 24,
+    "unitcost": 102,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0249",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0250",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0251",
+    "qty": 24,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0252",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0253",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0254",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0255",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0256",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0257",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0258",
+    "qty": 27,
+    "unitcost": 98,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0259",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0260",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0261",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0262",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0263",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0264",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0265",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0266",
+    "qty": 25,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0267",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0268",
+    "qty": 28,
+    "unitcost": 96,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0269",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0270",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0271",
+    "qty": 26,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0272",
+    "qty": 28,
+    "unitcost": 96,
+    "unitprice": 104,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0273",
+    "qty": 21,
+    "unitcost": 103,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0274",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0275",
+    "qty": 24,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0276",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0277",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 101,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0278",
+    "qty": 21,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0279",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0280",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0281",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0282",
+    "qty": 28,
+    "unitcost": 96,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0283",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0284",
+    "qty": 26,
+    "unitcost": 100,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0285",
+    "qty": 28,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0286",
+    "qty": 27,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0287",
+    "qty": 22,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0288",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0289",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0290",
+    "qty": 20,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0291",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0292",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0293",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0294",
+    "qty": 26,
+    "unitcost": 95,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0295",
+    "qty": 24,
+    "unitcost": 102,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0296",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0297",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0298",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0299",
+    "qty": 25,
+    "unitcost": 101,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0300",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0301",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0302",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0303",
+    "qty": 25,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0304",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0305",
+    "qty": 22,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0306",
+    "qty": 27,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0307",
+    "qty": 22,
+    "unitcost": 98,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0308",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0309",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0310",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0311",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0312",
+    "qty": 21,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0313",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0314",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0315",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0316",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0317",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0318",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0319",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0320",
+    "qty": 27,
+    "unitcost": 98,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0321",
+    "qty": 27,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0322",
+    "qty": 24,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0323",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 96,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0324",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0325",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0326",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0327",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0328",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0329",
+    "qty": 24,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0330",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0331",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0332",
+    "qty": 29,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0333",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0334",
+    "qty": 28,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0335",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0336",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0337",
+    "qty": 24,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0338",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0339",
+    "qty": 21,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0340",
+    "qty": 21,
+    "unitcost": 102,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0341",
+    "qty": 25,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0342",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0343",
+    "qty": 29,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0344",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0345",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0346",
+    "qty": 25,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0347",
+    "qty": 28,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0348",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0349",
+    "qty": 24,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0350",
+    "qty": 20,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0351",
+    "qty": 22,
+    "unitcost": 102,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0352",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0353",
+    "qty": 25,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0354",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0355",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0356",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0357",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0358",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0359",
+    "qty": 24,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0360",
+    "qty": 27,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0361",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0362",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0363",
+    "qty": 21,
+    "unitcost": 97,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0364",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0365",
+    "qty": 21,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0366",
+    "qty": 24,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0367",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0368",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0369",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0370",
+    "qty": 29,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0371",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0372",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0373",
+    "qty": 26,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0374",
+    "qty": 24,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0375",
+    "qty": 24,
+    "unitcost": 96,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0376",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0377",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0378",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 97,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0379",
+    "qty": 26,
+    "unitcost": 97,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0380",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0381",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0382",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0383",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0384",
+    "qty": 29,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0385",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0386",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 95,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0387",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0388",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0389",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0390",
+    "qty": 20,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0391",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0392",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0393",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0394",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0395",
+    "qty": 26,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0396",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0397",
+    "qty": 20,
+    "unitcost": 96,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0398",
+    "qty": 21,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0399",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0400",
+    "qty": 24,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0401",
+    "qty": 22,
+    "unitcost": 102,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0402",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0403",
+    "qty": 22,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0404",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0405",
+    "qty": 20,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0406",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0407",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0408",
+    "qty": 22,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0409",
+    "qty": 23,
+    "unitcost": 103,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0410",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0411",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0412",
+    "qty": 20,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0413",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0414",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0415",
+    "qty": 28,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0416",
+    "qty": 27,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0417",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0418",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0419",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0420",
+    "qty": 29,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0421",
+    "qty": 27,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0422",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0423",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0424",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0425",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0426",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0427",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0428",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0429",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0430",
+    "qty": 24,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0431",
+    "qty": 25,
+    "unitcost": 96,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0432",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0433",
+    "qty": 22,
+    "unitcost": 95,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0434",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0435",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0436",
+    "qty": 27,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0437",
+    "qty": 26,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0438",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0439",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0440",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0441",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0442",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0443",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0444",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0445",
+    "qty": 29,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0446",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0447",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0448",
+    "qty": 26,
+    "unitcost": 101,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0449",
+    "qty": 28,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0450",
+    "qty": 20,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0451",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0452",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0453",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0454",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0455",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0456",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0457",
+    "qty": 28,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0458",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0459",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0460",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0461",
+    "qty": 29,
+    "unitcost": 97,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0462",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0463",
+    "qty": 26,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0464",
+    "qty": 26,
+    "unitcost": 104,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0465",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0466",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0467",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0468",
+    "qty": 29,
+    "unitcost": 95,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0469",
+    "qty": 22,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0470",
+    "qty": 24,
+    "unitcost": 103,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0471",
+    "qty": 24,
+    "unitcost": 97,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0472",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0473",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0474",
+    "qty": 20,
+    "unitcost": 103,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0475",
+    "qty": 27,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0476",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0477",
+    "qty": 20,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0478",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0479",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0480",
+    "qty": 25,
+    "unitcost": 101,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0481",
+    "qty": 26,
+    "unitcost": 96,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0482",
+    "qty": 28,
+    "unitcost": 101,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0483",
+    "qty": 24,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0484",
+    "qty": 26,
+    "unitcost": 99,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0485",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0486",
+    "qty": 21,
+    "unitcost": 96,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0487",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0488",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0489",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0490",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0491",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0492",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0493",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0494",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0495",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0496",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0497",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0498",
+    "qty": 22,
+    "unitcost": 95,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0499",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0500",
+    "qty": 24,
+    "unitcost": 97,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0501",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0502",
+    "qty": 20,
+    "unitcost": 101,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0503",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0504",
+    "qty": 28,
+    "unitcost": 102,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0505",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0506",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0507",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0508",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0509",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0510",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0511",
+    "qty": 26,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0512",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0513",
+    "qty": 28,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0514",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0515",
+    "qty": 22,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0516",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0517",
+    "qty": 26,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0518",
+    "qty": 29,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0519",
+    "qty": 26,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0520",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0521",
+    "qty": 24,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0522",
+    "qty": 28,
+    "unitcost": 101,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0523",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0524",
+    "qty": 21,
+    "unitcost": 96,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0525",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0526",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0527",
+    "qty": 20,
+    "unitcost": 95,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0528",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0529",
+    "qty": 28,
+    "unitcost": 96,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0530",
+    "qty": 26,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0531",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0532",
+    "qty": 20,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0533",
+    "qty": 27,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0534",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 98,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0535",
+    "qty": 28,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0536",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0537",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0538",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0539",
+    "qty": 25,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0540",
+    "qty": 28,
+    "unitcost": 102,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0541",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0542",
+    "qty": 26,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0543",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0544",
+    "qty": 26,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0545",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0546",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0547",
+    "qty": 28,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0548",
+    "qty": 25,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0549",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0550",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0551",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0552",
+    "qty": 28,
+    "unitcost": 103,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0553",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0554",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0555",
+    "qty": 24,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0556",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0557",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0558",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0559",
+    "qty": 27,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0560",
+    "qty": 24,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0561",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0562",
+    "qty": 21,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0563",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0564",
+    "qty": 22,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0565",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0566",
+    "qty": 21,
+    "unitcost": 97,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0567",
+    "qty": 20,
+    "unitcost": 104,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0568",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0569",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0570",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0571",
+    "qty": 28,
+    "unitcost": 101,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0572",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0573",
+    "qty": 20,
+    "unitcost": 96,
+    "unitprice": 97,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0574",
+    "qty": 28,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0575",
+    "qty": 24,
+    "unitcost": 102,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0576",
+    "qty": 25,
+    "unitcost": 101,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0577",
+    "qty": 25,
+    "unitcost": 96,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0578",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0579",
+    "qty": 28,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0580",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0581",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0582",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0583",
+    "qty": 20,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0584",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0585",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0586",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0587",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0588",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0589",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0590",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0591",
+    "qty": 26,
+    "unitcost": 96,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0592",
+    "qty": 21,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0593",
+    "qty": 20,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0594",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0595",
+    "qty": 24,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0596",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0597",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0598",
+    "qty": 27,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0599",
+    "qty": 24,
+    "unitcost": 97,
+    "unitprice": 104,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0600",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0601",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0602",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0603",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0604",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0605",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0606",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0607",
+    "qty": 21,
+    "unitcost": 102,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0608",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0609",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0610",
+    "qty": 26,
+    "unitcost": 104,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0611",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0612",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0613",
+    "qty": 24,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0614",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0615",
+    "qty": 27,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0616",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0617",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0618",
+    "qty": 21,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0619",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0620",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0621",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0622",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0623",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0624",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0625",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0626",
+    "qty": 26,
+    "unitcost": 99,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0627",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0628",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0629",
+    "qty": 22,
+    "unitcost": 95,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0630",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0631",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0632",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0633",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0634",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0635",
+    "qty": 26,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0636",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0637",
+    "qty": 26,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0638",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0639",
+    "qty": 21,
+    "unitcost": 97,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0640",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0641",
+    "qty": 24,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0642",
+    "qty": 20,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0643",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0644",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0645",
+    "qty": 28,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0646",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0647",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0648",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0649",
+    "qty": 27,
+    "unitcost": 101,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0650",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0651",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0652",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0653",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0654",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0655",
+    "qty": 26,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0656",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0657",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0658",
+    "qty": 21,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0659",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0660",
+    "qty": 29,
+    "unitcost": 95,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0661",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0662",
+    "qty": 21,
+    "unitcost": 97,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0663",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0664",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0665",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0666",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0667",
+    "qty": 29,
+    "unitcost": 102,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0668",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0669",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0670",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0671",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0672",
+    "qty": 23,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0673",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0674",
+    "qty": 28,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0675",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0676",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0677",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0678",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0679",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0680",
+    "qty": 26,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0681",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0682",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0683",
+    "qty": 22,
+    "unitcost": 102,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0684",
+    "qty": 26,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0685",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0686",
+    "qty": 21,
+    "unitcost": 102,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0687",
+    "qty": 23,
+    "unitcost": 98,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0688",
+    "qty": 28,
+    "unitcost": 102,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0689",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0690",
+    "qty": 22,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0691",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0692",
+    "qty": 26,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0693",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0694",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0695",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0696",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0697",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0698",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0699",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0700",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0701",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0702",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0703",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0704",
+    "qty": 27,
+    "unitcost": 101,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0705",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0706",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0707",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0708",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0709",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0710",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0711",
+    "qty": 26,
+    "unitcost": 99,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0712",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0713",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0714",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0715",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0716",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0717",
+    "qty": 26,
+    "unitcost": 97,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0718",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0719",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0720",
+    "qty": 29,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0721",
+    "qty": 22,
+    "unitcost": 98,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0722",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0723",
+    "qty": 27,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0724",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0725",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0726",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0727",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0728",
+    "qty": 26,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0729",
+    "qty": 27,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0730",
+    "qty": 23,
+    "unitcost": 103,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0731",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0732",
+    "qty": 20,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0733",
+    "qty": 28,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0734",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0735",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0736",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0737",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0738",
+    "qty": 28,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0739",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0740",
+    "qty": 26,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0741",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0742",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 98,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0743",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0744",
+    "qty": 27,
+    "unitcost": 96,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0745",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0746",
+    "qty": 21,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0747",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0748",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0749",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0750",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0751",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 98,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0752",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0753",
+    "qty": 20,
+    "unitcost": 96,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0754",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0755",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0756",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0757",
+    "qty": 29,
+    "unitcost": 95,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0758",
+    "qty": 24,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0759",
+    "qty": 22,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0760",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0761",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0762",
+    "qty": 21,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0763",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0764",
+    "qty": 24,
+    "unitcost": 103,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0765",
+    "qty": 22,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0766",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0767",
+    "qty": 20,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0768",
+    "qty": 26,
+    "unitcost": 97,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0769",
+    "qty": 26,
+    "unitcost": 104,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0770",
+    "qty": 26,
+    "unitcost": 95,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0771",
+    "qty": 29,
+    "unitcost": 103,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0772",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0773",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 99,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0774",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0775",
+    "qty": 22,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0776",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0777",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0778",
+    "qty": 27,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0779",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0780",
+    "qty": 28,
+    "unitcost": 96,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0781",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0782",
+    "qty": 28,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0783",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0784",
+    "qty": 27,
+    "unitcost": 96,
+    "unitprice": 99,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0785",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0786",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0787",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0788",
+    "qty": 29,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0789",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0790",
+    "qty": 20,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0791",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0792",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0793",
+    "qty": 28,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0794",
+    "qty": 29,
+    "unitcost": 101,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0795",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0796",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0797",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0798",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0799",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0800",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0801",
+    "qty": 26,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0802",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0803",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0804",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0805",
+    "qty": 25,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0806",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0807",
+    "qty": 20,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0808",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0809",
+    "qty": 25,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0810",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0811",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0812",
+    "qty": 20,
+    "unitcost": 101,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0813",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0814",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 95,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0815",
+    "qty": 29,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0816",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0817",
+    "qty": 27,
+    "unitcost": 97,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0818",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0819",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0820",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0821",
+    "qty": 22,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0822",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0823",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0824",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0825",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0826",
+    "qty": 25,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0827",
+    "qty": 26,
+    "unitcost": 104,
+    "unitprice": 99,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0828",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0829",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0830",
+    "qty": 22,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0831",
+    "qty": 28,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0832",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0833",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0834",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0835",
+    "qty": 26,
+    "unitcost": 96,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0836",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0837",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0838",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0839",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0840",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0841",
+    "qty": 21,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0842",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0843",
+    "qty": 28,
+    "unitcost": 95,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0844",
+    "qty": 22,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0845",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0846",
+    "qty": 26,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0847",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0848",
+    "qty": 22,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0849",
+    "qty": 26,
+    "unitcost": 100,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0850",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0851",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0852",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0853",
+    "qty": 24,
+    "unitcost": 96,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0854",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0855",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0856",
+    "qty": 20,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0857",
+    "qty": 24,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0858",
+    "qty": 21,
+    "unitcost": 95,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0859",
+    "qty": 25,
+    "unitcost": 103,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0860",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0861",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0862",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0863",
+    "qty": 24,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0864",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0865",
+    "qty": 20,
+    "unitcost": 103,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0866",
+    "qty": 24,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0867",
+    "qty": 27,
+    "unitcost": 102,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0868",
+    "qty": 20,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0869",
+    "qty": 23,
+    "unitcost": 102,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0870",
+    "qty": 26,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0871",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0872",
+    "qty": 21,
+    "unitcost": 101,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0873",
+    "qty": 26,
+    "unitcost": 104,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0874",
+    "qty": 28,
+    "unitcost": 103,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0875",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0876",
+    "qty": 21,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0877",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0878",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0879",
+    "qty": 27,
+    "unitcost": 96,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0880",
+    "qty": 22,
+    "unitcost": 98,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0881",
+    "qty": 29,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0882",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0883",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0884",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0885",
+    "qty": 27,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0886",
+    "qty": 24,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0887",
+    "qty": 23,
+    "unitcost": 101,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0888",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0889",
+    "qty": 28,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0890",
+    "qty": 28,
+    "unitcost": 96,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0891",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0892",
+    "qty": 25,
+    "unitcost": 96,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0893",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0894",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0895",
+    "qty": 28,
+    "unitcost": 101,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0896",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0897",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0898",
+    "qty": 29,
+    "unitcost": 100,
+    "unitprice": 103,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0899",
+    "qty": 21,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0900",
+    "qty": 28,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0901",
+    "qty": 22,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0902",
+    "qty": 23,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0903",
+    "qty": 24,
+    "unitcost": 95,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0904",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0905",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0906",
+    "qty": 28,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0907",
+    "qty": 22,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0908",
+    "qty": 29,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0909",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0910",
+    "qty": 21,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0911",
+    "qty": 26,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0912",
+    "qty": 20,
+    "unitcost": 96,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0913",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0914",
+    "qty": 22,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0915",
+    "qty": 20,
+    "unitcost": 103,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0916",
+    "qty": 26,
+    "unitcost": 100,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0917",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0918",
+    "qty": 24,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0919",
+    "qty": 21,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0920",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0921",
+    "qty": 27,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0922",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0923",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0924",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0925",
+    "qty": 23,
+    "unitcost": 103,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0926",
+    "qty": 20,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0927",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0928",
+    "qty": 24,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0929",
+    "qty": 20,
+    "unitcost": 100,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0930",
+    "qty": 27,
+    "unitcost": 98,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0931",
+    "qty": 29,
+    "unitcost": 96,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0932",
+    "qty": 25,
+    "unitcost": 97,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0933",
+    "qty": 28,
+    "unitcost": 102,
+    "unitprice": 100,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0934",
+    "qty": 28,
+    "unitcost": 97,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0935",
+    "qty": 21,
+    "unitcost": 97,
+    "unitprice": 95,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0936",
+    "qty": 20,
+    "unitcost": 104,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0937",
+    "qty": 28,
+    "unitcost": 98,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0938",
+    "qty": 25,
+    "unitcost": 104,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0939",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0940",
+    "qty": 22,
+    "unitcost": 102,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0941",
+    "qty": 20,
+    "unitcost": 96,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0942",
+    "qty": 28,
+    "unitcost": 103,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0943",
+    "qty": 27,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0944",
+    "qty": 27,
+    "unitcost": 103,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0945",
+    "qty": 26,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0946",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 98,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0947",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0948",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0949",
+    "qty": 29,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0950",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0951",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0952",
+    "qty": 23,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0953",
+    "qty": 24,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0954",
+    "qty": 29,
+    "unitcost": 101,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0955",
+    "qty": 22,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0956",
+    "qty": 26,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0957",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0958",
+    "qty": 28,
+    "unitcost": 99,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0959",
+    "qty": 22,
+    "unitcost": 103,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0960",
+    "qty": 24,
+    "unitcost": 104,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0961",
+    "qty": 20,
+    "unitcost": 102,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0962",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0963",
+    "qty": 25,
+    "unitcost": 95,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0964",
+    "qty": 28,
+    "unitcost": 102,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0965",
+    "qty": 20,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0966",
+    "qty": 26,
+    "unitcost": 98,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0967",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0968",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0969",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0970",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0971",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0972",
+    "qty": 26,
+    "unitcost": 96,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0973",
+    "qty": 28,
+    "unitcost": 104,
+    "unitprice": 103,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0974",
+    "qty": 29,
+    "unitcost": 95,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0975",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0976",
+    "qty": 20,
+    "unitcost": 95,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0977",
+    "qty": 26,
+    "unitcost": 101,
+    "unitprice": 97,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0978",
+    "qty": 22,
+    "unitcost": 101,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0979",
+    "qty": 23,
+    "unitcost": 100,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0980",
+    "qty": 26,
+    "unitcost": 102,
+    "unitprice": 102,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0981",
+    "qty": 21,
+    "unitcost": 104,
+    "unitprice": 100,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0982",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 98,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0983",
+    "qty": 26,
+    "unitcost": 97,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0984",
+    "qty": 22,
+    "unitcost": 97,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0985",
+    "qty": 22,
+    "unitcost": 102,
+    "unitprice": 98,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0986",
+    "qty": 25,
+    "unitcost": 100,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0987",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 104,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0988",
+    "qty": 24,
+    "unitcost": 101,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0989",
+    "qty": 24,
+    "unitcost": 102,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0990",
+    "qty": 23,
+    "unitcost": 95,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0991",
+    "qty": 22,
+    "unitcost": 100,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0992",
+    "qty": 25,
+    "unitcost": 98,
+    "unitprice": 104,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0993",
+    "qty": 21,
+    "unitcost": 103,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0994",
+    "qty": 29,
+    "unitcost": 99,
+    "unitprice": 101,
+    "ontime": false
+  },
+  {
+    "DepartmentID": "D0995",
+    "qty": 27,
+    "unitcost": 95,
+    "unitprice": 96,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0996",
+    "qty": 23,
+    "unitcost": 97,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0997",
+    "qty": 20,
+    "unitcost": 99,
+    "unitprice": 95,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0998",
+    "qty": 22,
+    "unitcost": 96,
+    "unitprice": 102,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D0999",
+    "qty": 25,
+    "unitcost": 102,
+    "unitprice": 99,
+    "ontime": true
+  },
+  {
+    "DepartmentID": "D1000",
+    "qty": 23,
+    "unitcost": 96,
+    "unitprice": 101,
+    "ontime": true
+  }
+]
