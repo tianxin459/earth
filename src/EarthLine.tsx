@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
-import { calculateSunDirection } from "./config/utils";
+import { calculateSunDirection, getTotals } from "./config/utils";
 import { dayNightShader } from "./config/dayNightShader";
+import { renderArcTooltip } from "./components/ArcTooltipRenderer";
+import { renderPortTooltip } from "./components/PortTooltipRenderer";
 import { TextureLoader, ShaderMaterial } from "three";
 import _ from "lodash";
+import * as THREE from "three";
 import Globe from "globe.gl";
-import { renderPortTooltip } from "./components/PortTooltipRenderer";
-import { renderArcTooltip } from "./components/ArcTooltipRenderer";
+import styled from "styled-components";
 
 const GlobeContainer = styled.div`
   width: 100vw;
@@ -79,16 +80,6 @@ function getGreatCirclePath(
     start: { lat: start.lat, lng: startLng },
     end: { lat: end.lat, lng: finalEndLng },
   };
-}
-
-function getTotals(d: any, fromPortTotals: any, toPortTotals: any) {
-  if (d.type === "from") {
-    return fromPortTotals[d.port] || { totalCost: 0, totalPOCount: 0 };
-  } else if (d.type === "to") {
-    return toPortTotals[d.port] || { totalCost: 0, totalPOCount: 0 };
-  } else {
-    return { totalCost: 0, totalPOCount: 0 };
-  }
 }
 
 const EarthLine: React.FC<EarthLineProps> = ({
@@ -184,8 +175,6 @@ const EarthLine: React.FC<EarthLineProps> = ({
         totalPOCount: Math.round(_.sumBy(items, "poCount")),
       }));
 
-      const POINT_ALTITUDE = 0;
-
       // Filter ports with totalCost > 0
       const filteredPorts = [...fromPorts, ...toPorts].filter((d: any) => {
         const totals =
@@ -230,20 +219,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
           layer === 0 ? 0 : LABEL_BASE_ALT + layer * LABEL_STEP_ALT;
       }
 
-      // 1. 生成静态的 label-to-earth arcs
-      const labelToEarthArcs = filteredPorts
-        .filter((d) => (labelAltitudes[d.port] || 0) > 0)
-        .map((d) => ({
-          srcLat: d.lat,
-          srcLng: d.lng,
-          dstLat: d.lat,
-          dstLng: d.lng,
-          labelAlt: labelAltitudes[d.port], // label高度
-          isLabelToEarth: true,
-          port: d.port,
-        }));
-
-      // 2. 主业务连线数据
+      // 主业务连线数据
       const arcRoutes = routes.map((d) => {
         // Use great circle path for realistic routes
         const path = getGreatCirclePath(
@@ -258,9 +234,6 @@ const EarthLine: React.FC<EarthLineProps> = ({
           dstLng: path.end.lng, //d.dstPortInfo.lng,
         };
       });
-
-      // 3. 合并所有连线
-      const allArcs = [...arcRoutes, ...labelToEarthArcs];
 
       // Configure globe arcs and points
       myGlobe
@@ -334,7 +307,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
               : [`rgba(0, 255, 0, ${OPACITY})`, `rgba(255, 0, 0, ${OPACITY})`]
           );
         })
-        .arcsData(allArcs)
+        .arcsData(arcRoutes)
         .arcColor((d: any) =>
           d.isLabelToEarth
             ? ["#FFA500", "#FFA500"]
@@ -405,6 +378,50 @@ const EarthLine: React.FC<EarthLineProps> = ({
           });
         })
         .labelsTransitionDuration(0);
+
+      // --- BEGIN: Add vertical lines from earth surface to label dots ---
+      // Remove previous lines if any
+      let labelLinesGroup: THREE.Group | null = null;
+      if (myGlobe.scene().getObjectByName("labelLinesGroup")) {
+        labelLinesGroup = myGlobe
+          .scene()
+          .getObjectByName("labelLinesGroup") as THREE.Group;
+        myGlobe.scene().remove(labelLinesGroup);
+      }
+      labelLinesGroup = new THREE.Group();
+      labelLinesGroup.name = "labelLinesGroup";
+      const RADIUS = myGlobe.getGlobeRadius ? myGlobe.getGlobeRadius() : 1; // fallback to 1 if not available
+      filteredPorts.forEach((d) => {
+        const alt = labelAltitudes[d.port] || 0;
+        if (alt > 0) {
+          // Convert lat/lng to 3D positions
+          const latRad = (d.lat * Math.PI) / 180;
+          const lngRad = (d.lng * Math.PI) / 180;
+          // Surface point
+          const r0 = RADIUS;
+          const x0 = r0 * Math.cos(latRad) * Math.sin(lngRad);
+          const y0 = r0 * Math.sin(latRad);
+          const z0 = r0 * Math.cos(latRad) * Math.cos(lngRad);
+          // Label dot point (globe.gl altitude is relative to radius)
+          const r1 = RADIUS * (1 + alt);
+          const x1 = r1 * Math.cos(latRad) * Math.sin(lngRad);
+          const y1 = r1 * Math.sin(latRad);
+          const z1 = r1 * Math.cos(latRad) * Math.cos(lngRad);
+          // Create geometry
+          const geometry = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(x0, y0, z0),
+            new THREE.Vector3(x1, y1, z1),
+          ]);
+          const material = new THREE.LineBasicMaterial({
+            color: 0xffa500,
+            linewidth: 2,
+          });
+          const line = new THREE.Line(geometry, material);
+          labelLinesGroup.add(line);
+        }
+      });
+      myGlobe.scene().add(labelLinesGroup);
+      // --- END: Add vertical lines from earth surface to label dots ---
 
       // Add auto-rotation
       myGlobe.controls().autoRotate = true;

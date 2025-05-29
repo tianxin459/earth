@@ -35,3 +35,13 @@ export const calculateSunDirection = () => {
     Math.sin(phi) * Math.sin(theta)
   );
 };
+
+export function getTotals(d: any, fromPortTotals: any, toPortTotals: any) {
+  if (d.type === "from") {
+    return fromPortTotals[d.port] || { totalCost: 0, totalPOCount: 0 };
+  } else if (d.type === "to") {
+    return toPortTotals[d.port] || { totalCost: 0, totalPOCount: 0 };
+  } else {
+    return { totalCost: 0, totalPOCount: 0 };
+  }
+}
