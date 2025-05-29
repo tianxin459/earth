@@ -69,7 +69,7 @@ const ArcTooltip: React.FC<ArcTooltipProps> = ({ srcPort, dstPort, poCount, cost
       </InfoRow>
       <InfoRow>
         <Label color="#ffd700">Cost: </Label>
-        <Value>{cost.toLocaleString()}</Value>
+        <Value>{cost?.toLocaleString()}</Value>
       </InfoRow>
     </TooltipContainer>
   );

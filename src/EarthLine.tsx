@@ -17,6 +17,10 @@ const GlobeContainer = styled.div`
 
 const OPACITY = 1;
 const base = import.meta.env.BASE_URL || "/";
+const LABEL_BASE_ALT = 0;
+const LABEL_STEP_ALT = 0.1;
+const LABEL_DIST_THRESHOLD = 4;
+const LABEL_MAX_LAYER = 4;
 
 type Port = {
   port: string;
@@ -41,11 +45,14 @@ function greatCircleDistance(
   const deltaLat = ((end.lat - start.lat) * Math.PI) / 180;
   const deltaLng = ((end.lng - start.lng) * Math.PI) / 180;
 
-  const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-    Math.cos(lat1) * Math.cos(lat2) *
-    Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+  const a =
+    Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+    Math.cos(lat1) *
+      Math.cos(lat2) *
+      Math.sin(deltaLng / 2) *
+      Math.sin(deltaLng / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  
+
   return c; // Returns distance in radians
 }
 
@@ -56,21 +63,21 @@ function getGreatCirclePath(
 ) {
   // Normalize longitudes to [-180, 180]
   const normalizeLng = (lng: number) => ((lng + 540) % 360) - 180;
-  
+
   const startLng = normalizeLng(start.lng);
   const endLng = normalizeLng(end.lng);
-  
+
   // Calculate the shortest longitude difference
   let lngDiff = endLng - startLng;
   if (Math.abs(lngDiff) > 180) {
     lngDiff = lngDiff > 0 ? lngDiff - 360 : lngDiff + 360;
   }
-  
+
   const finalEndLng = startLng + lngDiff;
-  
+
   return {
     start: { lat: start.lat, lng: startLng },
-    end: { lat: end.lat, lng: finalEndLng }
+    end: { lat: end.lat, lng: finalEndLng },
   };
 }
 
@@ -84,7 +91,11 @@ function getTotals(d: any, fromPortTotals: any, toPortTotals: any) {
   }
 }
 
-const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) => {
+const EarthLine: React.FC<EarthLineProps> = ({
+  fromData,
+  toData,
+  routeData,
+}) => {
   const globeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -186,105 +197,152 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
         return totals && totals.totalCost > 0;
       });
 
+      const labelAltitudes: Record<string, number> = {};
+
+      const sortedPorts = [...filteredPorts].sort((a, b) => {
+        const ta = getTotals(a, fromPortTotals, toPortTotals).totalCost;
+        const tb = getTotals(b, fromPortTotals, toPortTotals).totalCost;
+        return tb - ta;
+      });
+
+      for (let i = 0; i < sortedPorts.length; i++) {
+        const p = sortedPorts[i];
+        let layer = 0;
+        for (let j = 0; j < i; j++) {
+          const q = sortedPorts[j];
+          const dist =
+            (greatCircleDistance(
+              { lat: p.lat, lng: p.lng },
+              { lat: q.lat, lng: q.lng }
+            ) *
+              180) /
+            Math.PI;
+          if (
+            dist < LABEL_DIST_THRESHOLD &&
+            labelAltitudes[q.port] / LABEL_STEP_ALT === layer
+          ) {
+            layer++;
+            if (layer > LABEL_MAX_LAYER) break;
+          }
+        }
+        // 第一层直接为 0，后续层级递增
+        labelAltitudes[p.port] =
+          layer === 0 ? 0 : LABEL_BASE_ALT + layer * LABEL_STEP_ALT;
+      }
+
+      // 1. 生成静态的 label-to-earth arcs
+      const labelToEarthArcs = filteredPorts
+        .filter((d) => (labelAltitudes[d.port] || 0) > 0)
+        .map((d) => ({
+          srcLat: d.lat,
+          srcLng: d.lng,
+          dstLat: d.lat,
+          dstLng: d.lng,
+          labelAlt: labelAltitudes[d.port], // label高度
+          isLabelToEarth: true,
+          port: d.port,
+        }));
+
+      // 2. 主业务连线数据
+      const arcRoutes = routes.map((d) => {
+        // Use great circle path for realistic routes
+        const path = getGreatCirclePath(
+          { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
+          { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
+        );
+        return {
+          ...d,
+          srcLat: path.start.lat, // d.srcPortInfo.lat,
+          srcLng: path.start.lng, // d.srcPortInfo.lng,
+          dstLat: path.end.lat, // d.dstPortInfo.lat,
+          dstLng: path.end.lng, //d.dstPortInfo.lng,
+        };
+      });
+
+      // 3. 合并所有连线
+      const allArcs = [...arcRoutes, ...labelToEarthArcs];
+
       // Configure globe arcs and points
       myGlobe
         .pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 })
-        .arcLabel((d: any) => 
+        .arcLabel((d: any) =>
           renderArcTooltip({
             srcPort: d.srcPort,
             dstPort: d.dstPort,
             poCount: d.poCount,
-            cost: d.cost
+            cost: d.cost,
           })
         )
-        // Use great circle path for realistic routes
-        .arcStartLat((d: any) => {
-          const path = getGreatCirclePath(
-            { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
-            { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
-          );
-          return path.start.lat;
-        })
-        .arcStartLng((d: any) => {
-          const path = getGreatCirclePath(
-            { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
-            { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
-          );
-          return path.start.lng;
-        })
-        .arcEndLat((d: any) => {
-          const path = getGreatCirclePath(
-            { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
-            { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
-          );
-          return path.end.lat;
-        })
-        .arcEndLng((d: any) => {
-          const path = getGreatCirclePath(
-            { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
-            { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
-          );
-          return path.end.lng;
-        })
+        .arcStartLat((d: any) => d.srcLat)
+        .arcStartLng((d: any) => d.srcLng)
+        .arcEndLat((d: any) => d.dstLat)
+        .arcEndLng((d: any) => d.dstLng)
         // Increase resolution for smoother arcs
         .arcCurveResolution(128)
         .arcAltitude((d: any) => {
-          // Calculate great circle distance between ports
-          const distance = greatCircleDistance(
-            { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
-            { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
-          );
-          
-          // 调整高度设置，确保弧线始终在地球表面之上
-          const minAltitude = 0.2;  // 最小高度，短距离连线
-          const maxAltitude = 0.3;  // 最大高度，长距离连线
-          
-          // 根据大圆距离计算标准化距离
-          const normalizedDistance = distance / Math.PI;
-          
-          // 使用更平滑的曲线函数
-          const baseAltitude = minAltitude + (maxAltitude - minAltitude) * 
-            (0.5 + 0.5 * Math.sin(normalizedDistance * Math.PI - Math.PI/2));
-          
-          // 为非常短的距离设置最小可见高度
-          if (distance < 0.05) { // 距离小于约3度
-            return Math.max(0.01, minAltitude);
+          if (d.isLabelToEarth) {
+            // For label-to-earth arcs, use the higher altitude (labelAlt)
+            return d.labelAlt;
+          } else {
+            // Calculate great circle distance between ports
+            const distance = greatCircleDistance(
+              { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
+              { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
+            );
+
+            // 调整高度设置，确保弧线始终在地球表面之上
+            const minAltitude = 0.2; // 最小高度，短距离连线
+            const maxAltitude = 0.3; // 最大高度，长距离连线
+
+            // 根据大圆距离计算标准化距离
+            const normalizedDistance = distance / Math.PI;
+
+            // 使用更平滑的曲线函数
+            const baseAltitude =
+              minAltitude +
+              (maxAltitude - minAltitude) *
+                (0.5 +
+                  0.5 * Math.sin(normalizedDistance * Math.PI - Math.PI / 2));
+
+            // 为非常短的距离设置最小可见高度
+            if (distance < 0.05) {
+              // 距离小于约3度
+              return Math.max(0.01, minAltitude);
+            }
+
+            // 为跨洋航线适当增加高度，但保持合理范围
+            if (distance > Math.PI * 0.4) {
+              // 距离大于72度
+              return Math.min(baseAltitude * 1.1, maxAltitude);
+            }
+
+            return baseAltitude;
           }
-          
-          // 为跨洋航线适当增加高度，但保持合理范围
-          if (distance > Math.PI * 0.4) { // 距离大于72度
-            return Math.min(baseAltitude * 1.1, maxAltitude);
-          }
-          
-          return baseAltitude;
         })
         // 完全移除自动缩放，使用我们的自定义高度计算
         .arcAltitudeAutoScale(0) // 完全禁用自动缩放
         // Arc animation and color
-        .arcDashLength(0.25)
-        .arcDashGap(1)
         .arcDashInitialGap(() => Math.random())
-        .arcDashAnimateTime(2000)
-        .arcColor(() => [
-          `rgba(0, 255, 0, ${OPACITY})`,
-          `rgba(255, 0, 0, ${OPACITY})`,
-        ])
         .arcsTransitionDuration(0)
-        // Point settings
-        .pointColor(() => "orange")
-        .pointAltitude(POINT_ALTITUDE)
-        .pointRadius(0.06)
-        .pointsMerge(true)
         // Highlight arc on hover
         .onArcHover((arc) => {
           myGlobe.arcColor((d: any) =>
-            arc && d === arc
+            d.isLabelToEarth
+              ? ["#FFA500", "#FFA500"] // 始终橙色
+              : arc && d === arc
               ? ["rgba(255,255,0,0.95)", "rgba(255,0,128,0.95)"]
               : [`rgba(0, 255, 0, ${OPACITY})`, `rgba(255, 0, 0, ${OPACITY})`]
           );
         })
-        .pointsData(filteredPorts)
-        .arcsData(routes);
+        .arcsData(allArcs)
+        .arcColor((d: any) =>
+          d.isLabelToEarth
+            ? ["#FFA500", "#FFA500"]
+            : [`rgba(0, 255, 0, ${OPACITY})`, `rgba(255, 0, 0, ${OPACITY})`]
+        )
+        .arcDashLength((d: any) => (d.isLabelToEarth ? 1 : 0.25))
+        .arcDashGap((d: any) => (d.isLabelToEarth ? 0 : 1))
+        .arcDashAnimateTime((d: any) => (d.isLabelToEarth ? 0 : 2000));
 
       // Configure port labels
       myGlobe
@@ -293,7 +351,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
         .labelLng((d: any) => d.lng)
         .labelText((d: any) => {
           const totals = getTotals(d, fromPortTotals, toPortTotals);
-          
+
           // Format cost with appropriate unit
           const formatCost = (cost: number) => {
             if (cost >= 1e12) {
@@ -308,7 +366,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
               return `$${cost.toFixed(2)}`;
             }
           };
-          
+
           return `${d.port}\n(${formatCost(totals.totalCost)})`;
         })
         // Label size based on total cost
@@ -332,18 +390,18 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
           d.type === "from" ? "#00ffe7" : "rgba(255, 165, 0, 0.75)"
         )
         .labelResolution(3)
-        .labelAltitude(POINT_ALTITUDE)
+        .labelAltitude((d: any) => labelAltitudes[d.port] || 0)
         .labelDotOrientation("top")
         .labelIncludeDot(true)
         // Custom HTML label tooltip using styled component
         .labelLabel((d: any) => {
           const totals = getTotals(d, fromPortTotals, toPortTotals);
-          
+
           return renderPortTooltip({
             port: d.port,
             cost: totals.totalCost,
             poCount: totals.totalPOCount,
-            type: d.type
+            type: d.type,
           });
         })
         .labelsTransitionDuration(0);
@@ -365,7 +423,7 @@ const EarthLine: React.FC<EarthLineProps> = ({ fromData, toData, routeData }) =>
       // Update sun direction every minute for day/night shader
       timer = setInterval(() => {
         material!.uniforms.sunDirection.value.copy(calculateSunDirection());
-      }, 60_000);
+      }, 120_000);
     });
 
     // Cleanup on unmount
