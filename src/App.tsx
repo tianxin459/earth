@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import EarthLine from "./EarthLine";
 import ControlPanel from "./ControlPanel";
 import Dashboard from "./Dashboard";
+import Timeline from "./components/Timeline";
 import styled from "styled-components";
 
 const base = import.meta.env.BASE_URL || "/";
@@ -55,6 +56,9 @@ const App: React.FC = () => {
   const [fromData, setFromData] = useState<any[]>([]);
   const [toData, setToData] = useState<any[]>([]);
   const [routeData, setRouteData] = useState<any[]>([]);
+  const [wmweekData, setWmweekData] = useState<any[]>([]);
+  const [currentWmweek, setCurrentWmweek] = useState<string>('');
+  const [availableWmweeks, setAvailableWmweeks] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -63,25 +67,37 @@ const App: React.FC = () => {
     setError(null);
     
     try {
-      const [fromResponse, toResponse, routeResponse] = await Promise.all([
+      const [fromResponse, toResponse, wmweekResponse] = await Promise.all([
         fetch(`${base}from.json`),
         fetch(`${base}to.json`),
-        fetch(`${base}fromToPOCountCost.json`)
+        fetch(`${base}wmweekData.json`)
       ]);
 
-      if (!fromResponse.ok || !toResponse.ok || !routeResponse.ok) {
+      if (!fromResponse.ok || !toResponse.ok || !wmweekResponse.ok) {
         throw new Error("Failed to fetch data");
       }
 
-      const [fromResult, toResult, routeResult] = await Promise.all([
+      const [fromResult, toResult, wmweekResult] = await Promise.all([
         fromResponse.json(),
         toResponse.json(),
-        routeResponse.json()
+        wmweekResponse.json()
       ]);
 
+      // Set static port data (doesn't change between weeks)
       setFromData(fromResult);
       setToData(toResult);
-      setRouteData(routeResult);
+      setWmweekData(wmweekResult);
+      
+      // Extract available wmweeks and set the first one as current
+      const wmweeks = wmweekResult.map((item: any) => item.wmweek);
+      console.log('Loaded wmweeks:', wmweeks);
+      console.log('Loaded wmweek data:', wmweekResult);
+      setAvailableWmweeks(wmweeks);
+      if (wmweeks.length > 0) {
+        setCurrentWmweek(wmweeks[0]);
+        setRouteData(wmweekResult[0].routeData || []);
+        console.log('Initial route data:', wmweekResult[0].routeData);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
       console.error("Error loading data:", err);
@@ -90,9 +106,36 @@ const App: React.FC = () => {
     }
   };
 
+  const handleWmweekChange = (wmweek: string) => {
+    const selectedWeekData = wmweekData.find((item: any) => item.wmweek === wmweek);
+    if (selectedWeekData) {
+      console.log(`Switching to wmweek: ${wmweek}`, selectedWeekData);
+      setCurrentWmweek(wmweek);
+      setRouteData(selectedWeekData.routeData || []);
+    }
+  };
+
   useEffect(() => {
     loadData();
   }, []);
+
+  // Add keyboard navigation for wmweeks
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (!availableWmweeks.length || !currentWmweek) return;
+      
+      const currentIndex = availableWmweeks.indexOf(currentWmweek);
+      
+      if (event.key === 'ArrowLeft' && currentIndex > 0) {
+        handleWmweekChange(availableWmweeks[currentIndex - 1]);
+      } else if (event.key === 'ArrowRight' && currentIndex < availableWmweeks.length - 1) {
+        handleWmweekChange(availableWmweeks[currentIndex + 1]);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [availableWmweeks, currentWmweek]);
 
   // 渲染错误状态
   if (error) {
@@ -123,16 +166,28 @@ const App: React.FC = () => {
 
   // 渲染主界面
   const hasData = fromData.length > 0 && toData.length > 0 && routeData.length > 0;
+  const hasWmweekData = availableWmweeks.length > 0 && currentWmweek;
 
   return (
     <>
-      <ControlPanel isLoading={isLoading} onRefreshData={loadData} />
+      <ControlPanel 
+        isLoading={isLoading} 
+        onRefreshData={loadData}
+        currentWmweek={currentWmweek}
+      />
       <Dashboard routeData={routeData} />
       {hasData && (
         <EarthLine 
           fromData={fromData}
           toData={toData}
           routeData={routeData}
+        />
+      )}
+      {hasWmweekData && (
+        <Timeline
+          wmweeks={availableWmweeks}
+          currentWmweek={currentWmweek}
+          onWmweekChange={handleWmweekChange}
         />
       )}
     </>

@@ -4,6 +4,7 @@ import styled from "styled-components";
 interface ControlPanelProps {
   isLoading: boolean;
   onRefreshData: () => void;
+  currentWmweek?: string;
 }
 
 const PanelContainer = styled.div<{ isExpanded: boolean }>`
@@ -117,7 +118,7 @@ const StatusText = styled.div<{ status: 'loading' | 'ready' | 'error' }>`
   letter-spacing: 0.5px;
 `;
 
-const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData }) => {
+const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData, currentWmweek }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -170,6 +171,12 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData })
         <StatusText status={isLoading ? 'loading' : 'ready'}>
           Status: {isLoading ? 'Loading...' : 'Ready'}
         </StatusText>
+        
+        {currentWmweek && (
+          <StatusText status="ready">
+            Current Week: {currentWmweek}
+          </StatusText>
+        )}
         
         <ControlButton 
           onClick={handleRefresh}
