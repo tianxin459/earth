@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
+import Header from "./components/Header";
 
 interface DashboardProps {
   routeData: any[];
@@ -7,28 +8,15 @@ interface DashboardProps {
 
 const DashboardContainer = styled.div`
   position: fixed;
-  top: 0;
+  top: 41px; /* Adjusted to account for header height */
   left: 0;
   right: 0;
   width: 100%;
   color: #4dd0e1;
   border: none;
-  z-index: 1000;
+  z-index: 999; /* Lower than header */
   font-family: 'Courier New', monospace;
   overflow: hidden;
-`;
-
-const HeaderSection = styled.div`
-  background: rgba(15, 25, 35, 0.8);
-  backdrop-filter: blur(10px);
-  color: #4dd0e1;
-  padding: 8px 20px;
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-bottom: 1px solid rgba(77, 208, 225, 0.2);
 `;
 
 const MainContent = styled.div`
@@ -133,35 +121,34 @@ const Dashboard: React.FC<DashboardProps> = ({ routeData }) => {
   };
 
   return (
-    <DashboardContainer>
-      <HeaderSection>
-        ▪ PO ANALYTICS VISUAL CENTER ▪
-      </HeaderSection>
+    <>
+      <Header />
+      <DashboardContainer>
+        <MainContent>
+          <StatsGrid>
+            <StatsCard>
+              <StatsLabel>ACTIVE ROUTES</StatsLabel>
+              <StatsValue>{formatNumber(stats.totalRoutes)}</StatsValue>
+            </StatsCard>
 
-      <MainContent>
-        <StatsGrid>
-          <StatsCard>
-            <StatsLabel>ACTIVE ROUTES</StatsLabel>
-            <StatsValue>{formatNumber(stats.totalRoutes)}</StatsValue>
-          </StatsCard>
+            <StatsCard>
+              <StatsLabel>TOTAL COST</StatsLabel>
+              <StatsValue>${formatNumber(stats.totalCost)}</StatsValue>
+            </StatsCard>
 
-          <StatsCard>
-            <StatsLabel>TOTAL COST</StatsLabel>
-            <StatsValue>${formatNumber(stats.totalCost)}</StatsValue>
-          </StatsCard>
+            <StatsCard>
+              <StatsLabel>PURCHASE ORDERS</StatsLabel>
+              <StatsValue>{formatNumber(stats.totalPOCount)}</StatsValue>
+            </StatsCard>
 
-          <StatsCard>
-            <StatsLabel>PURCHASE ORDERS</StatsLabel>
-            <StatsValue>{formatNumber(stats.totalPOCount)}</StatsValue>
-          </StatsCard>
-
-          <StatsCard>
-            <StatsLabel>AVG COST</StatsLabel>
-            <StatsValue>${formatNumber(stats.avgCostPerRoute)}</StatsValue>
-          </StatsCard>
-        </StatsGrid>
-      </MainContent>
-    </DashboardContainer>
+            <StatsCard>
+              <StatsLabel>AVG COST</StatsLabel>
+              <StatsValue>${formatNumber(stats.avgCostPerRoute)}</StatsValue>
+            </StatsCard>
+          </StatsGrid>
+        </MainContent>
+      </DashboardContainer>
+    </>
   );
 };
 
