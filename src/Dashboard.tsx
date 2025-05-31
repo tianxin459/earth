@@ -8,40 +8,48 @@ interface DashboardProps {
 
 const DashboardContainer = styled.div`
   position: fixed;
-  top: 41px; /* Adjusted to account for header height */
-  left: 0;
-  right: 0;
-  width: 100%;
+  top: calc(41px + 25px); /* Header height + top margin */
+  right: 25px;
+  bottom: 25px;
+  width: 20%;
   color: #4dd0e1;
-  border: none;
+  background: rgba(15, 25, 35, 0.6);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(77, 208, 225, 0.3);
+  border-radius: 12px;
   z-index: 999; /* Lower than header */
   font-family: 'Courier New', monospace;
   overflow: hidden;
 `;
 
 const MainContent = styled.div`
-  padding: 12px 20px;
+  padding: 16px;
   display: flex;
-  gap: 15px;
-  align-items: stretch;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  box-sizing: border-box;
 `;
 
 const StatsGrid = styled.div`
   display: flex;
-  justify-content: right;
+  flex-direction: column;
   gap: 12px;
   flex: 1;
+  justify-content: space-between;
 `;
 
 const StatsCard = styled.div`
-  background: linear-gradient(135deg, rgba(30, 35, 40, 0.9), rgba(20, 25, 30, 0.9));
+  background: linear-gradient(135deg, rgba(30, 35, 40, 0.8), rgba(20, 25, 30, 0.8));
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(50, 55, 60, 0.6);
-  border-radius: 8px;
+  border: 1px solid rgba(77, 208, 225, 0.2);
+  border-radius: 12px;
   padding: 12px 16px;
   text-align: center;
-  min-width: 110px;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  min-height: 0;
   box-shadow: 
     0 4px 12px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -52,21 +60,25 @@ const StatsCard = styled.div`
     box-shadow: 
       0 6px 20px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    border-color: rgba(77, 208, 225, 0.3);
+    border-color: rgba(77, 208, 225, 0.4);
+    background: linear-gradient(135deg, rgba(35, 40, 45, 0.9), rgba(25, 30, 35, 0.9));
   }
 `;
 
 const StatsLabel = styled.div`
-  font-size: 9px;
+  font-size: 11px;
   opacity: 0.7;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
   color: #ebebeb;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 `;
 
 const StatsValue = styled.div`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   color: #4dd0e1;
+  text-shadow: 0 0 10px rgba(77, 208, 225, 0.3);
 `;
 
 const Dashboard: React.FC<DashboardProps> = ({ routeData }) => {

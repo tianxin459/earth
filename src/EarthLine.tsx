@@ -10,10 +10,11 @@ import Globe from "globe.gl";
 import styled from "styled-components";
 
 const GlobeContainer = styled.div`
-  width: 100vw;
+  width: 100vw; /* Full viewport width for background */
   height: 100vh;
   background: radial-gradient(ellipse at center, #10131a 0%, #05070d 100%);
   overflow: hidden;
+  position: relative;
 `;
 
 const OPACITY = 1;
@@ -120,6 +121,15 @@ const EarthLine: React.FC<EarthLineProps> = ({
         .backgroundImageUrl(base + "img/night-sky.png")
         .showAtmosphere(true)
         .atmosphereAltitude(0.25);
+
+      // Move the globe 20% to the left by adjusting the renderer position
+      if (globeRef.current) {
+        const renderer = myGlobe.renderer();
+        const container = globeRef.current;
+        const containerWidth = container.clientWidth;
+        renderer.domElement.style.left = `-${containerWidth * 0.1}px`;
+        renderer.domElement.style.position = 'relative';
+      }
 
       // Globe controls setup
       const controls = myGlobe.controls();
