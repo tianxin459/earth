@@ -91,6 +91,29 @@ const EarthLine: React.FC<EarthLineProps> = ({
   isDashboardCollapsed,
 }) => {
   const globeRef = useRef<HTMLDivElement>(null);
+  const globeInstanceRef = useRef<any>(null);
+
+  // Update globe position when dashboard collapse state changes
+  useEffect(() => {
+    if (globeInstanceRef.current && globeRef.current) {
+      const renderer = globeInstanceRef.current.renderer();
+      const container = globeRef.current;
+      const containerWidth = container.clientWidth;
+      
+      if (isDashboardCollapsed) {
+        // Center the globe when dashboard is collapsed - use transform for smooth transition
+        renderer.domElement.style.left = '0px';
+        renderer.domElement.style.transform = 'translateX(0%)';
+      } else {
+        // Move the globe 20% to the left when dashboard is expanded
+        renderer.domElement.style.left = '0px';
+        renderer.domElement.style.transform = `translateX(-${containerWidth * 0.1}px)`;
+      }
+      
+      // Ensure smooth transition
+      renderer.domElement.style.transition = 'transform 0.3s ease-out';
+    }
+  }, [isDashboardCollapsed]);
 
   useEffect(() => {
     if (!fromData || !toData || !routeData) {
@@ -124,21 +147,27 @@ const EarthLine: React.FC<EarthLineProps> = ({
         .showAtmosphere(true)
         .atmosphereAltitude(0.25);
 
+      // Store globe instance for position updates
+      globeInstanceRef.current = myGlobe;
+
       // Adjust globe position based on dashboard state
       if (globeRef.current) {
         const renderer = myGlobe.renderer();
         const container = globeRef.current;
         const containerWidth = container.clientWidth;
         
+        // Set initial position and styling
+        renderer.domElement.style.position = 'relative';
+        renderer.domElement.style.left = '0px';
+        renderer.domElement.style.transition = 'transform 0.3s ease-out';
+        
         if (isDashboardCollapsed) {
           // Center the globe when dashboard is collapsed
-          renderer.domElement.style.left = '0px';
+          renderer.domElement.style.transform = 'translateX(0%)';
         } else {
           // Move the globe 20% to the left when dashboard is expanded
-          renderer.domElement.style.left = `-${containerWidth * 0.1}px`;
+          renderer.domElement.style.transform = `translateX(-${containerWidth * 0.1}px)`;
         }
-        renderer.domElement.style.position = 'relative';
-        renderer.domElement.style.transition = 'left 0.3s ease';
       }
 
       // Globe controls setup
