@@ -90,13 +90,11 @@ const App: React.FC = () => {
       
       // Extract available wmweeks and set the first one as current
       const wmweeks = wmweekResult.map((item: any) => item.wmweek);
-      console.log('Loaded wmweeks:', wmweeks);
-      console.log('Loaded wmweek data:', wmweekResult);
       setAvailableWmweeks(wmweeks);
       if (wmweeks.length > 0) {
+        const initialRouteData = wmweekResult[0].routeData || [];
         setCurrentWmweek(wmweeks[0]);
-        setRouteData(wmweekResult[0].routeData || []);
-        console.log('Initial route data:', wmweekResult[0].routeData);
+        setRouteData(initialRouteData);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
@@ -109,9 +107,10 @@ const App: React.FC = () => {
   const handleWmweekChange = (wmweek: string) => {
     const selectedWeekData = wmweekData.find((item: any) => item.wmweek === wmweek);
     if (selectedWeekData) {
-      console.log(`Switching to wmweek: ${wmweek}`, selectedWeekData);
       setCurrentWmweek(wmweek);
       setRouteData(selectedWeekData.routeData || []);
+    } else {
+      console.warn('No data found for wmweek:', wmweek);
     }
   };
 
@@ -165,7 +164,7 @@ const App: React.FC = () => {
   }
 
   // 渲染主界面
-  const hasData = fromData.length > 0 && toData.length > 0 && routeData.length > 0;
+  const hasPortData = fromData.length > 0 && toData.length > 0;
   const hasWmweekData = availableWmweeks.length > 0 && currentWmweek;
 
   return (
@@ -176,7 +175,7 @@ const App: React.FC = () => {
         currentWmweek={currentWmweek}
       />
       <Dashboard routeData={routeData} />
-      {hasData && (
+      {hasPortData && (
         <EarthLine 
           fromData={fromData}
           toData={toData}

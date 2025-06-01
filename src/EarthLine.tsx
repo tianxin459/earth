@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { calculateSunDirection, getTotals } from "./config/utils";
 import { dayNightShader } from "./config/dayNightShader";
 import { renderArcTooltip } from "./components/ArcTooltipRenderer";
@@ -88,80 +88,155 @@ const EarthLine: React.FC<EarthLineProps> = ({
   routeData,
 }) => {
   const globeRef = useRef<HTMLDivElement>(null);
+  const globeInstanceRef = useRef<any>(null);
+  const materialRef = useRef<ShaderMaterial | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [globeReady, setGlobeReady] = useState(false);
 
+  // Initialize globe only once when port data is available
   useEffect(() => {
-    if (!fromData || !toData || !routeData) {
-      return; // Wait for data to be loaded
+    if (!fromData || fromData.length === 0 || !toData || toData.length === 0 || globeInstanceRef.current) {
+      return; // Wait for port data or prevent re-initialization
     }
 
-    let material: ShaderMaterial | null = null;
-    let timer: ReturnType<typeof setInterval>;
 
-    // Load only textures since data is passed as props
+    // Load textures and initialize globe
     Promise.all([
       new TextureLoader().loadAsync(base + "img/2k_earth_day.jpg"),
       new TextureLoader().loadAsync(base + "img/2k_earth_night.jpg"),
     ]).then(([dayTexture, nightTexture]) => {
-      // Initialize custom shader material for day/night effect
-      material = new ShaderMaterial({
-        uniforms: {
-          dayTexture: { value: dayTexture },
-          nightTexture: { value: nightTexture },
-          sunDirection: { value: calculateSunDirection() },
-        },
-        vertexShader: dayNightShader.vertexShader,
-        fragmentShader: dayNightShader.fragmentShader,
-        lights: false,
-      });
+      
+      try {
+        // Initialize custom shader material for day/night effect
+        materialRef.current = new ShaderMaterial({
+          uniforms: {
+            dayTexture: { value: dayTexture },
+            nightTexture: { value: nightTexture },
+            sunDirection: { value: calculateSunDirection() },
+          },
+          vertexShader: dayNightShader.vertexShader,
+          fragmentShader: dayNightShader.fragmentShader,
+          lights: false,
+        });
 
-      // Initialize the globe instance
-      const myGlobe = new Globe(globeRef.current!)
-        .globeMaterial(material)
-        .backgroundImageUrl(base + "img/night-sky.png")
-        .showAtmosphere(true)
-        .atmosphereAltitude(0.25);
+        // Initialize the globe instance
+        if (!globeRef.current) {
+          console.error('Globe container ref is null');
+          return;
+        }
+        
+        globeInstanceRef.current = new Globe(globeRef.current)
+          .globeMaterial(materialRef.current)
+          .backgroundImageUrl(base + "img/night-sky.png")
+          .showAtmosphere(true)
+          .atmosphereAltitude(0.25)
+          .pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 });
 
-      // Globe controls setup
-      const controls = myGlobe.controls();
-      controls.autoRotate = true;
-      controls.autoRotateSpeed = 0.3;
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.05;
+        // Globe controls setup
+        const controls = globeInstanceRef.current.controls();
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.3;
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
 
-      // Data preprocessing for ports
-      const fromPorts: Port[] = fromData.map((item: any) => ({
-        port: item.name,
-        lat: item.lat,
-        lng: item.lng,
-        type: "from",
-      }));
-
-      const toPorts: Port[] = toData.map((item: any) => ({
-        port: item.idc,
-        lat: item.lat,
-        lng: item.lng,
-        type: "to",
-      }));
-
-      // Map ports for quick lookup
-      const fromMap = new Map(fromPorts.map((p: any) => [p.port, p]));
-      const toMap = new Map(toPorts.map((p: any) => [p.port, p]));
-
-      // Build route data with port info
-      const routes: any[] = [];
-      routeData.forEach((item: any) => {
-        const from = fromMap.get(item.fromPort);
-        const to = toMap.get(item.toPort);
-        if (from && to) {
-          routes.push({
-            srcPort: item.fromPort,
-            dstPort: item.toPort,
-            srcPortInfo: { lat: from.lat, lng: from.lng },
-            dstPortInfo: { lat: to.lat, lng: to.lng },
-            ...item,
+        // Pause rotation on mouse enter, resume on mouse leave
+        if (globeRef.current) {
+          globeRef.current.addEventListener("mouseenter", () => {
+            if (globeInstanceRef.current) {
+              globeInstanceRef.current.controls().autoRotate = false;
+            }
+          });
+          globeRef.current.addEventListener("mouseleave", () => {
+            if (globeInstanceRef.current) {
+              globeInstanceRef.current.controls().autoRotate = true;
+            }
           });
         }
-      });
+
+        // Update sun direction every minute for day/night shader
+        timerRef.current = setInterval(() => {
+          if (materialRef.current) {
+            materialRef.current.uniforms.sunDirection.value.copy(calculateSunDirection());
+          }
+        }, 120_000);
+
+        setGlobeReady(true);
+      } catch (initError) {
+        console.error('Globe initialization error:', initError);
+      }
+    }).catch(error => {
+      console.error('Globe texture loading failed:', error);
+    });
+
+    // Cleanup on unmount
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      if (globeRef.current) {
+        globeRef.current.innerHTML = "";
+      }
+      globeInstanceRef.current = null;
+      materialRef.current = null;
+    };
+  }, [fromData, toData]); // Only depend on port data, not route data
+
+  // Update route data separately when routeData changes or globe is ready
+  useEffect(() => {
+    if (!globeInstanceRef.current) {
+      console.log('Globe not ready yet, skipping data update');
+      return;
+    }
+
+    if (!fromData || fromData.length === 0 || !toData || toData.length === 0) {
+      console.log('Port data not ready yet, skipping data update');
+      return;
+    }
+
+    // If no routeData, clear existing data but keep the globe
+    if (!routeData || routeData.length === 0) {
+      console.log('Clearing globe data due to empty routeData');
+      const myGlobe = globeInstanceRef.current;
+      myGlobe.arcsData([]).labelsData([]);
+      return;
+    }
+
+    const myGlobe = globeInstanceRef.current;
+
+    // Data preprocessing for ports
+    const fromPorts: Port[] = fromData.map((item: any) => ({
+      port: item.name,
+      lat: item.lat,
+      lng: item.lng,
+      type: "from",
+    }));
+
+    const toPorts: Port[] = toData.map((item: any) => ({
+      port: item.idc,
+      lat: item.lat,
+      lng: item.lng,
+      type: "to",
+    }));
+
+    // Map ports for quick lookup
+    const fromMap = new Map(fromPorts.map((p: any) => [p.port, p]));
+    const toMap = new Map(toPorts.map((p: any) => [p.port, p]));
+
+    // Build route data with port info
+    const routes: any[] = [];
+    routeData.forEach((item: any) => {
+      const from = fromMap.get(item.fromPort);
+      const to = toMap.get(item.toPort);
+      if (from && to) {
+        routes.push({
+          srcPort: item.fromPort,
+          dstPort: item.toPort,
+          srcPortInfo: { lat: from.lat, lng: from.lng },
+          dstPortInfo: { lat: to.lat, lng: to.lng },
+          ...item,
+        });
+      }
+    });
 
       // Group and sum cost/PO count by port
       const fromPOCountCostGroup = _.groupBy(routes, "srcPort");
@@ -237,7 +312,6 @@ const EarthLine: React.FC<EarthLineProps> = ({
 
       // Configure globe arcs and points
       myGlobe
-        .pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 })
         .arcLabel((d: any) =>
           renderArcTooltip({
             srcPort: d.srcPort,
@@ -298,7 +372,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
         .arcDashInitialGap(() => Math.random())
         .arcsTransitionDuration(0)
         // Highlight arc on hover
-        .onArcHover((arc) => {
+        .onArcHover((arc: any) => {
           myGlobe.arcColor((d: any) =>
             d.isLabelToEarth
               ? ["#FFA500", "#FFA500"] // 始终橙色
@@ -436,19 +510,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
           myGlobe.controls().autoRotate = true;
         });
       }
-
-      // Update sun direction every minute for day/night shader
-      timer = setInterval(() => {
-        material!.uniforms.sunDirection.value.copy(calculateSunDirection());
-      }, 120_000);
-    });
-
-    // Cleanup on unmount
-    return () => {
-      clearInterval(timer);
-      if (globeRef.current) globeRef.current.innerHTML = "";
-    };
-  }, [fromData, toData, routeData]);
+  }, [routeData, fromData, toData, globeReady]); // Include globeReady to trigger when globe is initialized
 
   return <GlobeContainer ref={globeRef} />;
 };
