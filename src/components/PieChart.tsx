@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import styled from 'styled-components';
 
@@ -45,6 +45,7 @@ const PieChart: React.FC<PieChartProps> = ({
   unit = '%'
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const [animatedValue, setAnimatedValue] = useState(0);
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -55,14 +56,34 @@ const PieChart: React.FC<PieChartProps> = ({
     const radius = Math.min(width, height) / 2 - 10;
     const centerX = width / 2;
     const centerY = height / 2;
-
-    // Clamp value between 0 and 100
-    const clampedValue = Math.max(0, Math.min(100, value));
+    
+    // Calculate color based on progress (100% = green, 0% = red)
+    const progress = animatedValue / 100;
+    
+    // Create red-orange-green gradient
+    let red: number, green: number, blue: number;
+    
+    if (progress <= 0.5) {
+      // 0% to 50%: red to orange
+      const localProgress = progress * 2; // 0 to 1
+      red = 255;
+      green = Math.round(165 * localProgress); // From 0 to 165 (orange)
+      blue = 0;
+    } else {
+      // 50% to 100%: orange to green
+      const localProgress = (progress - 0.5) * 2; // 0 to 1
+      red = Math.round(255 * (1 - localProgress)); // From 255 to 0
+      green = Math.round(165 + (255 - 165) * localProgress); // From 165 to 255
+      blue = 0;
+    }
+    
+    const progressColor = `rgb(${red}, ${green}, ${blue})`;
+    const backgroundColorRgba = `rgba(${red}, ${green}, ${blue}, 0.2)`;
     
     // Create pie data
     const pieData = [
-      { label: 'completed', value: clampedValue },
-      { label: 'remaining', value: 100 - clampedValue }
+      { label: 'completed', value: animatedValue },
+      { label: 'remaining', value: 100 - animatedValue }
     ];
 
     // Create pie generator
@@ -79,27 +100,76 @@ const PieChart: React.FC<PieChartProps> = ({
     const container = svg.append('g')
       .attr('transform', `translate(${centerX},${centerY})`);
 
-    // Color scale
-    const colors = ['#4dd0e1', 'rgba(77, 208, 225, 0.2)'];
+    // Dynamic color scale based on progress
+    const colors = [progressColor, backgroundColorRgba];
 
-    // Create arcs
-    container.selectAll('.arc')
+    // Create arcs with animation
+    const arcs = container.selectAll('.arc')
       .data(pie(pieData))
       .enter()
       .append('path')
       .attr('class', 'arc')
-      .attr('d', arc)
       .attr('fill', (_, i) => colors[i])
       .attr('stroke', 'rgba(77, 208, 225, 0.3)')
       .attr('stroke-width', 1);
 
-    // Add percentage and unit text in center (same line)
+    // Add path morphing animation
+    arcs.transition()
+      .duration(800)
+      .ease(d3.easeBackOut.overshoot(0.7))
+      .attrTween('d', function(d) {
+        const interpolate = d3.interpolate(
+          { startAngle: d.startAngle, endAngle: d.startAngle },
+          d
+        );
+        return function(t) {
+          const interpolated = interpolate(t);
+          return arc(interpolated) || '';
+        };
+      });
+
+    // Add percentage and unit text in center (same line) with animation
     container.append('text')
       .attr('class', 'percentage-text')
       .attr('dy', '0.3em')
-      .text(`${clampedValue.toFixed(1)}${unit}`);
+      .attr('opacity', 0)
+      .text(`${animatedValue.toFixed(1)}${unit}`)
+      .transition()
+      .delay(400)
+      .duration(600)
+      .ease(d3.easeBackOut)
+      .attr('opacity', 1);
 
-  }, [value, width, height, unit]);
+  }, [animatedValue, width, height, unit]);
+
+  // 动画效果 - 当值变化时触发动画
+  useEffect(() => {
+    const targetValue = Math.max(0, Math.min(100, value));
+    
+    // 重置动画值
+    setAnimatedValue(0);
+    
+    // 使用requestAnimationFrame创建平滑动画
+    const duration = 1500; // 1.5秒动画时长
+    const startTime = Date.now();
+    
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // 使用easeOutCubic缓动函数
+      const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+      const easedProgress = easeOutCubic(progress);
+      
+      setAnimatedValue(easedProgress * targetValue);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    
+    requestAnimationFrame(animate);
+  }, [value]);
 
   return (
     <ChartContainer>
