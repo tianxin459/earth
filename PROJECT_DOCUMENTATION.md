@@ -1,4 +1,4 @@
-# Earth Visualization Project - Comprehensive Documentation
+# Earth Visualization Project - Purchase Order (PO) Analytics Platform - Comprehensive Documentation
 
 ## 📋 Table of Contents
 1. [Project Overview](#project-overview)
@@ -21,22 +21,23 @@
 
 ## 🌍 Project Overview
 
-The **Earth Visualization Project** is an interactive 3D globe application built for visualizing global shipping routes, purchase orders, and logistics analytics. It provides real-time visual representation of maritime trade data with an immersive 3D Earth interface.
+The **Earth Visualization Project** is an interactive 3D globe application designed to showcase company's weekly Purchase Order (PO) data in a visually stunning and intuitive format. This system provides a cost-centric visualization of departure ports, destination ports, and comprehensive statistical analytics, transforming complex business data into an engaging 3D Earth interface.
 
 ### Key Features
-- **3D Interactive Globe**: Real-time rotating Earth with day/night cycle
-- **Shipping Route Visualization**: Dynamic arcs showing trade routes between ports
-- **Port Analytics**: Interactive port labels with cost and PO count data
-- **Dashboard Analytics**: Real-time statistics with pie charts and metrics
-- **Timeline Navigation**: Week-by-week data exploration
-- **Responsive UI**: Collapsible dashboard with smooth animations
+- **3D Interactive Globe**: Real-time rotating Earth with day/night cycle for immersive data exploration
+- **PO Route Visualization**: Dynamic arcs displaying purchase order flows between departure and destination ports
+- **Cost-Centric Analytics**: Interactive port labels showing cost breakdowns and PO count data for each location
+- **Weekly Dashboard**: Real-time statistics dashboard with pie charts, metrics, and cost analysis
+- **Timeline Navigation**: Week-by-week PO data exploration and trend analysis
+- **Responsive UI**: Collapsible dashboard with smooth animations for optimal user experience
 
 ### Use Cases
-- Maritime logistics visualization
-- Global trade route analysis
-- Purchase order analytics
-- Supply chain monitoring
-- Business intelligence dashboards
+- Weekly Purchase Order (PO) monitoring and analysis
+- Cost-centric port performance visualization
+- Departure and destination port analytics
+- Supply chain cost optimization
+- Business intelligence dashboards for procurement teams
+- Executive reporting and data presentation
 
 ---
 
@@ -173,21 +174,21 @@ material = new ShaderMaterial({
 });
 ```
 
-### 2. **Dashboard.tsx** - Analytics Panel
-Real-time statistics and KPI visualization panel.
+### 2. **Dashboard.tsx** - PO Analytics Panel
+Real-time purchase order statistics and KPI visualization panel.
 
 **Components:**
-- **Collapsible Interface**: Smooth expand/collapse animations
-- **Route Statistics**: Active routes, costs, PO counts
-- **Weekly KPIs**: OTIF, On-time delivery, In-stock percentages
-- **Performance Metrics**: Formatted number displays
+- **Collapsible Interface**: Smooth expand/collapse animations for space optimization
+- **PO Route Statistics**: Active purchase order routes, cost analytics, PO counts per port
+- **Weekly KPIs**: OTIF, On-time delivery performance, In-stock percentages
+- **Cost-Centric Metrics**: Formatted displays for departure/destination port costs
 
-### 3. **WeeklyStatsDashboard.tsx** - KPI Visualizations
-Displays weekly performance indicators using pie charts.
+### 3. **WeeklyStatsDashboard.tsx** - PO Performance Visualizations
+Displays weekly purchase order performance indicators using interactive pie charts.
 
 **Features:**
-- **Three Pie Charts**: OTIF, On-time Delivery, In-stock rates
-- **Data Integration**: JSON-driven statistics
+- **Three Key Pie Charts**: OTIF (On Time In Full), On-time Delivery rates, In-stock levels
+- **PO Data Integration**: JSON-driven weekly purchase order statistics
 - **Week Selection**: Dynamic data updates based on timeline
 
 ### 4. **PieChart.tsx** - D3.js Charts
@@ -219,15 +220,15 @@ Week-by-week navigation interface for temporal data exploration.
 
 ## 📊 Data Structure & APIs
 
-### Data Sources
+### Purchase Order Data Sources
 
-#### 1. **Route Data** (Dynamic)
+#### 1. **PO Route Data** (Dynamic)
 ```typescript
 interface RouteData {
-  fromPort: string;      // Source port name
+  fromPort: string;      // Departure port name
   toPort: string;        // Destination port name
-  poCount: number;       // Purchase order count
-  cost: number;          // Route cost
+  poCount: number;       // Purchase order count for this route
+  cost: number;          // Total cost for POs on this route
   wmweek: string;        // Week identifier (YYYYWW)
 }
 ```
@@ -315,22 +316,22 @@ graph TD
 
 ### Dashboard Analytics
 
-#### **Real-time Statistics**
-- **Active Routes**: Total count of shipping routes
-- **Financial Metrics**: Total and average costs
-- **Purchase Orders**: PO counts and averages
-- **Performance KPIs**: OTIF, on-time delivery, stock levels
+#### **Real-time PO Statistics**
+- **Active PO Routes**: Total count of purchase order shipping routes
+- **Cost-Centric Metrics**: Total and average costs for departure/destination ports
+- **Purchase Order Analytics**: Weekly PO counts, cost distributions, and averages
+- **Performance KPIs**: OTIF (On Time In Full), on-time delivery rates, stock levels
 
 #### **Visual Indicators**
-- **Pie Charts**: Donut-style charts for percentage KPIs
-- **Color Coding**: Consistent theme across all visualizations
-- **Responsive Layout**: Grid-based adaptive design
-- **Smooth Animations**: CSS transitions and transforms
+- **Pie Charts**: Donut-style charts for percentage KPIs (OTIF, delivery performance, stock status)
+- **Cost Visualization**: Color-coded port markers based on cost data
+- **Responsive Layout**: Grid-based adaptive design for optimal data presentation
+- **Smooth Animations**: CSS transitions and transforms for enhanced user experience
 
 #### **Interactive Controls**
-- **Collapsible Panel**: Space-saving interface design
-- **Timeline Navigation**: Week-by-week data exploration
-- **Responsive Updates**: Live data synchronization
+- **Collapsible Panel**: Space-saving interface design for focused data analysis
+- **Weekly Timeline Navigation**: Week-by-week PO data exploration and trend analysis
+- **Real-time Updates**: Live synchronization with weekly purchase order data
 
 ### Navigation & Controls
 
