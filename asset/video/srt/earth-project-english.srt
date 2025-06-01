@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:08,000
+Hello everyone! Today we're introducing a professional global purchase order analysis platform.
+
+2
+00:00:08,000 --> 00:00:18,000
+It uses Three.js to build a realistic 3D Earth model, visually displaying global purchase order distribution density through color heatmaps.
+
+3
+00:00:18,000 --> 00:00:26,000
+Based on D3.js geographic path algorithms, the project accurately displays the global procurement logistics network. Different colors represent orders in different cost ranges.
+
+4
+00:00:26,000 --> 00:00:33,000
+Interactive data labels are built with React components, displaying weekly purchase order quantity, average cost, and fluctuation trends in real time.
+
+5
+00:00:33,000 --> 00:00:41,000
+The data dashboard integrates Redux for state management, and supports multi-dimensional analysis and visual display of procurement costs.
+
+6
+00:00:41,000 --> 00:00:48,000
+The project implements SWR-based caching strategy combined with a timeline component for quick retrieval of historical procurement data, supporting cost trend comparison analysis.
+
+7
+00:00:48,000 --> 00:00:56,000
+Adopting pure React for full responsive design, it seamlessly adapts from mobile to large screens. The control panel can intelligently collapse to improve space utilization.
+
+8
+00:00:56,000 --> 00:01:02,000
+The entire project is built on the React framework, using Webpack for modular development and GitHub Actions for CI/CD automated deployment. Thank you for watching!    

@@ -1,0 +1,97 @@
+中文版
+镜头1
+景别：全景
+时长：8秒
+画面：展示地球可视化项目的整体界面，3D地球旋转，航线闪烁，仪表盘数据动态变化
+台词：各位观众朋友们好！今天为大家介绍一款专业的全球采购订单分析平台。
+
+镜头2
+景别：特写
+时长：10秒
+画面：聚焦3D地球，展示不同国家地区用颜色区分的采购订单密度
+台词：它采用Three.js构建真实的3D地球模型，通过颜色热力图直观展示全球采购订单分布密度。
+
+镜头3
+景别：中景
+时长：8秒
+画面：镜头切换到航运路线，展示动态的弧线和渐变颜色
+台词：基于D3.js的地理路径算法，项目精确展示全球采购物流网络，不同颜色代表不同成本区间的订单。
+
+镜头4
+景别：特写
+时长：7秒
+画面：鼠标悬停在港口标签上，弹出详细信息框
+台词：交互式数据标签采用React组件构建，实时展示港口每周采购订单数量、平均成本及波动趋势。
+
+镜头5
+景别：中景
+时长：8秒
+画面：展示仪表盘上的各种图表，如饼图、柱状图等
+台词：数据仪表盘整合Redux状态管理，支持采购成本多维度分析与可视化展示。
+
+镜头6
+景别：中景
+时长：7秒
+画面：演示时间线导航，通过箭头键切换不同周的数据
+台词：项目实现了基于SWR的缓存策略，结合时间轴组件，可快速回溯历史采购数据，支持成本趋势对比分析。
+
+镜头7
+景别：全景
+时长：8秒
+画面：缩小画面，展示项目的响应式界面，控制面板可折叠
+台词：采用纯React实现全响应式设计，支持从手机到大屏的无缝适配，控制面板可智能折叠，提升空间利用率。
+
+镜头8
+景别：中景
+时长：6秒
+画面：画面上出现项目使用的技术栈图标，如React、Three.js等
+台词：整个项目基于React框架构建，采用Webpack实现模块化开发，结合GitHub Actions实现CI/CD自动化部署。感谢观看！
+
+英文版
+Shot 1
+Shot Type: Full shot
+Duration: 8s
+Visual Content: Show the overall interface of the Earth visualization project. The 3D Earth rotates, shipping routes flicker, and data on the dashboard changes dynamically.
+Dialogue: Hello everyone! Today we're introducing a professional global purchase order analysis platform.
+
+Shot 2
+Shot Type: Close - up
+Duration: 10s
+Visual Content: Focus on the 3D Earth, showing purchase order density in different countries/regions distinguished by colors.
+Dialogue: It uses Three.js to build a realistic 3D Earth model, visually displaying global purchase order distribution density through color heatmaps.
+
+Shot 3
+Shot Type: Medium shot
+Duration: 8s
+Visual Content: Switch the camera to the shipping routes, showing the dynamic arcs and gradient colors.
+Dialogue: Based on D3.js geographic path algorithms, the project accurately displays the global procurement logistics network. Different colors represent orders in different cost ranges.
+
+Shot 4
+Shot Type: Close - up
+Duration: 7s
+Visual Content: Hover the mouse over a port label, and a detailed information box pops up.
+Dialogue: Interactive data labels are built with React components, displaying weekly purchase order quantity, average cost, and fluctuation trends in real time.
+
+Shot 5
+Shot Type: Medium shot
+Duration: 8s
+Visual Content: Show various charts on the dashboard, such as pie charts and bar charts.
+Dialogue: The data dashboard integrates Redux for state management, and supports multi-dimensional analysis and visual display of procurement costs.
+
+Shot 6
+Shot Type: Medium shot
+Duration: 7s
+Visual Content: Demonstrate the timeline navigation. Use the arrow keys to switch data for different weeks.
+Dialogue: The project implements SWR-based caching strategy combined with a timeline component for quick retrieval of historical procurement data, supporting cost trend comparison analysis.
+
+Shot 7
+Shot Type: Full shot
+Duration: 8s
+Visual Content: Zoom out the picture to show the responsive interface of the project. The control panel can be collapsed.
+Dialogue: Adopting pure React for full responsive design, it seamlessly adapts from mobile to large screens. The control panel can intelligently collapse to improve space utilization.
+
+Shot 8
+Shot Type: Medium shot
+Duration: 6s
+Visual Content: Icons of the technology stack used in the project, such as React and Three.js, appear on the screen.
+Dialogue: The entire project is built on the React framework, using Webpack for modular development and GitHub Actions for CI/CD automated deployment. Thank you for watching!    
