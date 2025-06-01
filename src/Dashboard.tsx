@@ -103,10 +103,10 @@ const StatsValue = styled.div`
   text-shadow: 0 0 10px rgba(77, 208, 225, 0.3);
 `;
 
-const CollapseButton = styled.button<{ collapsed: boolean }>`
+const CollapseButton = styled.button<{ $collapsed: boolean }>`
   position: fixed;
   top: 50%;
-  right: ${props => props.collapsed ? '25px' : '22%'};
+  right: ${props => props.$collapsed ? '25px' : '22%'};
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
@@ -244,7 +244,7 @@ const Dashboard: React.FC<DashboardProps> = ({ routeData, isCollapsed, onToggleC
           </MainContent>
         </DashboardContainer>
       )}
-      <CollapseButton collapsed={isCollapsed} onClick={onToggleCollapse}>
+      <CollapseButton $collapsed={isCollapsed} onClick={onToggleCollapse}>
         {isCollapsed ? '◀' : '▶'}
       </CollapseButton>
     </>

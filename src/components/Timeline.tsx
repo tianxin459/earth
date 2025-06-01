@@ -63,16 +63,16 @@ const TimelineDots = styled.div`
   pointer-events: none;
 `;
 
-const TimelineDot = styled.div<{ isActive: boolean }>`
-  width: ${props => props.isActive ? '12px' : '8px'};
-  height: ${props => props.isActive ? '12px' : '8px'};
+const TimelineDot = styled.div<{ $isActive: boolean }>`
+  width: ${props => props.$isActive ? '12px' : '8px'};
+  height: ${props => props.$isActive ? '12px' : '8px'};
   border-radius: 50%;
-  background: ${props => props.isActive ? '#00ffe7' : 'rgba(77, 208, 225, 0.6)'};
-  border: 2px solid ${props => props.isActive ? '#ffffff' : 'transparent'};
+  background: ${props => props.$isActive ? '#00ffe7' : 'rgba(77, 208, 225, 0.6)'};
+  border: 2px solid ${props => props.$isActive ? '#ffffff' : 'transparent'};
   transition: all 0.3s ease;
   cursor: pointer;
   pointer-events: all;
-  box-shadow: ${props => props.isActive ? '0 0 10px rgba(0, 255, 231, 0.5)' : 'none'};
+  box-shadow: ${props => props.$isActive ? '0 0 10px rgba(0, 255, 231, 0.5)' : 'none'};
   
   &:hover {
     background: #00ffe7;
@@ -182,7 +182,7 @@ const Timeline: React.FC<TimelineProps> = ({ wmweeks, currentWmweek, onWmweekCha
           {wmweeks.map((wmweek) => (
             <TimelineDot
               key={wmweek}
-              isActive={wmweek === currentWmweek}
+              $isActive={wmweek === currentWmweek}
               onClick={() => handleDotClick(wmweek)}
               title={formatWmweek(wmweek)}
             />

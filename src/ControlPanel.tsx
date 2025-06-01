@@ -7,7 +7,7 @@ interface ControlPanelProps {
   currentWmweek?: string;
 }
 
-const PanelContainer = styled.div<{ isExpanded: boolean }>`
+const PanelContainer = styled.div<{ $isExpanded: boolean }>`
   position: fixed;
   bottom: 20px;
   left: 20px;
@@ -44,15 +44,15 @@ const ToggleButton = styled.button`
   }
 `;
 
-const PanelContent = styled.div<{ isExpanded: boolean }>`
+const PanelContent = styled.div<{ $isExpanded: boolean }>`
   background: linear-gradient(135deg, rgba(30, 35, 40, 0.95), rgba(20, 25, 30, 0.95));
   backdrop-filter: blur(10px);
   border: 1px solid rgba(77, 208, 225, 0.4);
   border-radius: 8px;
-  padding: ${props => props.isExpanded ? '16px' : '0'};
+  padding: ${props => props.$isExpanded ? '16px' : '0'};
   margin-bottom: 8px;
-  max-height: ${props => props.isExpanded ? '200px' : '0'};
-  opacity: ${props => props.isExpanded ? '1' : '0'};
+  max-height: ${props => props.$isExpanded ? '200px' : '0'};
+  opacity: ${props => props.$isExpanded ? '1' : '0'};
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -162,8 +162,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData, c
   }, [isExpanded]);
 
   return (
-    <PanelContainer ref={panelRef} isExpanded={isExpanded}>
-      <PanelContent isExpanded={isExpanded}>
+    <PanelContainer ref={panelRef} $isExpanded={isExpanded}>
+      <PanelContent $isExpanded={isExpanded}>
         <PanelHeader>
           ▪ CONTROL PANEL ▪
         </PanelHeader>

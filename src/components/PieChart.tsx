@@ -15,29 +15,25 @@ const ChartContainer = styled.div`
   backdrop-filter: blur(10px);
   border: 1px solid rgba(77, 208, 225, 0.2);
   border-radius: 12px;
-  padding: 12px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   
   .chart-title {
     color: #4dd0e1;
     font-size: 11px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
   }
   
   .percentage-text {
     text-anchor: middle;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
     fill: #4dd0e1;
-  }
-  
-  .unit-text {
-    text-anchor: middle;
-    font-size: 10px;
-    fill: #ebebeb;
   }
 `;
 
@@ -97,17 +93,11 @@ const PieChart: React.FC<PieChartProps> = ({
       .attr('stroke', 'rgba(77, 208, 225, 0.3)')
       .attr('stroke-width', 1);
 
-    // Add percentage text in center
+    // Add percentage and unit text in center (same line)
     container.append('text')
       .attr('class', 'percentage-text')
-      .attr('dy', '-0.1em')
-      .text(clampedValue.toFixed(1));
-
-    // Add unit text
-    container.append('text')
-      .attr('class', 'unit-text')
-      .attr('dy', '1.2em')
-      .text(unit);
+      .attr('dy', '0.3em')
+      .text(`${clampedValue.toFixed(1)}${unit}`);
 
   }, [value, width, height, unit]);
 

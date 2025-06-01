@@ -25,9 +25,19 @@ const DashboardContainer = styled.div`
 `;
 
 const PieChartsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   gap: 8px;
+  align-items: stretch;
+  justify-items: stretch;
+  min-height: 180px;
+  
+  /* 第三个项目占据整行 */
+  & > *:nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+  }
 `;
 
 const WeekSelector = styled.div`
