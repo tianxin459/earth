@@ -16,7 +16,6 @@ const GlobeContainer = styled.div`
   overflow: hidden;
 `;
 
-const OPACITY = 1;
 const base = import.meta.env.BASE_URL || "/";
 const LABEL_BASE_ALT = 0;
 const LABEL_STEP_ALT = 0.1;
@@ -95,78 +94,86 @@ const EarthLine: React.FC<EarthLineProps> = ({
 
   // Initialize globe only once when port data is available
   useEffect(() => {
-    if (!fromData || fromData.length === 0 || !toData || toData.length === 0 || globeInstanceRef.current) {
+    if (
+      !fromData ||
+      fromData.length === 0 ||
+      !toData ||
+      toData.length === 0 ||
+      globeInstanceRef.current
+    ) {
       return; // Wait for port data or prevent re-initialization
     }
-
 
     // Load textures and initialize globe
     Promise.all([
       new TextureLoader().loadAsync(base + "img/2k_earth_day.jpg"),
       new TextureLoader().loadAsync(base + "img/2k_earth_night.jpg"),
-    ]).then(([dayTexture, nightTexture]) => {
-      
-      try {
-        // Initialize custom shader material for day/night effect
-        materialRef.current = new ShaderMaterial({
-          uniforms: {
-            dayTexture: { value: dayTexture },
-            nightTexture: { value: nightTexture },
-            sunDirection: { value: calculateSunDirection() },
-          },
-          vertexShader: dayNightShader.vertexShader,
-          fragmentShader: dayNightShader.fragmentShader,
-          lights: false,
-        });
-
-        // Initialize the globe instance
-        if (!globeRef.current) {
-          console.error('Globe container ref is null');
-          return;
-        }
-        
-        globeInstanceRef.current = new Globe(globeRef.current)
-          .globeMaterial(materialRef.current)
-          .backgroundImageUrl(base + "img/night-sky.png")
-          .showAtmosphere(true)
-          .atmosphereAltitude(0.25)
-          .pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 });
-
-        // Globe controls setup
-        const controls = globeInstanceRef.current.controls();
-        controls.autoRotate = true;
-        controls.autoRotateSpeed = 0.3;
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-
-        // Pause rotation on mouse enter, resume on mouse leave
-        if (globeRef.current) {
-          globeRef.current.addEventListener("mouseenter", () => {
-            if (globeInstanceRef.current) {
-              globeInstanceRef.current.controls().autoRotate = false;
-            }
+    ])
+      .then(([dayTexture, nightTexture]) => {
+        try {
+          // Initialize custom shader material for day/night effect
+          materialRef.current = new ShaderMaterial({
+            uniforms: {
+              dayTexture: { value: dayTexture },
+              nightTexture: { value: nightTexture },
+              sunDirection: { value: calculateSunDirection() },
+            },
+            vertexShader: dayNightShader.vertexShader,
+            fragmentShader: dayNightShader.fragmentShader,
+            lights: false,
           });
-          globeRef.current.addEventListener("mouseleave", () => {
-            if (globeInstanceRef.current) {
-              globeInstanceRef.current.controls().autoRotate = true;
-            }
-          });
-        }
 
-        // Update sun direction every minute for day/night shader
-        timerRef.current = setInterval(() => {
-          if (materialRef.current) {
-            materialRef.current.uniforms.sunDirection.value.copy(calculateSunDirection());
+          // Initialize the globe instance
+          if (!globeRef.current) {
+            console.error("Globe container ref is null");
+            return;
           }
-        }, 120_000);
 
-        setGlobeReady(true);
-      } catch (initError) {
-        console.error('Globe initialization error:', initError);
-      }
-    }).catch(error => {
-      console.error('Globe texture loading failed:', error);
-    });
+          globeInstanceRef.current = new Globe(globeRef.current)
+            .globeMaterial(materialRef.current)
+            .backgroundImageUrl(base + "img/night-sky.png")
+            .showAtmosphere(true)
+            .atmosphereAltitude(0.25)
+            .pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 });
+
+          // Globe controls setup
+          const controls = globeInstanceRef.current.controls();
+          controls.autoRotate = true;
+          controls.autoRotateSpeed = 0.3;
+          controls.enableDamping = true;
+          controls.dampingFactor = 0.05;
+
+          // Pause rotation on mouse enter, resume on mouse leave
+          if (globeRef.current) {
+            globeRef.current.addEventListener("mouseenter", () => {
+              if (globeInstanceRef.current) {
+                globeInstanceRef.current.controls().autoRotate = false;
+              }
+            });
+            globeRef.current.addEventListener("mouseleave", () => {
+              if (globeInstanceRef.current) {
+                globeInstanceRef.current.controls().autoRotate = true;
+              }
+            });
+          }
+
+          // Update sun direction every minute for day/night shader
+          timerRef.current = setInterval(() => {
+            if (materialRef.current) {
+              materialRef.current.uniforms.sunDirection.value.copy(
+                calculateSunDirection()
+              );
+            }
+          }, 120_000);
+
+          setGlobeReady(true);
+        } catch (initError) {
+          console.error("Globe initialization error:", initError);
+        }
+      })
+      .catch((error) => {
+        console.error("Globe texture loading failed:", error);
+      });
 
     // Cleanup on unmount
     return () => {
@@ -184,18 +191,18 @@ const EarthLine: React.FC<EarthLineProps> = ({
   // Update route data separately when routeData changes or globe is ready
   useEffect(() => {
     if (!globeInstanceRef.current) {
-      console.log('Globe not ready yet, skipping data update');
+      console.log("Globe not ready yet, skipping data update");
       return;
     }
 
     if (!fromData || fromData.length === 0 || !toData || toData.length === 0) {
-      console.log('Port data not ready yet, skipping data update');
+      console.log("Port data not ready yet, skipping data update");
       return;
     }
 
     // If no routeData, clear existing data but keep the globe
     if (!routeData || routeData.length === 0) {
-      console.log('Clearing globe data due to empty routeData');
+      console.log("Clearing globe data due to empty routeData");
       const myGlobe = globeInstanceRef.current;
       myGlobe.arcsData([]).labelsData([]);
       return;
@@ -212,21 +219,24 @@ const EarthLine: React.FC<EarthLineProps> = ({
     }));
 
     const toPorts: Port[] = toData.map((item: any) => ({
-      port: item.idc,
+      port: item.idc, // 使用idc作为端口标识符 (数字)
       lat: item.lat,
       lng: item.lng,
       type: "to",
     }));
 
-    // Map ports for quick lookup
+    // Map ports for quick lookup - 确保正确的数据类型匹配
     const fromMap = new Map(fromPorts.map((p: any) => [p.port, p]));
     const toMap = new Map(toPorts.map((p: any) => [p.port, p]));
 
     // Build route data with port info
     const routes: any[] = [];
+    let matchedRoutes = 0;
+    let unmatchedRoutes = 0;
+
     routeData.forEach((item: any) => {
-      const from = fromMap.get(item.fromPort);
-      const to = toMap.get(item.toPort);
+      const from = fromMap.get(item.fromPort); // fromPort是字符串
+      const to = toMap.get(item.toPort); // toPort是数字，需要匹配idc
       if (from && to) {
         routes.push({
           srcPort: item.fromPort,
@@ -235,281 +245,371 @@ const EarthLine: React.FC<EarthLineProps> = ({
           dstPortInfo: { lat: to.lat, lng: to.lng },
           ...item,
         });
+        matchedRoutes++;
+      } else {
+        unmatchedRoutes++;
+        // Debug unmatched routes
+        if (!from) console.warn(`From port not found: ${item.fromPort}`);
+        if (!to) console.warn(`To port not found: ${item.toPort}`);
       }
     });
 
-      // Group and sum cost/PO count by port
-      const fromPOCountCostGroup = _.groupBy(routes, "srcPort");
-      const toPOCountCostGroup = _.groupBy(routes, "dstPort");
-      const fromPortTotals = _.mapValues(fromPOCountCostGroup, (items) => ({
-        totalCost: Math.round(_.sumBy(items, "cost")),
-        totalPOCount: Math.round(_.sumBy(items, "poCount")),
-      }));
-      const toPortTotals = _.mapValues(toPOCountCostGroup, (items) => ({
-        totalCost: Math.round(_.sumBy(items, "cost")),
-        totalPOCount: Math.round(_.sumBy(items, "poCount")),
-      }));
+    // Group and sum cost/PO count by port
+    const fromPOCountCostGroup = _.groupBy(routes, "srcPort");
+    const toPOCountCostGroup = _.groupBy(routes, "dstPort");
+    const fromPortTotals = _.mapValues(fromPOCountCostGroup, (items) => ({
+      totalCost: Math.round(_.sumBy(items, "cost")),
+      totalPOCount: Math.round(_.sumBy(items, "poCount")),
+    }));
+    const toPortTotals = _.mapValues(toPOCountCostGroup, (items) => ({
+      totalCost: Math.round(_.sumBy(items, "cost")),
+      totalPOCount: Math.round(_.sumBy(items, "poCount")),
+    }));
 
-      // Filter ports with totalCost > 0
-      const filteredPorts = [...fromPorts, ...toPorts].filter((d: any) => {
-        const totals =
-          d.type === "from"
-            ? fromPortTotals[d.port]
-            : d.type === "to"
-            ? toPortTotals[d.port]
-            : undefined;
-        return totals && totals.totalCost > 0;
-      });
+    // Filter ports with totalCost > 0
+    const filteredPorts = [...fromPorts, ...toPorts].filter((d: any) => {
+      const totals =
+        d.type === "from"
+          ? fromPortTotals[d.port]
+          : d.type === "to"
+          ? toPortTotals[d.port]
+          : undefined;
+      return totals && totals.totalCost > 0;
+    });
 
-      const labelAltitudes: Record<string, number> = {};
+    const labelAltitudes: Record<string, number> = {};
 
-      const sortedPorts = [...filteredPorts].sort((a, b) => {
-        const ta = getTotals(a, fromPortTotals, toPortTotals).totalCost;
-        const tb = getTotals(b, fromPortTotals, toPortTotals).totalCost;
-        return tb - ta;
-      });
+    const sortedPorts = [...filteredPorts].sort((a, b) => {
+      const ta = getTotals(a, fromPortTotals, toPortTotals).totalCost;
+      const tb = getTotals(b, fromPortTotals, toPortTotals).totalCost;
+      return tb - ta;
+    });
 
-      for (let i = 0; i < sortedPorts.length; i++) {
-        const p = sortedPorts[i];
-        let layer = 0;
-        for (let j = 0; j < i; j++) {
-          const q = sortedPorts[j];
-          const dist =
-            (greatCircleDistance(
-              { lat: p.lat, lng: p.lng },
-              { lat: q.lat, lng: q.lng }
-            ) *
-              180) /
-            Math.PI;
-          if (
-            dist < LABEL_DIST_THRESHOLD &&
-            labelAltitudes[q.port] / LABEL_STEP_ALT === layer
-          ) {
-            layer++;
-            if (layer > LABEL_MAX_LAYER) break;
-          }
+    for (let i = 0; i < sortedPorts.length; i++) {
+      const p = sortedPorts[i];
+      let layer = 0;
+      for (let j = 0; j < i; j++) {
+        const q = sortedPorts[j];
+        const dist =
+          (greatCircleDistance(
+            { lat: p.lat, lng: p.lng },
+            { lat: q.lat, lng: q.lng }
+          ) *
+            180) /
+          Math.PI;
+        if (
+          dist < LABEL_DIST_THRESHOLD &&
+          labelAltitudes[q.port] / LABEL_STEP_ALT === layer
+        ) {
+          layer++;
+          if (layer > LABEL_MAX_LAYER) break;
         }
-        // 第一层直接为 0，后续层级递增
-        labelAltitudes[p.port] =
-          layer === 0 ? 0 : LABEL_BASE_ALT + layer * LABEL_STEP_ALT;
       }
+      // 第一层直接为 0，后续层级递增
+      labelAltitudes[p.port] =
+        layer === 0 ? 0 : LABEL_BASE_ALT + layer * LABEL_STEP_ALT;
+    }
 
-      // 主业务连线数据
-      const arcRoutes = routes.map((d) => {
+    // 主业务连线数据 - 优化性能和视觉效果
+    const arcRoutes = routes
+      // .filter(d => {
+      //   // 过滤掉成本过低的连线以提高性能
+      //   return d.cost > 100; // 只显示成本超过100的连线
+      // })
+      .map((d) => {
         // Use great circle path for realistic routes
         const path = getGreatCirclePath(
           { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
           { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
         );
+        const distance = greatCircleDistance(
+          { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
+          { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
+        );
+
         return {
           ...d,
-          srcLat: path.start.lat, // d.srcPortInfo.lat,
-          srcLng: path.start.lng, // d.srcPortInfo.lng,
-          dstLat: path.end.lat, // d.dstPortInfo.lat,
-          dstLng: path.end.lng, //d.dstPortInfo.lng,
+          srcLat: path.start.lat,
+          srcLng: path.start.lng,
+          dstLat: path.end.lat,
+          dstLng: path.end.lng,
+          // 添加优化字段
+          distance: distance,
+          costCategory:
+            d.cost > 100000 ? "high" : d.cost > 50000 ? "medium" : "low",
+          // 优先级字段用于渲染顺序
+          priority: d.cost > 200000 ? 3 : d.cost > 100000 ? 2 : 1,
         };
-      });
+      })
+      .sort((a, b) => b.priority - a.priority); // 按优先级排序，高成本连线优先渲染
 
-      // Configure globe arcs and points
-      myGlobe
-        .arcLabel((d: any) =>
-          renderArcTooltip({
-            srcPort: d.srcPort,
-            dstPort: d.dstPort,
-            poCount: d.poCount,
-            cost: d.cost,
-          })
-        )
-        .arcStartLat((d: any) => d.srcLat)
-        .arcStartLng((d: any) => d.srcLng)
-        .arcEndLat((d: any) => d.dstLat)
-        .arcEndLng((d: any) => d.dstLng)
-        // Increase resolution for smoother arcs
-        .arcCurveResolution(128)
-        .arcAltitude((d: any) => {
-          if (d.isLabelToEarth) {
-            // For label-to-earth arcs, use the higher altitude (labelAlt)
-            return d.labelAlt;
+    // Configure globe arcs and points
+    myGlobe
+      .arcLabel((d: any) =>
+        renderArcTooltip({
+          srcPort: d.srcPort,
+          dstPort: d.dstPort,
+          poCount: d.poCount,
+          cost: d.cost,
+        })
+      )
+      .arcStartLat((d: any) => d.srcLat)
+      .arcStartLng((d: any) => d.srcLng)
+      .arcEndLat((d: any) => d.dstLat)
+      .arcEndLng((d: any) => d.dstLng)
+      // 提高分辨率获得更平滑的弧线
+      .arcCurveResolution(256)
+      .arcAltitude((d: any) => {
+        if (d.isLabelToEarth) {
+          return d.labelAlt;
+        } else {
+          // Calculate great circle distance between ports
+          const distance = greatCircleDistance(
+            { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
+            { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
+          );
+
+          // 优化的高度计算 - 更美观的弧线
+          const minAltitude = 0.15; // 最小高度
+          const maxAltitude = 0.4; // 最大高度
+
+          // 根据距离计算基础高度 - 使用更平滑的曲线
+          const normalizedDistance = Math.min(distance / Math.PI, 1);
+
+          // 使用三次贝塞尔曲线函数获得更自然的高度分布
+          const t = normalizedDistance;
+          const heightMultiplier = 3 * t * t - 2 * t * t * t; // 平滑的S曲线
+
+          const baseAltitude =
+            minAltitude + (maxAltitude - minAltitude) * heightMultiplier;
+
+          // 短距离连线的特殊处理
+          if (distance < 0.1) {
+            // 距离小于约6度
+            return Math.max(0.08, minAltitude * 0.7);
+          }
+
+          // 中等距离优化
+          if (distance < 0.5) {
+            return baseAltitude * 0.8;
+          }
+
+          // 长距离跨洋航线
+          if (distance > Math.PI * 0.5) {
+            return Math.min(baseAltitude * 1.2, maxAltitude);
+          }
+
+          return baseAltitude;
+        }
+      })
+      // 完全移除自动缩放，使用我们的自定义高度计算
+      .arcAltitudeAutoScale(0)
+      // 优化的线条配置 - 更美观的视觉效果
+      .arcStroke((d: any) => {
+        return 0.2;
+        // 优化的线条粗细计算
+        if (d.costCategory === "high") {
+          return 1.0; // 高成本连线最粗
+        } else if (d.costCategory === "medium") {
+          return 0.7; // 中等成本连线中等粗细
+        } else {
+          return 0.4; // 低成本连线最细
+        }
+      })
+      .arcDashLength(1) // 实线
+      .arcDashGap(0) // 无间隙
+      .arcDashAnimateTime(0) // 无动画
+      .arcsTransitionDuration(800) // 平滑过渡
+      .arcsData(arcRoutes)
+      .arcColor((d: any) => {
+        if (d.isLabelToEarth) {
+          return ["#FFA500", "#FFA500"];
+        } else {
+          // 优化的颜色方案 - 基于成本和距离
+          const distance = d.distance || 0;
+
+          // 根据距离调整透明度
+          const distanceAlpha = Math.max(
+            0.6,
+            Math.min(1, distance / Math.PI + 0.3)
+          );
+
+          if (d.costCategory === "high") {
+            // 高成本：红色到紫色渐变
+            return [
+              `rgba(255, 100, 100, ${distanceAlpha})`,
+              `rgba(150, 0, 150, ${distanceAlpha})`,
+            ];
+          } else if (d.costCategory === "medium") {
+            // 中等成本：橙色到红色渐变
+            return [
+              `rgba(255, 165, 0, ${distanceAlpha})`,
+              `rgba(255, 69, 0, ${distanceAlpha})`,
+            ];
           } else {
-            // Calculate great circle distance between ports
-            const distance = greatCircleDistance(
-              { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
-              { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
+            // 低成本：绿色到青色渐变
+            return [
+              `rgba(0, 255, 100, ${distanceAlpha})`,
+              `rgba(0, 200, 255, ${distanceAlpha})`,
+            ];
+          }
+        }
+      })
+      // 增强的鼠标悬停效果
+      .onArcHover((arc: any) => {
+        const myGlobe = globeInstanceRef.current;
+        if (!myGlobe) return;
+
+        myGlobe.arcColor((d: any) => {
+          if (d.isLabelToEarth) {
+            return ["#FFA500", "#FFA500"];
+          } else if (arc && d === arc) {
+            // 悬停时的高亮效果 - 金色高亮
+            return ["rgba(255, 215, 0, 1)", "rgba(255, 140, 0, 1)"];
+          } else {
+            // 恢复原始颜色逻辑
+            const distance = d.distance || 0;
+            const distanceAlpha = Math.max(
+              0.6,
+              Math.min(1, distance / Math.PI + 0.3)
             );
 
-            // 调整高度设置，确保弧线始终在地球表面之上
-            const minAltitude = 0.2; // 最小高度，短距离连线
-            const maxAltitude = 0.3; // 最大高度，长距离连线
-
-            // 根据大圆距离计算标准化距离
-            const normalizedDistance = distance / Math.PI;
-
-            // 使用更平滑的曲线函数
-            const baseAltitude =
-              minAltitude +
-              (maxAltitude - minAltitude) *
-                (0.5 +
-                  0.5 * Math.sin(normalizedDistance * Math.PI - Math.PI / 2));
-
-            // 为非常短的距离设置最小可见高度
-            if (distance < 0.05) {
-              // 距离小于约3度
-              return Math.max(0.01, minAltitude);
-            }
-
-            // 为跨洋航线适当增加高度，但保持合理范围
-            if (distance > Math.PI * 0.4) {
-              // 距离大于72度
-              return Math.min(baseAltitude * 1.1, maxAltitude);
-            }
-
-            return baseAltitude;
-          }
-        })
-        // 完全移除自动缩放，使用我们的自定义高度计算
-        .arcAltitudeAutoScale(0) // 完全禁用自动缩放
-        // Arc animation and color
-        .arcDashInitialGap(() => Math.random())
-        .arcsTransitionDuration(0)
-        // Highlight arc on hover
-        .onArcHover((arc: any) => {
-          myGlobe.arcColor((d: any) =>
-            d.isLabelToEarth
-              ? ["#FFA500", "#FFA500"] // 始终橙色
-              : arc && d === arc
-              ? ["rgba(255,255,0,0.95)", "rgba(255,0,128,0.95)"]
-              : [`rgba(0, 255, 0, ${OPACITY})`, `rgba(255, 0, 0, ${OPACITY})`]
-          );
-        })
-        .arcsData(arcRoutes)
-        .arcColor((d: any) =>
-          d.isLabelToEarth
-            ? ["#FFA500", "#FFA500"]
-            : [`rgba(0, 255, 0, ${OPACITY})`, `rgba(255, 0, 0, ${OPACITY})`]
-        )
-        .arcDashLength((d: any) => (d.isLabelToEarth ? 1 : 0.25))
-        .arcDashGap((d: any) => (d.isLabelToEarth ? 0 : 1))
-        .arcDashAnimateTime((d: any) => (d.isLabelToEarth ? 0 : 2000));
-
-      // Configure port labels
-      myGlobe
-        .labelsData(filteredPorts)
-        .labelLat((d: any) => d.lat)
-        .labelLng((d: any) => d.lng)
-        .labelText((d: any) => {
-          const totals = getTotals(d, fromPortTotals, toPortTotals);
-
-          // Format cost with appropriate unit
-          const formatCost = (cost: number) => {
-            if (cost >= 1e12) {
-              return `$${(cost / 1e12).toFixed(2)}T`;
-            } else if (cost >= 1e9) {
-              return `$${(cost / 1e9).toFixed(2)}B`;
-            } else if (cost >= 1e6) {
-              return `$${(cost / 1e6).toFixed(2)}M`;
-            } else if (cost >= 1e3) {
-              return `$${(cost / 1e3).toFixed(2)}K`;
+            if (d.costCategory === "high") {
+              return [
+                `rgba(255, 100, 100, ${distanceAlpha})`,
+                `rgba(150, 0, 150, ${distanceAlpha})`,
+              ];
+            } else if (d.costCategory === "medium") {
+              return [
+                `rgba(255, 165, 0, ${distanceAlpha})`,
+                `rgba(255, 69, 0, ${distanceAlpha})`,
+              ];
             } else {
-              return `$${cost.toFixed(2)}`;
+              return [
+                `rgba(0, 255, 100, ${distanceAlpha})`,
+                `rgba(0, 200, 255, ${distanceAlpha})`,
+              ];
             }
-          };
-
-          return `${d.port}\n(${formatCost(totals.totalCost)})`;
-        })
-        // Label size based on total cost
-        .labelSize((d: any) => {
-          const totals = getTotals(d, fromPortTotals, toPortTotals);
-          return Math.max(
-            0.7,
-            Math.min(2.5, Math.sqrt(totals.totalCost) * 4e-4)
-          );
-        })
-        // Dot radius based on total cost
-        .labelDotRadius((d: any) => {
-          const totals = getTotals(d, fromPortTotals, toPortTotals);
-          const minRadius = 0.12;
-          const maxRadius = 1;
-          const scale = Math.sqrt(totals.totalCost) * 2e-3;
-          return Math.max(minRadius, Math.min(maxRadius, scale));
-        })
-        // Label color by port type
-        .labelColor((d: any) =>
-          d.type === "from" ? "#00ffe7" : "rgba(255, 165, 0, 0.75)"
-        )
-        .labelResolution(3)
-        .labelAltitude((d: any) => labelAltitudes[d.port] || 0)
-        .labelDotOrientation("top")
-        .labelIncludeDot(true)
-        // Custom HTML label tooltip using styled component
-        .labelLabel((d: any) => {
-          const totals = getTotals(d, fromPortTotals, toPortTotals);
-
-          return renderPortTooltip({
-            port: d.port,
-            cost: totals.totalCost,
-            poCount: totals.totalPOCount,
-            type: d.type,
-          });
-        })
-        .labelsTransitionDuration(0);
-
-      // --- BEGIN: Add vertical lines from earth surface to label dots ---
-      // Remove previous lines if any
-      let labelLinesGroup: THREE.Group | null = null;
-      if (myGlobe.scene().getObjectByName("labelLinesGroup")) {
-        labelLinesGroup = myGlobe
-          .scene()
-          .getObjectByName("labelLinesGroup") as THREE.Group;
-        myGlobe.scene().remove(labelLinesGroup);
-      }
-      labelLinesGroup = new THREE.Group();
-      labelLinesGroup.name = "labelLinesGroup";
-      const RADIUS = myGlobe.getGlobeRadius ? myGlobe.getGlobeRadius() : 1; // fallback to 1 if not available
-      filteredPorts.forEach((d) => {
-        const alt = labelAltitudes[d.port] || 0;
-        if (alt > 0) {
-          // Convert lat/lng to 3D positions
-          const latRad = (d.lat * Math.PI) / 180;
-          const lngRad = (d.lng * Math.PI) / 180;
-          // Surface point
-          const r0 = RADIUS;
-          const x0 = r0 * Math.cos(latRad) * Math.sin(lngRad);
-          const y0 = r0 * Math.sin(latRad);
-          const z0 = r0 * Math.cos(latRad) * Math.cos(lngRad);
-          // Label dot point (globe.gl altitude is relative to radius)
-          const r1 = RADIUS * (1 + alt);
-          const x1 = r1 * Math.cos(latRad) * Math.sin(lngRad);
-          const y1 = r1 * Math.sin(latRad);
-          const z1 = r1 * Math.cos(latRad) * Math.cos(lngRad);
-          // Create geometry
-          const geometry = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(x0, y0, z0),
-            new THREE.Vector3(x1, y1, z1),
-          ]);
-          const material = new THREE.LineBasicMaterial({
-            color: 0xffa500,
-            linewidth: 2,
-          });
-          const line = new THREE.Line(geometry, material);
-          labelLinesGroup.add(line);
-        }
+          }
+        });
       });
-      myGlobe.scene().add(labelLinesGroup);
-      // --- END: Add vertical lines from earth surface to label dots ---
 
-      // Add auto-rotation
-      myGlobe.controls().autoRotate = true;
-      myGlobe.controls().autoRotateSpeed = 0.5;
+    // Configure port labels
+    myGlobe
+      .labelsData(filteredPorts)
+      .labelLat((d: any) => d.lat)
+      .labelLng((d: any) => d.lng)
+      .labelText((d: any) => {
+        const totals = getTotals(d, fromPortTotals, toPortTotals);
 
-      // Pause rotation on mouse enter, resume on mouse leave
-      if (globeRef.current) {
-        globeRef.current.addEventListener("mouseenter", () => {
-          myGlobe.controls().autoRotate = false;
+        // Format cost with appropriate unit
+        const formatCost = (cost: number) => {
+          if (cost >= 1e12) {
+            return `$${(cost / 1e12).toFixed(2)}T`;
+          } else if (cost >= 1e9) {
+            return `$${(cost / 1e9).toFixed(2)}B`;
+          } else if (cost >= 1e6) {
+            return `$${(cost / 1e6).toFixed(2)}M`;
+          } else if (cost >= 1e3) {
+            return `$${(cost / 1e3).toFixed(2)}K`;
+          } else {
+            return `$${cost.toFixed(2)}`;
+          }
+        };
+
+        return `${d.port}\n(${formatCost(totals.totalCost)})`;
+      })
+      // Label size based on total cost
+      .labelSize((d: any) => {
+        const totals = getTotals(d, fromPortTotals, toPortTotals);
+        return Math.max(0.7, Math.min(2.5, Math.sqrt(totals.totalCost) * 4e-4));
+      })
+      // Dot radius based on total cost
+      .labelDotRadius((d: any) => {
+        const totals = getTotals(d, fromPortTotals, toPortTotals);
+        const minRadius = 0.12;
+        const maxRadius = 1;
+        const scale = Math.sqrt(totals.totalCost) * 2e-3;
+        return Math.max(minRadius, Math.min(maxRadius, scale));
+      })
+      // Label color by port type
+      .labelColor((d: any) =>
+        d.type === "from" ? "#00ffe7" : "rgba(255, 165, 0, 0.75)"
+      )
+      .labelResolution(3)
+      .labelAltitude((d: any) => labelAltitudes[d.port] || 0)
+      .labelDotOrientation("top")
+      .labelIncludeDot(true)
+      // Custom HTML label tooltip using styled component
+      .labelLabel((d: any) => {
+        const totals = getTotals(d, fromPortTotals, toPortTotals);
+
+        return renderPortTooltip({
+          port: d.port,
+          cost: totals.totalCost,
+          poCount: totals.totalPOCount,
+          type: d.type,
         });
-        globeRef.current.addEventListener("mouseleave", () => {
-          myGlobe.controls().autoRotate = true;
+      })
+      .labelsTransitionDuration(0);
+
+    // --- BEGIN: Add vertical lines from earth surface to label dots ---
+    // Remove previous lines if any
+    let labelLinesGroup: THREE.Group | null = null;
+    if (myGlobe.scene().getObjectByName("labelLinesGroup")) {
+      labelLinesGroup = myGlobe
+        .scene()
+        .getObjectByName("labelLinesGroup") as THREE.Group;
+      myGlobe.scene().remove(labelLinesGroup);
+    }
+    labelLinesGroup = new THREE.Group();
+    labelLinesGroup.name = "labelLinesGroup";
+    const RADIUS = myGlobe.getGlobeRadius ? myGlobe.getGlobeRadius() : 1; // fallback to 1 if not available
+    filteredPorts.forEach((d) => {
+      const alt = labelAltitudes[d.port] || 0;
+      if (alt > 0) {
+        // Convert lat/lng to 3D positions
+        const latRad = (d.lat * Math.PI) / 180;
+        const lngRad = (d.lng * Math.PI) / 180;
+        // Surface point
+        const r0 = RADIUS;
+        const x0 = r0 * Math.cos(latRad) * Math.sin(lngRad);
+        const y0 = r0 * Math.sin(latRad);
+        const z0 = r0 * Math.cos(latRad) * Math.cos(lngRad);
+        // Label dot point (globe.gl altitude is relative to radius)
+        const r1 = RADIUS * (1 + alt);
+        const x1 = r1 * Math.cos(latRad) * Math.sin(lngRad);
+        const y1 = r1 * Math.sin(latRad);
+        const z1 = r1 * Math.cos(latRad) * Math.cos(lngRad);
+        // Create geometry
+        const geometry = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(x0, y0, z0),
+          new THREE.Vector3(x1, y1, z1),
+        ]);
+        const material = new THREE.LineBasicMaterial({
+          color: 0xffa500,
+          linewidth: 2,
         });
+        const line = new THREE.Line(geometry, material);
+        labelLinesGroup.add(line);
       }
+    });
+    myGlobe.scene().add(labelLinesGroup);
+    // --- END: Add vertical lines from earth surface to label dots ---
+
+    // Add auto-rotation
+    myGlobe.controls().autoRotate = true;
+    myGlobe.controls().autoRotateSpeed = 0.5;
+
+    // Pause rotation on mouse enter, resume on mouse leave
+    if (globeRef.current) {
+      globeRef.current.addEventListener("mouseenter", () => {
+        myGlobe.controls().autoRotate = false;
+      });
+      globeRef.current.addEventListener("mouseleave", () => {
+        myGlobe.controls().autoRotate = true;
+      });
+    }
   }, [routeData, fromData, toData, globeReady]); // Include globeReady to trigger when globe is initialized
 
   return <GlobeContainer ref={globeRef} />;
