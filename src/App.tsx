@@ -61,6 +61,11 @@ const App: React.FC = () => {
   const [availableWmweeks, setAvailableWmweeks] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isDashboardCollapsed, setIsDashboardCollapsed] = useState<boolean>(false);
+
+  const handleToggleCollapse = () => {
+    setIsDashboardCollapsed(!isDashboardCollapsed);
+  };
 
   const loadData = async () => {
     setIsLoading(true);
@@ -175,12 +180,17 @@ const App: React.FC = () => {
         onRefreshData={loadData}
         currentWmweek={currentWmweek}
       />
-      <Dashboard routeData={routeData} />
+      <Dashboard 
+        routeData={routeData} 
+        isCollapsed={isDashboardCollapsed}
+        onToggleCollapse={handleToggleCollapse}
+      />
       {hasData && (
         <EarthLine 
           fromData={fromData}
           toData={toData}
           routeData={routeData}
+          isDashboardCollapsed={isDashboardCollapsed}
         />
       )}
       {hasWmweekData && (

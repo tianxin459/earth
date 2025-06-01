@@ -35,6 +35,7 @@ interface EarthLineProps {
   fromData: any[];
   toData: any[];
   routeData: any[];
+  isDashboardCollapsed: boolean;
 }
 
 // Helper function to calculate great circle distance in radians
@@ -87,6 +88,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
   fromData,
   toData,
   routeData,
+  isDashboardCollapsed,
 }) => {
   const globeRef = useRef<HTMLDivElement>(null);
 
@@ -122,13 +124,21 @@ const EarthLine: React.FC<EarthLineProps> = ({
         .showAtmosphere(true)
         .atmosphereAltitude(0.25);
 
-      // Move the globe 20% to the left by adjusting the renderer position
+      // Adjust globe position based on dashboard state
       if (globeRef.current) {
         const renderer = myGlobe.renderer();
         const container = globeRef.current;
         const containerWidth = container.clientWidth;
-        renderer.domElement.style.left = `-${containerWidth * 0.1}px`;
+        
+        if (isDashboardCollapsed) {
+          // Center the globe when dashboard is collapsed
+          renderer.domElement.style.left = '0px';
+        } else {
+          // Move the globe 20% to the left when dashboard is expanded
+          renderer.domElement.style.left = `-${containerWidth * 0.1}px`;
+        }
         renderer.domElement.style.position = 'relative';
+        renderer.domElement.style.transition = 'left 0.3s ease';
       }
 
       // Globe controls setup
