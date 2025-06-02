@@ -96,27 +96,27 @@ const WeekSelector = styled.div`
     transition: all 0.2s ease;
 
     /* Elegant corner accents */
-    &::before {
-      content: "‹";
-      position: absolute;
-      top: 50%;
-      left: -12px;
-      transform: translateY(-50%);
-      font-size: 12px;
-      color: rgba(77, 208, 225, 0.6);
-      transition: color 0.3s ease;
-    }
+    // &::before {
+    //   content: "‹";
+    //   position: absolute;
+    //   top: 50%;
+    //   left: -12px;
+    //   transform: translateY(-50%);
+    //   font-size: 12px;
+    //   color: rgba(77, 208, 225, 0.6);
+    //   transition: color 0.3s ease;
+    // }
 
-    &::after {
-      content: "›";
-      position: absolute;
-      top: 50%;
-      right: -12px;
-      transform: translateY(-50%);
-      font-size: 12px;
-      color: rgba(77, 208, 225, 0.6);
-      transition: color 0.3s ease;
-    }
+    // &::after {
+    //   content: "›";
+    //   position: absolute;
+    //   top: 50%;
+    //   right: -12px;
+    //   transform: translateY(-50%);
+    //   font-size: 12px;
+    //   color: rgba(77, 208, 225, 0.6);
+    //   transition: color 0.3s ease;
+    // }
   }
 
   /* Hover effects */
