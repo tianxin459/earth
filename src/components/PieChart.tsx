@@ -14,24 +14,28 @@ const ChartContainer = styled.div`
   background: linear-gradient(135deg, rgba(30, 35, 40, 0.8), rgba(20, 25, 30, 0.8));
   backdrop-filter: blur(10px);
   border: 1px solid rgba(77, 208, 225, 0.2);
-  border-radius: 12px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 4px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  height: 76px; /* Reduced height for space saving */
+  min-height: 76px;
   
   .chart-title {
     color: #4dd0e1;
-    font-size: 11px;
+    font-size: 8px;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
+    line-height: 1.2;
+    margin-bottom: 1px;
   }
   
   .percentage-text {
     text-anchor: middle;
-    font-size: 12px;
+    font-size: 7px; /* Smaller font size for compact layout */
     font-weight: bold;
     fill: #4dd0e1;
   }
@@ -40,8 +44,8 @@ const ChartContainer = styled.div`
 const PieChart: React.FC<PieChartProps> = ({ 
   value, 
   title, 
-  width = 120, 
-  height = 120,
+  width = 90, 
+  height = 90,
   unit = '%'
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -53,7 +57,7 @@ const PieChart: React.FC<PieChartProps> = ({
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
-    const radius = Math.min(width, height) / 2 - 10;
+    const radius = Math.min(width, height) / 2 - 5; // Reduced margin for smaller charts
     const centerX = width / 2;
     const centerY = height / 2;
     
@@ -94,7 +98,7 @@ const PieChart: React.FC<PieChartProps> = ({
 
     // Create arc generator
     const arc = d3.arc<d3.PieArcDatum<typeof pieData[0]>>()
-      .innerRadius(radius * 0.6) // Creates donut chart
+      .innerRadius(radius * 0.5) // Reduced inner radius for better text fit
       .outerRadius(radius);
 
     const container = svg.append('g')

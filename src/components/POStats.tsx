@@ -1,0 +1,93 @@
+import React from 'react';
+import styled from 'styled-components';
+
+interface POStatsProps {
+  stats: {
+    totalRoutes: number;
+    totalCost: number;
+    totalPOCount: number;
+    avgCostPerRoute: number;
+  };
+  formatNumber: (num: number) => string;
+}
+
+const StatsContainer = styled.div`
+  background: linear-gradient(135deg, rgba(30, 35, 40, 0.8), rgba(20, 25, 30, 0.8));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(77, 208, 225, 0.2);
+  border-radius: 8px;
+  padding: 6px;
+  margin-bottom: 8px;
+`;
+
+const StatsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  height: auto;
+`;
+
+const StatsCard = styled.div`
+  background: linear-gradient(135deg, rgba(40, 45, 50, 0.9), rgba(30, 35, 40, 0.9));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(77, 208, 225, 0.15);
+  border-radius: 4px;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  min-height: 28px;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(77, 208, 225, 0.3);
+    background: linear-gradient(135deg, rgba(45, 50, 55, 0.95), rgba(35, 40, 45, 0.95));
+  }
+`;
+
+const StatsLabel = styled.div`
+  font-size: 8px;
+  opacity: 0.7;
+  color: #ebebeb;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+`;
+
+const StatsValue = styled.div`
+  font-size: 12px;
+  font-weight: bold;
+  color: #4dd0e1;
+  text-shadow: 0 0 10px rgba(77, 208, 225, 0.3);
+`;
+
+const POStats: React.FC<POStatsProps> = ({ stats, formatNumber }) => {
+  const statsData = [
+    { label: 'ROUTES', value: formatNumber(stats.totalRoutes) },
+    { label: 'COST', value: `$${formatNumber(stats.totalCost)}` },
+    { label: 'ORDERS', value: formatNumber(stats.totalPOCount) },
+    { label: 'AVG', value: `$${formatNumber(stats.avgCostPerRoute)}` }
+  ];
+
+  return (
+    <StatsContainer>
+      <StatsGrid>
+        {statsData.map((stat, index) => (
+          <StatsCard key={index}>
+            <StatsLabel>{stat.label}</StatsLabel>
+            <StatsValue>{stat.value}</StatsValue>
+          </StatsCard>
+        ))}
+      </StatsGrid>
+    </StatsContainer>
+  );
+};
+
+export default POStats;

@@ -2,10 +2,12 @@ import React, { useMemo, useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "./components/Header";
 import WeeklyStatsDashboard from "./components/WeeklyStatsDashboard.tsx";
+import HistoricalCharts from "./components/HistoricalCharts";
+import POStats from "./components/POStats";;
 
 interface StatisticsData {
   wmweek: string;
-  sataistics: {
+  statistics: {
     [key: string]: {
       description: string;
       value: number;
@@ -37,70 +39,13 @@ const DashboardContainer = styled.div`
 `;
 
 const MainContent = styled.div`
-  padding: 16px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
   height: 100%;
   box-sizing: border-box;
-`;
-
-const StatsContainer = styled.div`
-  background: linear-gradient(135deg, rgba(30, 35, 40, 0.8), rgba(20, 25, 30, 0.8));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(77, 208, 225, 0.2);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
-`;
-
-const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 12px;
-  height: 200px;
-`;
-
-const StatsCard = styled.div`
-  background: linear-gradient(135deg, rgba(40, 45, 50, 0.9), rgba(30, 35, 40, 0.9));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(77, 208, 225, 0.15);
-  border-radius: 8px;
-  padding: 12px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 
-      0 4px 12px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    border-color: rgba(77, 208, 225, 0.3);
-    background: linear-gradient(135deg, rgba(45, 50, 55, 0.95), rgba(35, 40, 45, 0.95));
-  }
-`;
-
-const StatsLabel = styled.div`
-  font-size: 11px;
-  opacity: 0.7;
-  margin-bottom: 8px;
-  color: #ebebeb;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-`;
-
-const StatsValue = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-  color: #4dd0e1;
-  text-shadow: 0 0 10px rgba(77, 208, 225, 0.3);
+  overflow: hidden; /* Prevent scrolling of main container */
 `;
 
 const CollapseButton = styled.button<{ $collapsed: boolean }>`
@@ -137,6 +82,11 @@ const CollapseButton = styled.button<{ $collapsed: boolean }>`
 const Dashboard: React.FC<DashboardProps> = ({ routeData, isCollapsed, onToggleCollapse }) => {
   const [statisticsData, setStatisticsData] = useState<StatisticsData[]>([]);
   const [currentWeek, setCurrentWeek] = useState<string>("");
+
+  // Handle week selection from HistoricalCharts
+  const handleWeekSelect = (wmweek: string) => {
+    setCurrentWeek(wmweek);
+  };
 
   // Load statistics data
   useEffect(() => {
@@ -218,29 +168,13 @@ const Dashboard: React.FC<DashboardProps> = ({ routeData, isCollapsed, onToggleC
                 currentWeek={currentWeek}
               />
             )}
-            <StatsContainer>
-              <StatsGrid>
-                <StatsCard>
-                  <StatsLabel>ACTIVE ROUTES</StatsLabel>
-                  <StatsValue>{formatNumber(stats.totalRoutes)}</StatsValue>
-                </StatsCard>
-
-                <StatsCard>
-                  <StatsLabel>TOTAL COST</StatsLabel>
-                  <StatsValue>${formatNumber(stats.totalCost)}</StatsValue>
-                </StatsCard>
-
-                <StatsCard>
-                  <StatsLabel>PURCHASE ORDERS</StatsLabel>
-                  <StatsValue>{formatNumber(stats.totalPOCount)}</StatsValue>
-                </StatsCard>
-
-                <StatsCard>
-                  <StatsLabel>AVG COST</StatsLabel>
-                  <StatsValue>${formatNumber(stats.avgCostPerRoute)}</StatsValue>
-                </StatsCard>
-              </StatsGrid>
-            </StatsContainer>
+            <POStats 
+              stats={stats} 
+              formatNumber={formatNumber} 
+            />
+            {statisticsData.length > 0 && (
+              <HistoricalCharts onWeekSelect={handleWeekSelect} />
+            )}
           </MainContent>
         </DashboardContainer>
       )}

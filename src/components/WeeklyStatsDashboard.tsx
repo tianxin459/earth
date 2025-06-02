@@ -4,7 +4,7 @@ import PieChart from './PieChart';
 
 interface StatisticsData {
   wmweek: string;
-  sataistics: {
+  statistics: {
     [key: string]: {
       description: string;
       value: number;
@@ -21,36 +21,29 @@ interface WeeklyStatsDashboardProps {
 const DashboardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
 `;
 
 const PieChartsContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 8px;
-  align-items: stretch;
-  justify-items: stretch;
-  min-height: 180px;
-  
-  /* 第三个项目占据整行 */
-  & > *:nth-child(3) {
-    grid-column: 1 / -1;
-    justify-self: stretch;
-  }
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+  align-items: stretch; /* Changed to stretch for consistent heights */
+  justify-items: center;
+  min-height: 80px; /* Reduced from 100px */
 `;
 
 const WeekSelector = styled.div`
   background: linear-gradient(135deg, rgba(30, 35, 40, 0.8), rgba(20, 25, 30, 0.8));
   backdrop-filter: blur(10px);
   border: 1px solid rgba(77, 208, 225, 0.2);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 12px;
+  border-radius: 8px;
+  padding: 6px;
+  margin-bottom: 6px;
   
   .week-title {
     color: #4dd0e1;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
@@ -75,7 +68,7 @@ const WeeklyStatsDashboard: React.FC<WeeklyStatsDashboardProps> = ({
     );
   }
 
-  const stats = currentWeekData.sataistics;
+  const stats = currentWeekData.statistics;
 
   return (
     <DashboardContainer>
@@ -89,8 +82,8 @@ const WeeklyStatsDashboard: React.FC<WeeklyStatsDashboardProps> = ({
           <PieChart
             value={stats.otif.value}
             title="OTIF"
-            width={100}
-            height={100}
+            width={70}
+            height={70}
             unit={stats.otif.unit}
           />
         )}
@@ -100,8 +93,8 @@ const WeeklyStatsDashboard: React.FC<WeeklyStatsDashboardProps> = ({
           <PieChart
             value={stats.ontimedelivery.value}
             title="On Time Delivery"
-            width={100}
-            height={100}
+            width={70}
+            height={70}
             unit={stats.ontimedelivery.unit}
           />
         )}
@@ -111,8 +104,8 @@ const WeeklyStatsDashboard: React.FC<WeeklyStatsDashboardProps> = ({
           <PieChart
             value={stats.instock.value}
             title="In Stock"
-            width={100}
-            height={100}
+            width={70}
+            height={70}
             unit={stats.instock.unit}
           />
         )}

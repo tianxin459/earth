@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 interface StatisticsData {
   wmweek: string;
-  sataistics: {
+  statistics: {
     [key: string]: {
       description: string;
       value: number;
@@ -88,7 +88,7 @@ const StatisticsChart: React.FC<StatisticsChartProps> = ({
     const innerHeight = height - margin.top - margin.bottom;
 
     // Process data for visualization
-    const statsData = data[0]?.sataistics;
+    const statsData = data[0]?.statistics;
     if (!statsData) return;
 
     const chartData = Object.entries(statsData)
