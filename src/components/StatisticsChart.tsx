@@ -50,13 +50,11 @@ const ChartContainer = styled.div`
   }
   
   .bar {
-    fill: #4dd0e1;
-    opacity: 0.8;
     transition: opacity 0.3s ease;
   }
   
   .bar:hover {
-    opacity: 1;
+    opacity: 1 !important;
   }
   
   .axis {
@@ -91,6 +89,18 @@ const StatisticsChart: React.FC<StatisticsChartProps> = ({
     const statsData = data[0]?.statistics;
     if (!statsData) return;
 
+    // Define color mapping for different statistics (consistent with HistoricalCharts)
+    const colorMap: { [key: string]: string } = {
+      'otif': '#00ff88',
+      'ontimedelivery': '#4dd0e1',
+      'instock': '#ffa500',
+      'ordercreation_qty': '#ff6b6b',
+      'sales_qty': '#845ec2',
+      'delivery_performance': '#9c88ff',
+      'stock_turnover': '#ffb347',
+      'order_fulfillment': '#50c878'
+    };
+
     const chartData = Object.entries(statsData)
       .filter(([, value]) => typeof value.value === 'number')
       .map(([key, value]) => ({
@@ -98,7 +108,8 @@ const StatisticsChart: React.FC<StatisticsChartProps> = ({
         label: key.replace(/_/g, ' ').toUpperCase(),
         value: value.value,
         unit: value.unit,
-        description: value.description
+        description: value.description,
+        color: colorMap[key] || '#4dd0e1' // Default to cyan if no specific color
       }));
 
     // Create scales
@@ -130,7 +141,11 @@ const StatisticsChart: React.FC<StatisticsChartProps> = ({
       .attr('y', d => yScale(d.value))
       .attr('width', xScale.bandwidth())
       .attr('height', d => innerHeight - yScale(d.value))
-      .on('mouseover', (event, d) => {
+      .attr('fill', d => d.color)
+      .attr('opacity', 0.8)
+      .style('transition', 'opacity 0.3s ease')
+      .on('mouseover', function(event, d) {
+        d3.select(this).attr('opacity', 1);
         tooltip.transition()
           .duration(200)
           .style('opacity', 0.9);
@@ -142,7 +157,8 @@ const StatisticsChart: React.FC<StatisticsChartProps> = ({
           .style('left', (event.pageX + 10) + 'px')
           .style('top', (event.pageY - 28) + 'px');
       })
-      .on('mouseout', () => {
+      .on('mouseout', function() {
+        d3.select(this).attr('opacity', 0.8);
         tooltip.transition()
           .duration(500)
           .style('opacity', 0);

@@ -8,6 +8,7 @@ interface PieChartProps {
   width?: number;
   height?: number;
   unit?: string;
+  color?: string;
 }
 
 const ChartContainer = styled.div`
@@ -46,7 +47,8 @@ const PieChart: React.FC<PieChartProps> = ({
   title, 
   width = 90, 
   height = 90,
-  unit = '%'
+  unit = '%',
+  color = '#4dd0e1'
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [animatedValue, setAnimatedValue] = useState(0);
@@ -61,28 +63,43 @@ const PieChart: React.FC<PieChartProps> = ({
     const centerX = width / 2;
     const centerY = height / 2;
     
-    // Calculate color based on progress (100% = green, 0% = red)
-    const progress = animatedValue / 100;
+    // Use the provided color or calculate based on progress for backwards compatibility
+    let progressColor: string;
+    let backgroundColorRgba: string;
     
-    // Create red-orange-green gradient
-    let red: number, green: number, blue: number;
-    
-    if (progress <= 0.5) {
-      // 0% to 50%: red to orange
-      const localProgress = progress * 2; // 0 to 1
-      red = 255;
-      green = Math.round(165 * localProgress); // From 0 to 165 (orange)
-      blue = 0;
+    if (color && color !== '#4dd0e1') {
+      // Use provided color
+      progressColor = color;
+      // Convert hex to rgb and create transparent version
+      const hex = color.replace('#', '');
+      const r = parseInt(hex.substr(0, 2), 16);
+      const g = parseInt(hex.substr(2, 2), 16);
+      const b = parseInt(hex.substr(4, 2), 16);
+      backgroundColorRgba = `rgba(${r}, ${g}, ${b}, 0.2)`;
     } else {
-      // 50% to 100%: orange to green
-      const localProgress = (progress - 0.5) * 2; // 0 to 1
-      red = Math.round(255 * (1 - localProgress)); // From 255 to 0
-      green = Math.round(165 + (255 - 165) * localProgress); // From 165 to 255
-      blue = 0;
+      // Original progress-based color calculation
+      const progress = animatedValue / 100;
+      
+      // Create red-orange-green gradient
+      let red: number, green: number, blue: number;
+      
+      if (progress <= 0.5) {
+        // 0% to 50%: red to orange
+        const localProgress = progress * 2; // 0 to 1
+        red = 255;
+        green = Math.round(165 * localProgress); // From 0 to 165 (orange)
+        blue = 0;
+      } else {
+        // 50% to 100%: orange to green
+        const localProgress = (progress - 0.5) * 2; // 0 to 1
+        red = Math.round(255 * (1 - localProgress)); // From 255 to 0
+        green = Math.round(165 + (255 - 165) * localProgress); // From 165 to 255
+        blue = 0;
+      }
+      
+      progressColor = `rgb(${red}, ${green}, ${blue})`;
+      backgroundColorRgba = `rgba(${red}, ${green}, ${blue}, 0.2)`;
     }
-    
-    const progressColor = `rgb(${red}, ${green}, ${blue})`;
-    const backgroundColorRgba = `rgba(${red}, ${green}, ${blue}, 0.2)`;
     
     // Create pie data
     const pieData = [
@@ -144,7 +161,7 @@ const PieChart: React.FC<PieChartProps> = ({
       .ease(d3.easeBackOut)
       .attr('opacity', 1);
 
-  }, [animatedValue, width, height, unit]);
+  }, [animatedValue, width, height, unit, color]);
 
   // 动画效果 - 当值变化时触发动画
   useEffect(() => {

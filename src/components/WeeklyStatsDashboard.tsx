@@ -85,6 +85,7 @@ const WeeklyStatsDashboard: React.FC<WeeklyStatsDashboardProps> = ({
             width={70}
             height={70}
             unit={stats.otif.unit}
+            color="#00ff88"
           />
         )}
         
@@ -96,6 +97,7 @@ const WeeklyStatsDashboard: React.FC<WeeklyStatsDashboardProps> = ({
             width={70}
             height={70}
             unit={stats.ontimedelivery.unit}
+            color="#4dd0e1"
           />
         )}
         
@@ -107,6 +109,7 @@ const WeeklyStatsDashboard: React.FC<WeeklyStatsDashboardProps> = ({
             width={70}
             height={70}
             unit={stats.instock.unit}
+            color="#ffa500"
           />
         )}
       </PieChartsContainer>
