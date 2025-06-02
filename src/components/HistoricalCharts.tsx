@@ -57,15 +57,44 @@ const ChartTitle = styled.h3`
   margin: 0 0 6px 0;
   text-transform: uppercase;
   letter-spacing: 1px;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: titleFadeIn 0.8s ease-out forwards;
+  
+  @keyframes titleFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;
 
-const ChartCard = styled.div`
+const ChartCard = styled.div<{ index?: number }>`
   background: linear-gradient(135deg, rgba(40, 45, 50, 0.9), rgba(30, 35, 40, 0.9));
   border: 1px solid rgba(77, 208, 225, 0.15);
   border-radius: 6px;
   padding: 4px;
   margin-bottom: 4px;
   transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInFade 0.6s ease-out forwards;
+  animation-delay: ${props => (props.index || 0) * 0.1}s;
+  
+  @keyframes slideInFade {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
   
   &:hover {
     transform: translateY(-1px);
@@ -265,38 +294,69 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({ className, onWeekSe
         .attr('stop-color', metric.color)
         .attr('stop-opacity', 0.8);
 
-      // Add area under the line
+      // Add area under the line with animation
       const area = d3.area<typeof data[0]>()
         .x(d => xScale(d.week)!)
         .y0(height)
         .y1(d => yScale(d.value))
         .curve(d3.curveMonotoneX);
 
-      g.append('path')
+      const areaPath = g.append('path')
         .datum(data)
         .attr('fill', `url(#gradient-${metric.key})`)
-        .attr('d', area);
+        .attr('d', area)
+        .style('opacity', 0);
 
-      // Add the line
-      g.append('path')
+      // Animate area appearance
+      areaPath
+        .transition()
+        .duration(1000)
+        .delay(200)
+        .ease(d3.easeCircleOut)
+        .style('opacity', 1);
+
+      // Add the line with draw animation
+      const linePath = g.append('path')
         .datum(data)
         .attr('fill', 'none')
         .attr('stroke', metric.color)
         .attr('stroke-width', 2)
         .attr('d', line);
 
-      // Add dots with hover functionality
-      g.selectAll('.dot')
+      // Get the total length of the line for animation
+      const totalLength = (linePath.node() as SVGPathElement).getTotalLength();
+
+      // Set up the starting position for line animation
+      linePath
+        .attr('stroke-dasharray', `${totalLength} ${totalLength}`)
+        .attr('stroke-dashoffset', totalLength)
+        .transition()
+        .duration(1500)
+        .ease(d3.easeQuadInOut)
+        .attr('stroke-dashoffset', 0);
+
+      // Add dots with hover functionality and animation
+      const dots = g.selectAll('.dot')
         .data(data)
         .enter().append('circle')
         .attr('class', 'dot')
         .attr('cx', d => xScale(d.week)!)
         .attr('cy', d => yScale(d.value))
-        .attr('r', 3)
+        .attr('r', 0) // Start with radius 0 for animation
         .attr('fill', metric.color)
         .attr('stroke', '#ffffff')
         .attr('stroke-width', 1)
-        .style('cursor', 'pointer');
+        .style('cursor', 'pointer')
+        .style('opacity', 0);
+
+      // Animate dots appearance
+      dots
+        .transition()
+        .duration(600)
+        .delay((_, i) => 800 + i * 100) // Stagger the animation
+        .ease(d3.easeElasticOut.amplitude(1).period(0.3))
+        .attr('r', 3)
+        .style('opacity', 1);
 
       // Add invisible overlay for better hover detection
       const overlay = g.append('g')
@@ -333,9 +393,10 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({ className, onWeekSe
           handleWeekClick(d.week);
         });
 
-      // Add x-axis
+      // Add x-axis with animation
       const xAxis = g.append('g')
         .attr('transform', `translate(0,${height})`)
+        .style('opacity', 0)
         .call(d3.axisBottom(xScale));
 
       xAxis.selectAll('text')
@@ -347,6 +408,14 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({ className, onWeekSe
       xAxis.selectAll('path, line')
         .style('stroke', 'rgba(77, 208, 225, 0.3)');
 
+      // Animate x-axis appearance
+      xAxis
+        .transition()
+        .duration(800)
+        .delay(400)
+        .ease(d3.easeQuadOut)
+        .style('opacity', 1);
+
       // Add y-axis with better formatting for large numbers
       const formatYAxis = (d: any) => {
         const value = +d;
@@ -356,6 +425,7 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({ className, onWeekSe
       };
 
       const yAxis = g.append('g')
+        .style('opacity', 0)
         .call(d3.axisLeft(yScale).ticks(3).tickFormat(formatYAxis));
 
       yAxis.selectAll('text')
@@ -364,6 +434,14 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({ className, onWeekSe
 
       yAxis.selectAll('path, line')
         .style('stroke', 'rgba(77, 208, 225, 0.3)');
+
+      // Animate y-axis appearance
+      yAxis
+        .transition()
+        .duration(800)
+        .delay(600)
+        .ease(d3.easeQuadOut)
+        .style('opacity', 1);
 
       // Create tooltip for this metric
       d3.select('body').selectAll(`.tooltip-${metric.key}`).remove();
@@ -419,8 +497,8 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({ className, onWeekSe
   return (
     <ChartsContainer className={className}>
       <ChartTitle>Historical Performance Trends{timeRange && ` (${timeRange})`}</ChartTitle>
-      {metricsToChart.map(metric => (
-        <ChartCard key={metric.key}>
+      {metricsToChart.map((metric, index) => (
+        <ChartCard key={metric.key} index={index}>
           <ChartCardTitle>{metric.label}</ChartCardTitle>
           <svg
             ref={el => { chartRefs.current[metric.key] = el; }}

@@ -50,31 +50,59 @@ const MainContent = styled.div`
 const CollapseButton = styled.button<{ $collapsed: boolean }>`
   position: fixed;
   top: 50%;
-  right: ${props => props.$collapsed ? '25px' : '22%'};
+  right: ${props => props.$collapsed ? '25px' : '21.5%'};
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background: rgba(15, 25, 35, 0.8);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(77, 208, 225, 0.3);
-  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, rgba(15, 25, 35, 0.9), rgba(25, 35, 45, 0.9));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(77, 208, 225, 0.4);
+  border-radius: 6px;
   color: #4dd0e1;
-  font-size: 16px;
+  font-size: 10px;
+  font-weight: bold;
   cursor: pointer;
   z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(77, 208, 225, 0.1);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(77, 208, 225, 0.1) 50%, transparent 70%);
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
   
   &:hover {
-    background: rgba(30, 35, 40, 0.9);
-    border-color: rgba(77, 208, 225, 0.5);
-    transform: translateY(-50%) scale(1.1);
+    background: linear-gradient(135deg, rgba(25, 35, 45, 0.95), rgba(35, 45, 55, 0.95));
+    border-color: rgba(77, 208, 225, 0.7);
+    transform: translateY(-50%) translateX(-2px);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(77, 208, 225, 0.2),
+      inset 0 1px 0 rgba(77, 208, 225, 0.2);
+    
+    &::before {
+      opacity: 1;
+    }
   }
   
   &:active {
-    transform: translateY(-50%) scale(0.95);
+    transform: translateY(-50%) translateX(0px) scale(0.95);
+    box-shadow: 
+      0 2px 6px rgba(0, 0, 0, 0.3),
+      inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 `;
 
