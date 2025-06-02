@@ -1,167 +1,186 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Header from "./components/Header";
+import WeeklyStatsDashboard from "./components/WeeklyStatsDashboard.tsx";
+import HistoricalCharts from "./components/HistoricalCharts";
+import POStats from "./components/POStats";
+import { useAppDispatch, useAppSelector } from "./redux/hook.ts";
+import { setCurrentWeek } from "./redux/store.ts";
+interface StatisticsData {
+  wmweek: string;
+  statistics: {
+    [key: string]: {
+      description: string;
+      value: number;
+      unit: string;
+    };
+  };
+}
 
 interface DashboardProps {
-  routeData: any[];
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
 }
 
 const DashboardContainer = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
+  top: calc(41px + 25px); /* Header height + top margin */
+  right: 25px;
+  bottom: 25px;
+  width: 20%;
   color: #4dd0e1;
-  border: none;
-  z-index: 1000;
-  font-family: 'Courier New', monospace;
+  background: rgba(15, 25, 35, 0.6);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(77, 208, 225, 0.3);
+  border-radius: 12px;
+  z-index: 999; /* Lower than header */
+  font-family: "Courier New", monospace;
   overflow: hidden;
 `;
 
-const HeaderSection = styled.div`
-  background: rgba(15, 25, 35, 0.8);
-  backdrop-filter: blur(10px);
-  color: #4dd0e1;
-  padding: 8px 20px;
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-bottom: 1px solid rgba(77, 208, 225, 0.2);
-`;
-
 const MainContent = styled.div`
-  padding: 12px 20px;
+  padding: 8px;
   display: flex;
-  gap: 15px;
-  align-items: stretch;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 4px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent scrolling of main container */
 `;
 
-const StatsGrid = styled.div`
+const CollapseButton = styled.button<{ $collapsed: boolean }>`
+  position: fixed;
+  top: 50%;
+  right: ${(props) => (props.$collapsed ? "25px" : "21.5%")};
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 25, 35, 0.9),
+    rgba(25, 35, 45, 0.9)
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(77, 208, 225, 0.4);
+  border-radius: 6px;
+  color: #4dd0e1;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1001;
   display: flex;
-  justify-content: right;
-  gap: 12px;
-  flex: 1;
-`;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(77, 208, 225, 0.1);
 
-const StatsCard = styled.div`
-  background: linear-gradient(135deg, rgba(30, 35, 40, 0.9), rgba(20, 25, 30, 0.9));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(50, 55, 60, 0.6);
-  border-radius: 8px;
-  padding: 12px 16px;
-  text-align: center;
-  min-width: 110px;
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(77, 208, 225, 0.1) 50%,
+      transparent 70%
+    );
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-      0 6px 20px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    border-color: rgba(77, 208, 225, 0.3);
+    background: linear-gradient(
+      135deg,
+      rgba(25, 35, 45, 0.95),
+      rgba(35, 45, 55, 0.95)
+    );
+    border-color: rgba(77, 208, 225, 0.7);
+    transform: translateY(-50%) translateX(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(77, 208, 225, 0.2),
+      inset 0 1px 0 rgba(77, 208, 225, 0.2);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: translateY(-50%) translateX(0px) scale(0.95);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 `;
 
-const StatsLabel = styled.div`
-  font-size: 9px;
-  opacity: 0.7;
-  margin-bottom: 2px;
-  color: #ebebeb;
-`;
+const Dashboard: React.FC<DashboardProps> = ({
+  isCollapsed,
+  onToggleCollapse,
+}) => {
+  const [statisticsData, setStatisticsData] = useState<StatisticsData[]>([]);
 
-const StatsValue = styled.div`
-  font-size: 16px;
-  font-weight: bold;
-  color: #4dd0e1;
-`;
+  // Use Redux for currentWeek
+  const currentWeek = useAppSelector((state) => state.week.currentWeek);
+  const dispatch = useAppDispatch();
 
-const Dashboard: React.FC<DashboardProps> = ({ routeData }) => {
-  const stats = useMemo(() => {
-    if (!routeData || routeData.length === 0) {
-      return {
-        totalRoutes: 0,
-        totalCost: 0,
-        totalPOCount: 0,
-        avgCostPerRoute: 0,
-        avgPOCountPerRoute: 0,
-        topRoutes: [],
-        costDistribution: { low: 0, medium: 0, high: 0 }
-      };
-    }
+  // Handle week selection from HistoricalCharts
+  const handleWeekSelect = (wmweek: string) => {
+    dispatch(setCurrentWeek(wmweek));
+  };
 
-    const totalRoutes = routeData.length;
-    const totalCost = routeData.reduce((sum, route) => sum + (route.cost || 0), 0);
-    const totalPOCount = routeData.reduce((sum, route) => sum + (route.poCount || 0), 0);
-    const avgCostPerRoute = totalCost / totalRoutes;
-    const avgPOCountPerRoute = totalPOCount / totalRoutes;
+  // Load statistics data
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Load statistics data
+        const statisticsResponse = await fetch("/data/statistics.json");
+        const statisticsData = await statisticsResponse.json();
+        setStatisticsData(statisticsData);
 
-    // Top 5 routes by cost
-    const topRoutes = [...routeData]
-      .sort((a, b) => (b.cost || 0) - (a.cost || 0))
-      .slice(0, 5);
-
-    // Cost distribution
-    const costDistribution = routeData.reduce((dist, route) => {
-      const cost = route.cost || 0;
-      if (cost < 50000) dist.low++;
-      else if (cost < 200000) dist.medium++;
-      else dist.high++;
-      return dist;
-    }, { low: 0, medium: 0, high: 0 });
-
-    return {
-      totalRoutes,
-      totalCost,
-      totalPOCount,
-      avgCostPerRoute,
-      avgPOCountPerRoute,
-      topRoutes,
-      costDistribution
+        // Set current week to the latest available week (highest wmweek)
+        if (statisticsData.length > 0) {
+          const latestWeek = statisticsData
+            .map((d: StatisticsData) => d.wmweek)
+            .sort()
+            .reverse()[0]; // Get the latest week
+          dispatch(setCurrentWeek(latestWeek));
+        }
+      } catch (error) {
+        console.error("Failed to load data:", error);
+      }
     };
-  }, [routeData]);
+
+    loadData();
+  }, []);
 
   const formatNumber = (num: number) => {
-    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+    if (num >= 1000) return (num / 1000).toFixed(1) + "K";
     return num.toFixed(0);
   };
 
   return (
-    <DashboardContainer>
-      <HeaderSection>
-        ▪ PO ANALYTICS VISUAL CENTER ▪
-      </HeaderSection>
-
-      <MainContent>
-        <StatsGrid>
-          <StatsCard>
-            <StatsLabel>ACTIVE ROUTES</StatsLabel>
-            <StatsValue>{formatNumber(stats.totalRoutes)}</StatsValue>
-          </StatsCard>
-
-          <StatsCard>
-            <StatsLabel>TOTAL COST</StatsLabel>
-            <StatsValue>${formatNumber(stats.totalCost)}</StatsValue>
-          </StatsCard>
-
-          <StatsCard>
-            <StatsLabel>PURCHASE ORDERS</StatsLabel>
-            <StatsValue>{formatNumber(stats.totalPOCount)}</StatsValue>
-          </StatsCard>
-
-          <StatsCard>
-            <StatsLabel>AVG COST</StatsLabel>
-            <StatsValue>${formatNumber(stats.avgCostPerRoute)}</StatsValue>
-          </StatsCard>
-        </StatsGrid>
-      </MainContent>
-    </DashboardContainer>
+    <>
+      <Header />
+      {!isCollapsed && (
+        <DashboardContainer>
+          <MainContent>
+            {statisticsData.length > 0 && (
+              <WeeklyStatsDashboard data={statisticsData} />
+            )}
+            <POStats formatNumber={formatNumber} currentWeek={currentWeek} />
+            {statisticsData.length > 0 && (
+              <HistoricalCharts onWeekSelect={handleWeekSelect} />
+            )}
+          </MainContent>
+        </DashboardContainer>
+      )}
+      <CollapseButton $collapsed={isCollapsed} onClick={onToggleCollapse}>
+        {isCollapsed ? "◀" : "▶"}
+      </CollapseButton>
+    </>
   );
 };
 

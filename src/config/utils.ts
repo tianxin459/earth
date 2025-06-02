@@ -45,3 +45,12 @@ export function getTotals(d: any, fromPortTotals: any, toPortTotals: any) {
     return { totalCost: 0, totalPOCount: 0 };
   }
 }
+
+  export const formatWMWeek = (wmweek: string) => {
+    if (wmweek.length === 6) {
+      const year = wmweek.substring(0, 4);
+      const week = wmweek.substring(4);
+      return `${year}-${week}`;
+    }
+    return wmweek;
+  };

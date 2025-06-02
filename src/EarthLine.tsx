@@ -33,6 +33,7 @@ interface EarthLineProps {
   fromData: any[];
   toData: any[];
   routeData: any[];
+  isDashboardCollapsed: boolean;
 }
 
 // Helper function to calculate great circle distance in radians
@@ -85,12 +86,37 @@ const EarthLine: React.FC<EarthLineProps> = ({
   fromData,
   toData,
   routeData,
+  isDashboardCollapsed,
 }) => {
   const globeRef = useRef<HTMLDivElement>(null);
   const globeInstanceRef = useRef<any>(null);
   const materialRef = useRef<ShaderMaterial | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [globeReady, setGlobeReady] = useState(false);
+
+  // Update globe position when dashboard collapse state changes
+  useEffect(() => {
+    if (globeInstanceRef.current && globeRef.current) {
+      const renderer = globeInstanceRef.current.renderer();
+      const container = globeRef.current;
+      const containerWidth = container.clientWidth;
+
+      if (isDashboardCollapsed) {
+        // Center the globe when dashboard is collapsed - use transform for smooth transition
+        renderer.domElement.style.left = "0px";
+        renderer.domElement.style.transform = "translateX(0%)";
+      } else {
+        // Move the globe 20% to the left when dashboard is expanded
+        renderer.domElement.style.left = "0px";
+        renderer.domElement.style.transform = `translateX(-${
+          containerWidth * 0.1
+        }px)`;
+      }
+
+      // Ensure smooth transition
+      renderer.domElement.style.transition = "transform 0.3s ease-out";
+    }
+  }, [isDashboardCollapsed]);
 
   // Initialize globe only once when port data is available
   useEffect(() => {
@@ -136,6 +162,25 @@ const EarthLine: React.FC<EarthLineProps> = ({
             .atmosphereAltitude(0.25)
             .pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 });
 
+          const renderer = globeInstanceRef.current.renderer();
+          const container = globeRef.current;
+          const containerWidth = container.clientWidth;
+
+          // Set initial position and styling
+          renderer.domElement.style.position = "relative";
+          renderer.domElement.style.left = "0px";
+          renderer.domElement.style.transition = "transform 0.3s ease-out";
+
+          if (isDashboardCollapsed) {
+            // Center the globe when dashboard is collapsed
+            renderer.domElement.style.transform = "translateX(0%)";
+          } else {
+            // Move the globe 20% to the left when dashboard is expanded
+            renderer.domElement.style.transform = `translateX(-${
+              containerWidth * 0.1
+            }px)`;
+          }
+
           // Globe controls setup
           const controls = globeInstanceRef.current.controls();
           controls.autoRotate = true;
@@ -144,18 +189,16 @@ const EarthLine: React.FC<EarthLineProps> = ({
           controls.dampingFactor = 0.05;
 
           // Pause rotation on mouse enter, resume on mouse leave
-          if (globeRef.current) {
-            globeRef.current.addEventListener("mouseenter", () => {
-              if (globeInstanceRef.current) {
-                globeInstanceRef.current.controls().autoRotate = false;
-              }
-            });
-            globeRef.current.addEventListener("mouseleave", () => {
-              if (globeInstanceRef.current) {
-                globeInstanceRef.current.controls().autoRotate = true;
-              }
-            });
-          }
+          globeRef.current.addEventListener("mouseenter", () => {
+            if (globeInstanceRef.current) {
+              globeInstanceRef.current.controls().autoRotate = false;
+            }
+          });
+          globeRef.current.addEventListener("mouseleave", () => {
+            if (globeInstanceRef.current) {
+              globeInstanceRef.current.controls().autoRotate = true;
+            }
+          });
 
           // Update sun direction every minute for day/night shader
           timerRef.current = setInterval(() => {
@@ -312,10 +355,6 @@ const EarthLine: React.FC<EarthLineProps> = ({
 
     // 主业务连线数据 - 优化性能和视觉效果
     const arcRoutes = routes
-      // .filter(d => {
-      //   // 过滤掉成本过低的连线以提高性能
-      //   return d.cost > 100; // 只显示成本超过100的连线
-      // })
       .map((d) => {
         // Use great circle path for realistic routes
         const path = getGreatCirclePath(
@@ -554,7 +593,6 @@ const EarthLine: React.FC<EarthLineProps> = ({
       .labelsTransitionDuration(0);
 
     // --- BEGIN: Add vertical lines from earth surface to label dots ---
-    // Remove previous lines if any
     let labelLinesGroup: THREE.Group | null = null;
     if (myGlobe.scene().getObjectByName("labelLinesGroup")) {
       labelLinesGroup = myGlobe
@@ -596,20 +634,6 @@ const EarthLine: React.FC<EarthLineProps> = ({
     });
     myGlobe.scene().add(labelLinesGroup);
     // --- END: Add vertical lines from earth surface to label dots ---
-
-    // Add auto-rotation
-    myGlobe.controls().autoRotate = true;
-    myGlobe.controls().autoRotateSpeed = 0.5;
-
-    // Pause rotation on mouse enter, resume on mouse leave
-    if (globeRef.current) {
-      globeRef.current.addEventListener("mouseenter", () => {
-        myGlobe.controls().autoRotate = false;
-      });
-      globeRef.current.addEventListener("mouseleave", () => {
-        myGlobe.controls().autoRotate = true;
-      });
-    }
   }, [routeData, fromData, toData, globeReady]); // Include globeReady to trigger when globe is initialized
 
   return <GlobeContainer ref={globeRef} />;

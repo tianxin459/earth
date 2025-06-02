@@ -1,10 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { setCurrentWeek } from "../redux/store";
+import { formatWMWeek } from "../config/utils";
 
 interface TimelineProps {
   wmweeks: string[];
-  currentWmweek: string;
-  onWmweekChange: (wmweek: string) => void;
 }
 
 const TimelineContainer = styled.div`
@@ -48,7 +49,7 @@ const TimelineProgress = styled.div<{ progress: number }>`
   height: 100%;
   background: linear-gradient(90deg, #00ffe7 0%, #4dd0e1 100%);
   border-radius: 3px;
-  width: ${props => props.progress}%;
+  width: ${(props) => props.progress}%;
   transition: width 0.3s ease;
 `;
 
@@ -63,17 +64,19 @@ const TimelineDots = styled.div`
   pointer-events: none;
 `;
 
-const TimelineDot = styled.div<{ isActive: boolean }>`
-  width: ${props => props.isActive ? '12px' : '8px'};
-  height: ${props => props.isActive ? '12px' : '8px'};
+const TimelineDot = styled.div<{ $isActive: boolean }>`
+  width: ${(props) => (props.$isActive ? "12px" : "8px")};
+  height: ${(props) => (props.$isActive ? "12px" : "8px")};
   border-radius: 50%;
-  background: ${props => props.isActive ? '#00ffe7' : 'rgba(77, 208, 225, 0.6)'};
-  border: 2px solid ${props => props.isActive ? '#ffffff' : 'transparent'};
+  background: ${(props) =>
+    props.$isActive ? "#00ffe7" : "rgba(77, 208, 225, 0.6)"};
+  border: 2px solid ${(props) => (props.$isActive ? "#ffffff" : "transparent")};
   transition: all 0.3s ease;
   cursor: pointer;
   pointer-events: all;
-  box-shadow: ${props => props.isActive ? '0 0 10px rgba(0, 255, 231, 0.5)' : 'none'};
-  
+  box-shadow: ${(props) =>
+    props.$isActive ? "0 0 10px rgba(0, 255, 231, 0.5)" : "none"};
+
   &:hover {
     background: #00ffe7;
     transform: scale(1.2);
@@ -98,36 +101,43 @@ const NavigationButtons = styled.div`
 `;
 
 const NavButton = styled.button<{ disabled?: boolean }>`
-  background: ${props => props.disabled ? 'rgba(77, 208, 225, 0.2)' : 'rgba(77, 208, 225, 0.6)'};
-  border: 1px solid ${props => props.disabled ? 'rgba(77, 208, 225, 0.3)' : 'rgba(77, 208, 225, 0.8)'};
-  color: ${props => props.disabled ? '#666' : '#ffffff'};
+  background: ${(props) =>
+    props.disabled ? "rgba(77, 208, 225, 0.2)" : "rgba(77, 208, 225, 0.6)"};
+  border: 1px solid
+    ${(props) =>
+      props.disabled ? "rgba(77, 208, 225, 0.3)" : "rgba(77, 208, 225, 0.8)"};
+  color: ${(props) => (props.disabled ? "#666" : "#ffffff")};
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: bold;
   transition: all 0.2s ease;
-  
+
   &:hover:not(:disabled) {
     background: rgba(77, 208, 225, 0.8);
     transform: scale(1.1);
   }
-  
+
   &:active:not(:disabled) {
     transform: scale(0.95);
   }
 `;
 
-const Timeline: React.FC<TimelineProps> = ({ wmweeks, currentWmweek, onWmweekChange }) => {
+const Timeline: React.FC<TimelineProps> = ({ wmweeks }) => {
+  const currentWmweek = useAppSelector((state) => state.week.currentWeek);
   const currentIndex = wmweeks.indexOf(currentWmweek);
-  const progress = wmweeks.length > 1 ? (currentIndex / (wmweeks.length - 1)) * 100 : 0;
+  const progress =
+    wmweeks.length > 1 ? (currentIndex / (wmweeks.length - 1)) * 100 : 0;
+
+  const dispatch = useAppDispatch();
 
   const handleDotClick = (wmweek: string) => {
-    onWmweekChange(wmweek);
+    dispatch(setCurrentWeek(wmweek));
   };
 
   const handleTrackClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -137,37 +147,28 @@ const Timeline: React.FC<TimelineProps> = ({ wmweeks, currentWmweek, onWmweekCha
     const targetIndex = Math.round(percentage * (wmweeks.length - 1));
     const targetWmweek = wmweeks[targetIndex];
     if (targetWmweek) {
-      onWmweekChange(targetWmweek);
+      dispatch(setCurrentWeek(targetWmweek));
     }
   };
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
-      onWmweekChange(wmweeks[currentIndex - 1]);
+      dispatch(setCurrentWeek(wmweeks[currentIndex - 1]));
     }
   };
 
   const handleNext = () => {
     if (currentIndex < wmweeks.length - 1) {
-      onWmweekChange(wmweeks[currentIndex + 1]);
+      dispatch(setCurrentWeek(wmweeks[currentIndex + 1]));
     }
-  };
-
-  const formatWmweek = (wmweek: string) => {
-    if (wmweek.length === 6) {
-      const year = wmweek.substring(0, 4);
-      const week = wmweek.substring(4);
-      return `${year}W${week}`;
-    }
-    return wmweek;
   };
 
   return (
     <TimelineContainer>
       <TimelineLabel>Week Timeline</TimelineLabel>
-      
+
       <NavigationButtons>
-        <NavButton 
+        <NavButton
           onClick={handlePrevious}
           disabled={currentIndex <= 0}
           title="Previous Week"
@@ -182,16 +183,16 @@ const Timeline: React.FC<TimelineProps> = ({ wmweeks, currentWmweek, onWmweekCha
           {wmweeks.map((wmweek) => (
             <TimelineDot
               key={wmweek}
-              isActive={wmweek === currentWmweek}
+              $isActive={wmweek === currentWmweek}
               onClick={() => handleDotClick(wmweek)}
-              title={formatWmweek(wmweek)}
+              title={formatWMWeek(wmweek)}
             />
           ))}
         </TimelineDots>
       </TimelineTrack>
 
       <NavigationButtons>
-        <NavButton 
+        <NavButton
           onClick={handleNext}
           disabled={currentIndex >= wmweeks.length - 1}
           title="Next Week"
@@ -200,7 +201,7 @@ const Timeline: React.FC<TimelineProps> = ({ wmweeks, currentWmweek, onWmweekCha
         </NavButton>
       </NavigationButtons>
 
-      <WmweekDisplay>{formatWmweek(currentWmweek)}</WmweekDisplay>
+      <WmweekDisplay>{formatWMWeek(currentWmweek)}</WmweekDisplay>
     </TimelineContainer>
   );
 };
