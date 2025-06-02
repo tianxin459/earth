@@ -1,6 +1,6 @@
 [
   {
-    "wmweek": "202501",
+    "wmweek": "202517",
     "statistics": {
       "otif": {
         "description": "On Time In Full - A measure of delivery performance.",
@@ -40,7 +40,7 @@
     }
   },
   {
-    "wmweek": "202502",
+    "wmweek": "202518",
     "statistics": {
       "otif": {
         "description": "On Time In Full - A measure of delivery performance.",
@@ -80,7 +80,7 @@
     }
   },
   {
-    "wmweek": "202503",
+    "wmweek": "202519",
     "statistics": {
       "otif": {
         "description": "On Time In Full - A measure of delivery performance.",
@@ -120,7 +120,7 @@
     }
   },
   {
-    "wmweek": "202504",
+    "wmweek": "202520",
     "statistics": {
       "otif": {
         "description": "On Time In Full - A measure of delivery performance.",
@@ -640,7 +640,7 @@
     }
   },
   {
-    "wmweek": "202517",
+    "wmweek": "202521",
     "statistics": {
       "otif": {
         "description": "On Time In Full - A measure of delivery performance.",
