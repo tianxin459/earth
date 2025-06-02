@@ -181,7 +181,6 @@ const App: React.FC = () => {
         currentWmweek={currentWmweek}
       />
       <Dashboard 
-        routeData={routeData} 
         isCollapsed={isDashboardCollapsed}
         onToggleCollapse={handleToggleCollapse}
       />

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "./components/Header";
 import WeeklyStatsDashboard from "./components/WeeklyStatsDashboard.tsx";
@@ -17,7 +17,6 @@ interface StatisticsData {
 }
 
 interface DashboardProps {
-  routeData: any[];
   isCollapsed: boolean;
   onToggleCollapse: () => void;
 }
@@ -79,7 +78,7 @@ const CollapseButton = styled.button<{ $collapsed: boolean }>`
   }
 `;
 
-const Dashboard: React.FC<DashboardProps> = ({ routeData, isCollapsed, onToggleCollapse }) => {
+const Dashboard: React.FC<DashboardProps> = ({ isCollapsed, onToggleCollapse }) => {
   const [statisticsData, setStatisticsData] = useState<StatisticsData[]>([]);
   const [currentWeek, setCurrentWeek] = useState<string>("");
 
@@ -90,65 +89,28 @@ const Dashboard: React.FC<DashboardProps> = ({ routeData, isCollapsed, onToggleC
 
   // Load statistics data
   useEffect(() => {
-    const loadStatistics = async () => {
+    const loadData = async () => {
       try {
-        const response = await fetch('/data/statistics.json');
-        const data = await response.json();
-        setStatisticsData(data);
-        // Set current week to the first available week
-        if (data.length > 0) {
-          setCurrentWeek(data[0].wmweek);
+        // Load statistics data
+        const statisticsResponse = await fetch('/data/statistics.json');
+        const statisticsData = await statisticsResponse.json();
+        setStatisticsData(statisticsData);
+        
+        // Set current week to the latest available week (highest wmweek)
+        if (statisticsData.length > 0) {
+          const latestWeek = statisticsData
+            .map((d: StatisticsData) => d.wmweek)
+            .sort()
+            .reverse()[0]; // Get the latest week
+          setCurrentWeek(latestWeek);
         }
       } catch (error) {
-        console.error('Failed to load statistics:', error);
+        console.error('Failed to load data:', error);
       }
     };
 
-    loadStatistics();
+    loadData();
   }, []);
-  const stats = useMemo(() => {
-    if (!routeData || routeData.length === 0) {
-      return {
-        totalRoutes: 0,
-        totalCost: 0,
-        totalPOCount: 0,
-        avgCostPerRoute: 0,
-        avgPOCountPerRoute: 0,
-        topRoutes: [],
-        costDistribution: { low: 0, medium: 0, high: 0 }
-      };
-    }
-
-    const totalRoutes = routeData.length;
-    const totalCost = routeData.reduce((sum, route) => sum + (route.cost || 0), 0);
-    const totalPOCount = routeData.reduce((sum, route) => sum + (route.poCount || 0), 0);
-    const avgCostPerRoute = totalCost / totalRoutes;
-    const avgPOCountPerRoute = totalPOCount / totalRoutes;
-
-    // Top 5 routes by cost
-    const topRoutes = [...routeData]
-      .sort((a, b) => (b.cost || 0) - (a.cost || 0))
-      .slice(0, 5);
-
-    // Cost distribution
-    const costDistribution = routeData.reduce((dist, route) => {
-      const cost = route.cost || 0;
-      if (cost < 50000) dist.low++;
-      else if (cost < 200000) dist.medium++;
-      else dist.high++;
-      return dist;
-    }, { low: 0, medium: 0, high: 0 });
-
-    return {
-      totalRoutes,
-      totalCost,
-      totalPOCount,
-      avgCostPerRoute,
-      avgPOCountPerRoute,
-      topRoutes,
-      costDistribution
-    };
-  }, [routeData]);
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
@@ -169,8 +131,8 @@ const Dashboard: React.FC<DashboardProps> = ({ routeData, isCollapsed, onToggleC
               />
             )}
             <POStats 
-              stats={stats} 
               formatNumber={formatNumber} 
+              currentWeek={currentWeek}
             />
             {statisticsData.length > 0 && (
               <HistoricalCharts onWeekSelect={handleWeekSelect} />

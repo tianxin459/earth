@@ -1,14 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
 interface POStatsProps {
-  stats: {
-    totalRoutes: number;
-    totalCost: number;
-    totalPOCount: number;
-    avgCostPerRoute: number;
-  };
   formatNumber: (num: number) => string;
+  currentWeek?: string;
 }
 
 const StatsContainer = styled.div`
@@ -18,6 +13,17 @@ const StatsContainer = styled.div`
   border-radius: 8px;
   padding: 6px;
   margin-bottom: 8px;
+`;
+
+const WeekHeader = styled.div`
+  color: #4dd0e1;
+  font-size: 9px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
 `;
 
 const StatsGrid = styled.div`
@@ -68,7 +74,64 @@ const StatsValue = styled.div`
   text-shadow: 0 0 10px rgba(77, 208, 225, 0.3);
 `;
 
-const POStats: React.FC<POStatsProps> = ({ stats, formatNumber }) => {
+const POStats: React.FC<POStatsProps> = ({ formatNumber, currentWeek }) => {
+  const [wmweekData, setWmweekData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load wmweek data
+  useEffect(() => {
+    const loadWmweekData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/wmweekData.json');
+        const data = await response.json();
+        setWmweekData(data);
+      } catch (error) {
+        console.error('Failed to load wmweek data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadWmweekData();
+  }, []);
+
+  // Calculate stats based on current week
+  const stats = useMemo(() => {
+    if (!currentWeek || wmweekData.length === 0) {
+      return {
+        totalRoutes: 0,
+        totalCost: 0,
+        totalPOCount: 0,
+        avgCostPerRoute: 0
+      };
+    }
+
+    // Get route data for the current week
+    const currentWeekRouteData = wmweekData.find(weekData => weekData.wmweek === currentWeek)?.routeData || [];
+    
+    if (!currentWeekRouteData || currentWeekRouteData.length === 0) {
+      return {
+        totalRoutes: 0,
+        totalCost: 0,
+        totalPOCount: 0,
+        avgCostPerRoute: 0
+      };
+    }
+
+    const totalRoutes = currentWeekRouteData.length;
+    const totalCost = currentWeekRouteData.reduce((sum: number, route: any) => sum + (route.cost || 0), 0);
+    const totalPOCount = currentWeekRouteData.reduce((sum: number, route: any) => sum + (route.poCount || 0), 0);
+    const avgCostPerRoute = totalRoutes > 0 ? totalCost / totalRoutes : 0;
+
+    return {
+      totalRoutes,
+      totalCost,
+      totalPOCount,
+      avgCostPerRoute
+    };
+  }, [wmweekData, currentWeek]);
+
   const statsData = [
     { label: 'ROUTES', value: formatNumber(stats.totalRoutes) },
     { label: 'COST', value: `$${formatNumber(stats.totalCost)}` },
@@ -76,8 +139,27 @@ const POStats: React.FC<POStatsProps> = ({ stats, formatNumber }) => {
     { label: 'AVG', value: `$${formatNumber(stats.avgCostPerRoute)}` }
   ];
 
+  if (loading) {
+    return (
+      <StatsContainer>
+        <WeekHeader>Loading PO Stats...</WeekHeader>
+        <StatsGrid>
+          {[1, 2, 3, 4].map((index) => (
+            <StatsCard key={index}>
+              <StatsLabel>---</StatsLabel>
+              <StatsValue>--</StatsValue>
+            </StatsCard>
+          ))}
+        </StatsGrid>
+      </StatsContainer>
+    );
+  }
+
   return (
     <StatsContainer>
+      {currentWeek && (
+        <WeekHeader>PO Stats - Week {currentWeek}</WeekHeader>
+      )}
       <StatsGrid>
         {statsData.map((stat, index) => (
           <StatsCard key={index}>
