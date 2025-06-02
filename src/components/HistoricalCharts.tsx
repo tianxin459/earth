@@ -49,14 +49,9 @@ const ChartsContainer = styled.div`
   }
 `;
 
-const ChartTitle = styled.h3`
-  color: #4dd0e1;
-  font-size: 10px;
-  font-weight: bold;
+const ChartTitleContainer = styled.div`
   text-align: center;
-  margin: 0 0 6px 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  margin: 0 0 8px 0;
   opacity: 0;
   transform: translateY(-10px);
   animation: titleFadeIn 0.8s ease-out forwards;
@@ -69,6 +64,38 @@ const ChartTitle = styled.h3`
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+`;
+
+const ChartTitle = styled.h3`
+  color: #4dd0e1;
+  font-size: 10px;
+  font-weight: bold;
+  margin: 0 0 2px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+`;
+
+const ChartTimeRange = styled.div`
+  color: #00ff88;
+  font-size: 8px;
+  font-weight: bold;
+  background: linear-gradient(90deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1));
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 12px;
+  padding: 2px 8px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: pulseGlow 2s ease-in-out infinite alternate;
+  
+  @keyframes pulseGlow {
+    from {
+      box-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+    }
+    to {
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
     }
   }
 `;
@@ -475,7 +502,10 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({ className, onWeekSe
   if (loading) {
     return (
       <ChartsContainer className={className}>
-        <ChartTitle>Trends{timeRange && ` (${timeRange})`}</ChartTitle>
+        <ChartTitleContainer>
+          <ChartTitle>Historical Performance Trends</ChartTitle>
+          {timeRange && <ChartTimeRange>{timeRange}</ChartTimeRange>}
+        </ChartTitleContainer>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
           Loading historical data...
         </div>
@@ -486,7 +516,10 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({ className, onWeekSe
   if (error) {
     return (
       <ChartsContainer className={className}>
-        <ChartTitle>Trends{timeRange && ` (${timeRange})`}</ChartTitle>
+        <ChartTitleContainer>
+          <ChartTitle>Historical Performance Trends</ChartTitle>
+          {timeRange && <ChartTimeRange>{timeRange}</ChartTimeRange>}
+        </ChartTitleContainer>
         <div style={{ textAlign: 'center', padding: '2rem', color: '#ef4444' }}>
           Error loading data: {error}
         </div>
@@ -496,7 +529,10 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({ className, onWeekSe
 
   return (
     <ChartsContainer className={className}>
-      <ChartTitle>Historical Performance Trends{timeRange && ` (${timeRange})`}</ChartTitle>
+      <ChartTitleContainer>
+        <ChartTitle>Historical Performance Trends</ChartTitle>
+        {timeRange && <ChartTimeRange>{timeRange}</ChartTimeRange>}
+      </ChartTitleContainer>
       {metricsToChart.map((metric, index) => (
         <ChartCard key={metric.key} index={index}>
           <ChartCardTitle>{metric.label}</ChartCardTitle>
