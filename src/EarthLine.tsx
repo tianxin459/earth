@@ -87,7 +87,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
   const materialRef = useRef<ShaderMaterial | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [globeReady, setGlobeReady] = useState(false);
-  
+
   const selectedPorts = useAppSelector((state) => state.ports.selectedPorts);
 
   // Update globe position when dashboard collapse state changes
@@ -266,7 +266,8 @@ const EarthLine: React.FC<EarthLineProps> = ({
       const to = toMap.get(item.toPort); // toPort是数字，需要匹配idc
 
       // 检查是否应该显示这条路线
-      const shouldShowRoute = selectedPorts.includes(item.fromPort) || 
+      const shouldShowRoute =
+        selectedPorts.includes(item.fromPort) ||
         selectedPorts.includes(item.toPort.toString());
 
       if (from && to && shouldShowRoute) {
@@ -301,7 +302,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
     // Combine all ports and filter those with totalCost > 0
     const allPorts = [
       ...Array.from(fromMap.values()),
-      ...Array.from(toMap.values())
+      ...Array.from(toMap.values()),
     ];
     const filteredPorts = allPorts.filter((d: any) => {
       const totals =
@@ -389,8 +390,8 @@ const EarthLine: React.FC<EarthLineProps> = ({
       .arcStartLng((d: any) => d.srcLng)
       .arcEndLat((d: any) => d.dstLat)
       .arcEndLng((d: any) => d.dstLng)
-      // 提高分辨率获得更平滑的弧线
-      .arcCurveResolution(256)
+      // Increase resolution for smoother arcs
+      .arcCurveResolution(128)
       .arcAltitude((d: any) => {
         // Calculate great circle distance between ports
         const distance = greatCircleDistance(
@@ -398,123 +399,51 @@ const EarthLine: React.FC<EarthLineProps> = ({
           { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
         );
 
-        // 优化的高度计算 - 更美观的弧线
-        const minAltitude = 0.15; // 最小高度
-        const maxAltitude = 0.4; // 最大高度
+        // 调整高度设置，确保弧线始终在地球表面之上
+        const minAltitude = 0.2; // 最小高度，短距离连线
+        const maxAltitude = 0.3; // 最大高度，长距离连线
 
-        // 根据距离计算基础高度 - 使用更平滑的曲线
-        const normalizedDistance = Math.min(distance / Math.PI, 1);
+        // 根据大圆距离计算标准化距离
+        const normalizedDistance = distance / Math.PI;
 
-        // 使用三次贝塞尔曲线函数获得更自然的高度分布
-        const t = normalizedDistance;
-        const heightMultiplier = 3 * t * t - 2 * t * t * t; // 平滑的S曲线
-
+        // 使用更平滑的曲线函数
         const baseAltitude =
-          minAltitude + (maxAltitude - minAltitude) * heightMultiplier;
+          minAltitude +
+          (maxAltitude - minAltitude) *
+            (0.5 + 0.5 * Math.sin(normalizedDistance * Math.PI - Math.PI / 2));
 
-        // 短距离连线的特殊处理
-        if (distance < 0.1) {
-          // 距离小于约6度
-          return Math.max(0.08, minAltitude * 0.7);
+        // 为非常短的距离设置最小可见高度
+        if (distance < 0.05) {
+          // 距离小于约3度
+          return Math.max(0.01, minAltitude);
         }
 
-        // 中等距离优化
-        if (distance < 0.5) {
-          return baseAltitude * 0.8;
-        }
-
-        // 长距离跨洋航线
-        if (distance > Math.PI * 0.5) {
-          return Math.min(baseAltitude * 1.2, maxAltitude);
+        // 为跨洋航线适当增加高度，但保持合理范围
+        if (distance > Math.PI * 0.4) {
+          // 距离大于72度
+          return Math.min(baseAltitude * 1.1, maxAltitude);
         }
 
         return baseAltitude;
       })
       // 完全移除自动缩放，使用我们的自定义高度计算
-      .arcAltitudeAutoScale(0)
-      // 优化的线条配置 - 更美观的视觉效果
-      .arcStroke((d: any) => {
-        return 0.2;
-        // 优化的线条粗细计算
-        if (d.costCategory === "high") {
-          return 1.0; // 高成本连线最粗
-        } else if (d.costCategory === "medium") {
-          return 0.7; // 中等成本连线中等粗细
-        } else {
-          return 0.4; // 低成本连线最细
-        }
-      })
-      .arcDashLength(1) // 实线
-      .arcDashGap(0) // 无间隙
-      .arcDashAnimateTime(0) // 无动画
-      .arcsTransitionDuration(800) // 平滑过渡
-      .arcsData(arcRoutes)
-      .arcColor((d: any) => {
-        // 优化的颜色方案 - 基于成本和距离
-        const distance = d.distance || 0;
-
-        // 根据距离调整透明度
-        const distanceAlpha = Math.max(
-          0.6,
-          Math.min(1, distance / Math.PI + 0.3)
-        );
-
-        if (d.costCategory === "high") {
-          // 高成本：红色到紫色渐变
-          return [
-            `rgba(255, 100, 100, ${distanceAlpha})`,
-            `rgba(150, 0, 150, ${distanceAlpha})`,
-          ];
-        } else if (d.costCategory === "medium") {
-          // 中等成本：橙色到红色渐变
-          return [
-            `rgba(255, 165, 0, ${distanceAlpha})`,
-            `rgba(255, 69, 0, ${distanceAlpha})`,
-          ];
-        } else {
-          // 低成本：绿色到青色渐变
-          return [
-            `rgba(0, 255, 100, ${distanceAlpha})`,
-            `rgba(0, 200, 255, ${distanceAlpha})`,
-          ];
-        }
-      })
-      // 增强的鼠标悬停效果
-      .onArcHover((arc: any) => {
-        const myGlobe = globeInstanceRef.current;
-        if (!myGlobe) return;
-
-        myGlobe.arcColor((d: any) => {
-          if (arc && d === arc) {
-            // 悬停时的高亮效果 - 金色高亮
-            return ["rgba(255, 215, 0, 1)", "rgba(255, 140, 0, 1)"];
-          } else {
-            // 恢复原始颜色逻辑
-            const distance = d.distance || 0;
-            const distanceAlpha = Math.max(
-              0.6,
-              Math.min(1, distance / Math.PI + 0.3)
-            );
-
-            if (d.costCategory === "high") {
-              return [
-                `rgba(255, 100, 100, ${distanceAlpha})`,
-                `rgba(150, 0, 150, ${distanceAlpha})`,
-              ];
-            } else if (d.costCategory === "medium") {
-              return [
-                `rgba(255, 165, 0, ${distanceAlpha})`,
-                `rgba(255, 69, 0, ${distanceAlpha})`,
-              ];
-            } else {
-              return [
-                `rgba(0, 255, 100, ${distanceAlpha})`,
-                `rgba(0, 200, 255, ${distanceAlpha})`,
-              ];
-            }
-          }
-        });
-      });
+      .arcAltitudeAutoScale(0) // 完全禁用自动缩放
+      // Arc animation and color
+      .arcDashLength(0.25)
+      .arcDashGap(1)
+      .arcDashInitialGap(() => Math.random())
+      .arcDashAnimateTime(2000)
+      .arcColor(() => [`rgba(0, 255, 0, 1)`, `rgba(255, 0, 0, 1)`])
+      .arcsTransitionDuration(0)
+      .arcsData(arcRoutes);
+    // Highlight arc on hover
+    // .onArcHover((arc: any) => {
+    //   myGlobe.arcColor((d: any) =>
+    //     arc && d === arc
+    //       ? ["rgba(255,255,0,0.95)", "rgba(255,0,128,0.95)"]
+    //       : [`rgba(0, 255, 0, 1)`, `rgba(255, 0, 0, 1)`]
+    //   );
+    // });
 
     // Configure port labels
     myGlobe
