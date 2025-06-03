@@ -5,6 +5,7 @@ interface ControlPanelProps {
   isLoading: boolean;
   onRefreshData: () => void;
   currentWmweek?: string;
+  onToggleFilter: () => void;
 }
 
 const PanelContainer = styled.div<{ isExpanded: boolean }>`
@@ -118,7 +119,7 @@ const StatusText = styled.div<{ status: 'loading' | 'ready' | 'error' }>`
   letter-spacing: 0.5px;
 `;
 
-const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData, currentWmweek }) => {
+const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData, currentWmweek, onToggleFilter }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -141,6 +142,11 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData, c
     // TODO: 实现设置功能
     console.log('Settings functionality to be implemented');
   };
+
+  const showFilter = () => {
+    onToggleFilter();
+    setIsExpanded(false); // 点击后收起控制面板
+  }
 
   // 点击外部区域收起面板
   useEffect(() => {
@@ -197,6 +203,11 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData, c
           disabled={true}
         >
           Settings
+        </ControlButton>
+        <ControlButton 
+          onClick={showFilter}
+        >
+          Filter
         </ControlButton>
       </PanelContent>
       

@@ -3,6 +3,7 @@ import { calculateSunDirection, getTotals } from "./config/utils";
 import { dayNightShader } from "./config/dayNightShader";
 import { renderArcTooltip } from "./components/ArcTooltipRenderer";
 import { renderPortTooltip } from "./components/PortTooltipRenderer";
+import { useAppSelector } from "./redux/hook";
 import { TextureLoader, ShaderMaterial } from "three";
 import _ from "lodash";
 import * as THREE from "three";
@@ -21,13 +22,6 @@ const LABEL_BASE_ALT = 0;
 const LABEL_STEP_ALT = 0.1;
 const LABEL_DIST_THRESHOLD = 4;
 const LABEL_MAX_LAYER = 4;
-
-type Port = {
-  port: string;
-  lat: number;
-  lng: number;
-  type: "from" | "to";
-};
 
 interface EarthLineProps {
   fromData: any[];
@@ -93,6 +87,8 @@ const EarthLine: React.FC<EarthLineProps> = ({
   const materialRef = useRef<ShaderMaterial | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [globeReady, setGlobeReady] = useState(false);
+  
+  const selectedPorts = useAppSelector((state) => state.ports.selectedPorts);
 
   // Update globe position when dashboard collapse state changes
   useEffect(() => {
@@ -253,24 +249,29 @@ const EarthLine: React.FC<EarthLineProps> = ({
 
     const myGlobe = globeInstanceRef.current;
 
-    // Data preprocessing for ports
-    const fromPorts: Port[] = fromData.map((item: any) => ({
-      port: item.name,
-      lat: item.lat,
-      lng: item.lng,
-      type: "from",
-    }));
-
-    const toPorts: Port[] = toData.map((item: any) => ({
-      port: item.idc, // 使用idc作为端口标识符 (数字)
-      lat: item.lat,
-      lng: item.lng,
-      type: "to",
-    }));
-
-    // Map ports for quick lookup - 确保正确的数据类型匹配
-    const fromMap = new Map(fromPorts.map((p: any) => [p.port, p]));
-    const toMap = new Map(toPorts.map((p: any) => [p.port, p]));
+    // Map ports for quick lookup
+    const fromMap = new Map(
+      fromData.map((item: any) => [
+        item.name,
+        {
+          port: item.name,
+          lat: item.lat,
+          lng: item.lng,
+          type: "from",
+        },
+      ])
+    );
+    const toMap = new Map(
+      toData.map((item: any) => [
+        item.idc,
+        {
+          port: item.idc,
+          lat: item.lat,
+          lng: item.lng,
+          type: "to",
+        },
+      ])
+    );
 
     // Build route data with port info
     const routes: any[] = [];
@@ -280,7 +281,12 @@ const EarthLine: React.FC<EarthLineProps> = ({
     routeData.forEach((item: any) => {
       const from = fromMap.get(item.fromPort); // fromPort是字符串
       const to = toMap.get(item.toPort); // toPort是数字，需要匹配idc
-      if (from && to) {
+
+      // 检查是否应该显示这条路线
+      const shouldShowRoute = selectedPorts.includes(item.fromPort) || 
+        selectedPorts.includes(item.toPort.toString());
+
+      if (from && to && shouldShowRoute) {
         routes.push({
           srcPort: item.fromPort,
           dstPort: item.toPort,
@@ -289,7 +295,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
           ...item,
         });
         matchedRoutes++;
-      } else {
+      } else if (!from || !to) {
         unmatchedRoutes++;
         // Debug unmatched routes
         if (!from) console.warn(`From port not found: ${item.fromPort}`);
@@ -309,8 +315,12 @@ const EarthLine: React.FC<EarthLineProps> = ({
       totalPOCount: Math.round(_.sumBy(items, "poCount")),
     }));
 
-    // Filter ports with totalCost > 0
-    const filteredPorts = [...fromPorts, ...toPorts].filter((d: any) => {
+    // Combine all ports and filter those with totalCost > 0
+    const allPorts = [
+      ...Array.from(fromMap.values()),
+      ...Array.from(toMap.values())
+    ];
+    const filteredPorts = allPorts.filter((d: any) => {
       const totals =
         d.type === "from"
           ? fromPortTotals[d.port]
@@ -634,7 +644,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
     });
     myGlobe.scene().add(labelLinesGroup);
     // --- END: Add vertical lines from earth surface to label dots ---
-  }, [routeData, fromData, toData, globeReady]); // Include globeReady to trigger when globe is initialized
+  }, [routeData, fromData, toData, globeReady, selectedPorts]); // Include port selection states
 
   return <GlobeContainer ref={globeRef} />;
 };
