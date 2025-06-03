@@ -9,19 +9,23 @@ interface ArcTooltipProps {
 }
 
 const TooltipContainer = styled.div`
-  background: rgba(24, 28, 47, 0.96);
+  background: rgba(24, 28, 47, 0.98); /* 增加背景不透明度 */
   color: #fff;
-  padding: 12px 20px;
+  padding: 14px 22px; /* 增加内边距 */
   border-radius: 12px;
   box-shadow: 0 4px 24px 0 #0008;
-  font-size: 1.08em;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-shadow: 0 2px 8px #000a;
+  font-size: 1.15em; /* 增大字体 */
+  font-weight: 600; /* 增加字体粗细 */
+  letter-spacing: 0.3px; /* 减少字间距 */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); /* 优化文字阴影 */
   border: 1.5px solid #00ffe7;
-  min-width: 180px;
+  min-width: 200px; /* 增加最小宽度 */
   text-align: left;
   line-height: 1.6;
+  font-family: 'Arial', 'Helvetica', sans-serif; /* 使用更清晰的字体 */
+  -webkit-font-smoothing: antialiased; /* 字体平滑 */
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility; /* 优化文字渲染 */
 `;
 
 const RouteHeader = styled.div`

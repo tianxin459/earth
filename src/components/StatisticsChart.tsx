@@ -59,12 +59,18 @@ const ChartContainer = styled.div`
   
   .axis {
     color: #ebebeb;
-    font-size: 10px;
+    font-size: 11px; /* 增大字体 */
+    font-weight: 600; /* 增加字体粗细 */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
   
   .axis-label {
     fill: #ebebeb;
-    font-size: 10px;
+    font-size: 11px; /* 增大字体 */
+    font-weight: 600; /* 增加字体粗细 */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 `;
 

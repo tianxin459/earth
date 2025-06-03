@@ -36,9 +36,11 @@ const ChartContainer = styled.div`
   
   .percentage-text {
     text-anchor: middle;
-    font-size: 7px; /* Smaller font size for compact layout */
-    font-weight: bold;
+    font-size: 8px; /* 增大字体 */
+    font-weight: 700; /* 增加字体粗细 */
     fill: #4dd0e1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 `;
 

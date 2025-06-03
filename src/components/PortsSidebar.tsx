@@ -88,7 +88,7 @@ const SelectAllButton = styled.button`
 const PortTag = styled.div<{ $selected: boolean }>`
     display: inline-flex;
     align-items: center;
-    padding: 4px 8px;
+    padding: 5px 9px; /* 增加内边距 */
     margin: 2px;
     background: ${(props) =>
         props.$selected ? "rgba(77, 208, 225, 0.3)" : "rgba(15, 25, 35, 0.6)"};
@@ -96,8 +96,11 @@ const PortTag = styled.div<{ $selected: boolean }>`
         ${(props) => (props.$selected ? "#4dd0e1" : "rgba(77, 208, 225, 0.3)")};
     border-radius: 4px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px; /* 增大字体 */
+    font-weight: 600; /* 增加字体粗细 */
     transition: all 0.2s ease;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 
     &:hover {
         border-color: #4dd0e1;

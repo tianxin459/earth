@@ -73,27 +73,31 @@ const WeekSelector = styled.div`
   .week-label {
     position: relative;
     z-index: 1;
-    color: rgba(77, 208, 225, 0.8);
-    font-size: 7px;
-    font-weight: 600;
+    color: rgba(77, 208, 225, 0.9); /* 增加不透明度 */
+    font-size: 8px; /* 增大字体 */
+    font-weight: 700; /* 增加字体粗细 */
     text-align: center;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px; /* 减少字间距 */
     margin-bottom: 2px;
-    font-family: "Courier New", monospace;
+    font-family: "Arial", "Helvetica", "Courier New", monospace;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   .week-number {
     position: relative;
     z-index: 1;
     color: #00ff88;
-    font-size: 14px;
+    font-size: 15px; /* 增大字体 */
     font-weight: 900;
     text-align: center;
-    font-family: "Courier New", monospace;
-    letter-spacing: 1.2px;
-    text-shadow: 0 0 6px rgba(0, 255, 136, 0.3), 0 0 12px rgba(0, 255, 136, 0.1);
+    font-family: "Arial", "Helvetica", "Courier New", monospace;
+    letter-spacing: 1px; /* 减少字间距 */
+    text-shadow: 0 0 6px rgba(0, 255, 136, 0.4), 0 0 12px rgba(0, 255, 136, 0.2); /* 增强阴影 */
     transition: all 0.2s ease;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 
     /* Elegant corner accents */
     // &::before {

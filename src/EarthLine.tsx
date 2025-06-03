@@ -473,7 +473,8 @@ const EarthLine: React.FC<EarthLineProps> = ({
       // Label size based on total cost
       .labelSize((d: any) => {
         const totals = getTotals(d, fromPortTotals, toPortTotals);
-        return Math.max(0.7, Math.min(2.5, Math.sqrt(totals.totalCost) * 4e-4));
+        // 增加标签大小，提高可读性
+        return Math.max(1.0, Math.min(3.0, Math.sqrt(totals.totalCost) * 5e-4));
       })
       // Dot radius based on total cost
       .labelDotRadius((d: any) => {
@@ -485,9 +486,9 @@ const EarthLine: React.FC<EarthLineProps> = ({
       })
       // Label color by port type
       .labelColor((d: any) =>
-        d.type === "from" ? "#00ffe7" : "rgba(255, 165, 0, 0.75)"
+        d.type === "from" ? "#00ffe7" : "rgba(255, 165, 0, 0.9)"
       )
-      .labelResolution(3)
+      .labelResolution(8) // 提高分辨率，从3改为8，使标签更清晰
       .labelAltitude((d: any) => labelAltitudes[d.port] || 0)
       .labelDotOrientation("top")
       .labelIncludeDot(true)

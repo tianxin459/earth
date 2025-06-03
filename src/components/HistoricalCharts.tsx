@@ -75,17 +75,20 @@ const ChartTitleContainer = styled.div`
 
 const ChartTitle = styled.h3`
   color: #4dd0e1;
-  font-size: 10px;
-  font-weight: bold;
+  font-size: 11px; /* 增大字体 */
+  font-weight: 700; /* 增加字体粗细 */
   margin: 0 0 2px 0;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px; /* 减少字间距 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-shadow: 0 0 4px rgba(77, 208, 225, 0.3); /* 增加阴影 */
 `;
 
 const ChartTimeRange = styled.div`
   color: #00ff88;
-  font-size: 8px;
-  font-weight: bold;
+  font-size: 9px; /* 增大字体 */
+  font-weight: 700; /* 增加字体粗细 */
   background: linear-gradient(
     90deg,
     rgba(0, 255, 136, 0.2),
@@ -93,10 +96,12 @@ const ChartTimeRange = styled.div`
   );
   border: 1px solid rgba(0, 255, 136, 0.3);
   border-radius: 12px;
-  padding: 2px 8px;
+  padding: 3px 9px; /* 增加内边距 */
   display: inline-block;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px; /* 减少字间距 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   animation: pulseGlow 2s ease-in-out infinite alternate;
 
   @keyframes pulseGlow {
@@ -518,8 +523,11 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
 
       yAxis
         .selectAll("text")
-        .style("font-size", "7px")
-        .style("fill", "#4dd0e1");
+        .style("font-size", "8px") /* 增大字体 */
+        .style("font-weight", "600") /* 增加字体粗细 */
+        .style("fill", "#4dd0e1")
+        .style("-webkit-font-smoothing", "antialiased") /* 字体平滑 */
+        .style("text-rendering", "optimizeLegibility"); /* 文字渲染优化 */
 
       yAxis.selectAll("path, line").style("stroke", "rgba(77, 208, 225, 0.3)");
 

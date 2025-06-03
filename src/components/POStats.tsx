@@ -70,19 +70,23 @@ const StatsCard = styled.div`
 `;
 
 const StatsLabel = styled.div`
-  font-size: 8px;
-  opacity: 0.7;
+  font-size: 9px; /* 增大字体 */
+  opacity: 0.8; /* 增加不透明度 */
   color: #ebebeb;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-weight: 500;
+  font-weight: 600; /* 增加字体粗细 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 `;
 
 const StatsValue = styled.div`
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 13px; /* 增大字体 */
+  font-weight: 700; /* 增加字体粗细 */
   color: #4dd0e1;
-  text-shadow: 0 0 10px rgba(77, 208, 225, 0.3);
+  text-shadow: 0 0 8px rgba(77, 208, 225, 0.4); /* 增强阴影 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 `;
 
 const POStats: React.FC<POStatsProps> = ({ formatNumber, currentWeek }) => {

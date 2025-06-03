@@ -54,8 +54,8 @@ const CollapseButton = styled.button<{ $collapsed: boolean }>`
   top: 50%;
   right: ${(props) => (props.$collapsed ? "25px" : "21.5%")};
   transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
+  width: 30px; /* 增大按钮 */
+  height: 30px;
   background: linear-gradient(
     135deg,
     rgba(15, 25, 35, 0.9),
@@ -65,8 +65,8 @@ const CollapseButton = styled.button<{ $collapsed: boolean }>`
   border: 1px solid rgba(77, 208, 225, 0.4);
   border-radius: 6px;
   color: #4dd0e1;
-  font-size: 10px;
-  font-weight: bold;
+  font-size: 11px; /* 增大字体 */
+  font-weight: 700; /* 增加字体粗细 */
   cursor: pointer;
   z-index: 1001;
   display: flex;
@@ -75,6 +75,8 @@ const CollapseButton = styled.button<{ $collapsed: boolean }>`
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(77, 208, 225, 0.1);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 
   &::before {
     content: "";

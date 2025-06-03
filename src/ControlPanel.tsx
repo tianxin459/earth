@@ -62,13 +62,16 @@ const PanelContent = styled.div<{ isExpanded: boolean }>`
 
 const PanelHeader = styled.div`
   color: #4dd0e1;
-  font-size: 11px;
-  font-weight: bold;
+  font-size: 12px; /* 增大字体 */
+  font-weight: 700; /* 增加字体粗细 */
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px; /* 减少字间距 */
   margin-bottom: 12px;
   border-bottom: 1px solid rgba(77, 208, 225, 0.2);
   padding-bottom: 4px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-shadow: 0 0 4px rgba(77, 208, 225, 0.3);
 `;
 
 const ControlButton = styled.button<{ disabled?: boolean }>`
@@ -82,16 +85,18 @@ const ControlButton = styled.button<{ disabled?: boolean }>`
   };
   border-radius: 6px;
   color: ${props => props.disabled ? '#888' : '#4dd0e1'};
-  font-family: 'Courier New', monospace;
-  font-size: 10px;
-  font-weight: bold;
-  padding: 6px 12px;
+  font-family: 'Arial', 'Helvetica', 'Courier New', monospace;
+  font-size: 11px; /* 增大字体 */
+  font-weight: 700; /* 增加字体粗细 */
+  padding: 7px 14px; /* 增加内边距 */
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px; /* 减少字间距 */
   width: 100%;
   margin-bottom: 8px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   
   &:hover:not(:disabled) {
     background: linear-gradient(135deg, rgba(77, 208, 225, 0.3), rgba(77, 208, 225, 0.2));
@@ -105,7 +110,7 @@ const ControlButton = styled.button<{ disabled?: boolean }>`
 `;
 
 const StatusText = styled.div<{ status: 'loading' | 'ready' | 'error' }>`
-  font-size: 9px;
+  font-size: 10px; /* 增大字体 */
   color: ${props => {
     switch(props.status) {
       case 'loading': return '#ffa500';
@@ -116,7 +121,10 @@ const StatusText = styled.div<{ status: 'loading' | 'ready' | 'error' }>`
   }};
   margin-bottom: 8px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px; /* 减少字间距 */
+  font-weight: 600; /* 增加字体粗细 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 `;
 
 const ControlPanel: React.FC<ControlPanelProps> = ({ isLoading, onRefreshData, currentWmweek, onToggleFilter }) => {

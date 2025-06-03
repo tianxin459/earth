@@ -87,14 +87,17 @@ const TimelineDot = styled.div<{ $isActive: boolean }>`
 
 const WmweekDisplay = styled.div`
   color: #ffffff;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 15px; /* 增大字体 */
+  font-weight: 700; /* 增加字体粗细 */
   min-width: 80px;
   text-align: center;
   background: rgba(77, 208, 225, 0.2);
   padding: 8px 12px;
   border-radius: 12px;
   border: 1px solid rgba(77, 208, 225, 0.4);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 `;
 
 const NavigationButtons = styled.div`

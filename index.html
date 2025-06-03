@@ -21,11 +21,21 @@
       }
       .port-label {
         position: absolute;
-        color: lime;
-        font-size: 12px;
+        color: #00ffe7; /* 使用更亮的青色 */
+        font-size: 15px; /* 再次增大字体 */
+        font-weight: 700; /* 使用更粗的字体 */
+        font-family: 'Arial', 'Helvetica', sans-serif;
         pointer-events: none;
         z-index: 10000;
-        text-shadow: 0 0 4px #000, 0 0 2px #0f0;
+        text-shadow: 
+          0 0 1px rgba(0, 0, 0, 1),
+          0 0 3px rgba(0, 0, 0, 0.8),
+          0 0 5px rgba(0, 255, 231, 0.3); /* 增强对比度的阴影 */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        /* 增加文字描边以提高可读性 */
+        -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.8);
       }
       #zoom-slider {
         position: fixed;
