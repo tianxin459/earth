@@ -100,13 +100,10 @@ const App: React.FC = () => {
 
       // Extract available wmweeks and set the first one as current
       const wmweeks = wmweekResult.map((item: any) => item.wmweek);
-      console.log("Loaded wmweeks:", wmweeks);
-      console.log("Loaded wmweek data:", wmweekResult);
       setAvailableWmweeks(wmweeks);
       if (wmweeks.length > 0) {
         dispatch(setCurrentWeek(wmweeks[0]));
         setRouteData(wmweekResult[0].routeData || []);
-        console.log("Initial route data:", wmweekResult[0].routeData);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
@@ -120,8 +117,8 @@ const App: React.FC = () => {
     const selectedWeekData = wmweekData.find(
       (item: any) => item.wmweek === wmweek
     );
+
     if (selectedWeekData) {
-      console.log(`Switching to wmweek: ${wmweek}`, selectedWeekData);
       dispatch(setCurrentWeek(wmweek));
       setRouteData(selectedWeekData.routeData || []);
     }
@@ -131,25 +128,10 @@ const App: React.FC = () => {
     loadData();
   }, []);
 
-  // Add keyboard navigation for wmweeks
   useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (!availableWmweeks.length || !currentWmweek) return;
+    if (!availableWmweeks.length || !currentWmweek) return;
 
-      const currentIndex = availableWmweeks.indexOf(currentWmweek);
-
-      if (event.key === "ArrowLeft" && currentIndex > 0) {
-        handleWmweekChange(availableWmweeks[currentIndex - 1]);
-      } else if (
-        event.key === "ArrowRight" &&
-        currentIndex < availableWmweeks.length - 1
-      ) {
-        handleWmweekChange(availableWmweeks[currentIndex + 1]);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
+    handleWmweekChange(currentWmweek);
   }, [availableWmweeks, currentWmweek]);
 
   // 渲染错误状态
