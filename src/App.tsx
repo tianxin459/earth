@@ -7,8 +7,7 @@ import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
 import { selectAllPorts, setCurrentWeek } from "./redux/store";
 import PortsSidebar from "./components/PortsSidebar";
-
-const base = import.meta.env.BASE_URL || "/";
+import { base } from "./config/constants";
 
 const FullScreenOverlay = styled.div`
   display: flex;

@@ -6,6 +6,7 @@ import HistoricalCharts from "./components/HistoricalCharts";
 import POStats from "./components/POStats";
 import { useAppDispatch, useAppSelector } from "./redux/hook.ts";
 import { setCurrentWeek } from "./redux/store.ts";
+import { base } from "./config/constants.ts";
 interface StatisticsData {
   wmweek: string;
   statistics: {
@@ -135,7 +136,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     const loadData = async () => {
       try {
         // Load statistics data
-        const statisticsResponse = await fetch("/data/statistics.json");
+        const statisticsResponse = await fetch(`${base}data/statistics.json`);
         const statisticsData = await statisticsResponse.json();
         setStatisticsData(statisticsData);
 

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect, useMemo } from "react";
+import styled from "styled-components";
+import { base } from "../config/constants";
 
 interface POStatsProps {
   formatNumber: (num: number) => string;
@@ -7,7 +8,11 @@ interface POStatsProps {
 }
 
 const StatsContainer = styled.div`
-  background: linear-gradient(135deg, rgba(30, 35, 40, 0.8), rgba(20, 25, 30, 0.8));
+  background: linear-gradient(
+    135deg,
+    rgba(30, 35, 40, 0.8),
+    rgba(20, 25, 30, 0.8)
+  );
   backdrop-filter: blur(10px);
   border: 1px solid rgba(77, 208, 225, 0.2);
   border-radius: 8px;
@@ -34,7 +39,11 @@ const StatsGrid = styled.div`
 `;
 
 const StatsCard = styled.div`
-  background: linear-gradient(135deg, rgba(40, 45, 50, 0.9), rgba(30, 35, 40, 0.9));
+  background: linear-gradient(
+    135deg,
+    rgba(40, 45, 50, 0.9),
+    rgba(30, 35, 40, 0.9)
+  );
   backdrop-filter: blur(10px);
   border: 1px solid rgba(77, 208, 225, 0.15);
   border-radius: 4px;
@@ -42,19 +51,21 @@ const StatsCard = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.2),
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;
   min-height: 28px;
-  
+
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 
-      0 4px 12px rgba(0, 0, 0, 0.3),
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
     border-color: rgba(77, 208, 225, 0.3);
-    background: linear-gradient(135deg, rgba(45, 50, 55, 0.95), rgba(35, 40, 45, 0.95));
+    background: linear-gradient(
+      135deg,
+      rgba(45, 50, 55, 0.95),
+      rgba(35, 40, 45, 0.95)
+    );
   }
 `;
 
@@ -83,11 +94,11 @@ const POStats: React.FC<POStatsProps> = ({ formatNumber, currentWeek }) => {
     const loadWmweekData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/wmweekData.json');
+        const response = await fetch(`${base}wmweekData.json`);
         const data = await response.json();
-        setWmweekData(data);
+        setWmweekData(data ?? []);
       } catch (error) {
-        console.error('Failed to load wmweek data:', error);
+        console.error("Failed to load wmweek data:", error);
       } finally {
         setLoading(false);
       }
@@ -103,40 +114,48 @@ const POStats: React.FC<POStatsProps> = ({ formatNumber, currentWeek }) => {
         totalRoutes: 0,
         totalCost: 0,
         totalPOCount: 0,
-        avgCostPerRoute: 0
+        avgCostPerRoute: 0,
       };
     }
 
     // Get route data for the current week
-    const currentWeekRouteData = wmweekData.find(weekData => weekData.wmweek === currentWeek)?.routeData || [];
-    
+    const currentWeekRouteData =
+      wmweekData?.find((weekData) => weekData.wmweek === currentWeek)
+        ?.routeData || [];
+
     if (!currentWeekRouteData || currentWeekRouteData.length === 0) {
       return {
         totalRoutes: 0,
         totalCost: 0,
         totalPOCount: 0,
-        avgCostPerRoute: 0
+        avgCostPerRoute: 0,
       };
     }
 
     const totalRoutes = currentWeekRouteData.length;
-    const totalCost = currentWeekRouteData.reduce((sum: number, route: any) => sum + (route.cost || 0), 0);
-    const totalPOCount = currentWeekRouteData.reduce((sum: number, route: any) => sum + (route.poCount || 0), 0);
+    const totalCost = currentWeekRouteData.reduce(
+      (sum: number, route: any) => sum + (route.cost || 0),
+      0
+    );
+    const totalPOCount = currentWeekRouteData.reduce(
+      (sum: number, route: any) => sum + (route.poCount || 0),
+      0
+    );
     const avgCostPerRoute = totalRoutes > 0 ? totalCost / totalRoutes : 0;
 
     return {
       totalRoutes,
       totalCost,
       totalPOCount,
-      avgCostPerRoute
+      avgCostPerRoute,
     };
   }, [wmweekData, currentWeek]);
 
   const statsData = [
-    { label: 'ROUTES', value: formatNumber(stats.totalRoutes) },
-    { label: 'COST', value: `$${formatNumber(stats.totalCost)}` },
-    { label: 'ORDERS', value: formatNumber(stats.totalPOCount) },
-    { label: 'AVG', value: `$${formatNumber(stats.avgCostPerRoute)}` }
+    { label: "ROUTES", value: formatNumber(stats.totalRoutes) },
+    { label: "COST", value: `$${formatNumber(stats.totalCost)}` },
+    { label: "ORDERS", value: formatNumber(stats.totalPOCount) },
+    { label: "AVG", value: `$${formatNumber(stats.avgCostPerRoute)}` },
   ];
 
   if (loading) {
@@ -157,9 +176,7 @@ const POStats: React.FC<POStatsProps> = ({ formatNumber, currentWeek }) => {
 
   return (
     <StatsContainer>
-      {currentWeek && (
-        <WeekHeader>PO Stats - Week {currentWeek}</WeekHeader>
-      )}
+      {currentWeek && <WeekHeader>PO Stats - Week {currentWeek}</WeekHeader>}
       <StatsGrid>
         {statsData.map((stat, index) => (
           <StatsCard key={index}>

@@ -99,30 +99,19 @@ const EarthLine: React.FC<EarthLineProps> = ({
 
       if (isDashboardCollapsed) {
         // Center the globe when dashboard is collapsed - use transform for smooth transition
-        renderer.domElement.style.left = "0px";
         renderer.domElement.style.transform = "translateX(0%)";
       } else {
         // Move the globe 20% to the left when dashboard is expanded
-        renderer.domElement.style.left = "0px";
         renderer.domElement.style.transform = `translateX(-${
           containerWidth * 0.1
         }px)`;
       }
-
-      // Ensure smooth transition
-      renderer.domElement.style.transition = "transform 0.3s ease-out";
     }
   }, [isDashboardCollapsed]);
 
   // Initialize globe only once when port data is available
   useEffect(() => {
-    if (
-      !fromData ||
-      fromData.length === 0 ||
-      !toData ||
-      toData.length === 0 ||
-      globeInstanceRef.current
-    ) {
+    if (globeInstanceRef.current) {
       return; // Wait for port data or prevent re-initialization
     }
 
@@ -167,15 +156,9 @@ const EarthLine: React.FC<EarthLineProps> = ({
           renderer.domElement.style.left = "0px";
           renderer.domElement.style.transition = "transform 0.3s ease-out";
 
-          if (isDashboardCollapsed) {
-            // Center the globe when dashboard is collapsed
-            renderer.domElement.style.transform = "translateX(0%)";
-          } else {
-            // Move the globe 20% to the left when dashboard is expanded
-            renderer.domElement.style.transform = `translateX(-${
-              containerWidth * 0.1
-            }px)`;
-          }
+          renderer.domElement.style.transform = `translateX(-${
+            containerWidth * 0.1
+          }px)`;
 
           // Globe controls setup
           const controls = globeInstanceRef.current.controls();
@@ -225,7 +208,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
       globeInstanceRef.current = null;
       materialRef.current = null;
     };
-  }, [fromData, toData]); // Only depend on port data, not route data
+  }, []); // Only depend on port data, not route data
 
   // Update route data separately when routeData changes or globe is ready
   useEffect(() => {
