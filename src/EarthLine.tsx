@@ -399,47 +399,43 @@ const EarthLine: React.FC<EarthLineProps> = ({
       // 提高分辨率获得更平滑的弧线
       .arcCurveResolution(256)
       .arcAltitude((d: any) => {
-        if (d.isLabelToEarth) {
-          return d.labelAlt;
-        } else {
-          // Calculate great circle distance between ports
-          const distance = greatCircleDistance(
-            { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
-            { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
-          );
+        // Calculate great circle distance between ports
+        const distance = greatCircleDistance(
+          { lat: +d.srcPortInfo.lat, lng: +d.srcPortInfo.lng },
+          { lat: +d.dstPortInfo.lat, lng: +d.dstPortInfo.lng }
+        );
 
-          // 优化的高度计算 - 更美观的弧线
-          const minAltitude = 0.15; // 最小高度
-          const maxAltitude = 0.4; // 最大高度
+        // 优化的高度计算 - 更美观的弧线
+        const minAltitude = 0.15; // 最小高度
+        const maxAltitude = 0.4; // 最大高度
 
-          // 根据距离计算基础高度 - 使用更平滑的曲线
-          const normalizedDistance = Math.min(distance / Math.PI, 1);
+        // 根据距离计算基础高度 - 使用更平滑的曲线
+        const normalizedDistance = Math.min(distance / Math.PI, 1);
 
-          // 使用三次贝塞尔曲线函数获得更自然的高度分布
-          const t = normalizedDistance;
-          const heightMultiplier = 3 * t * t - 2 * t * t * t; // 平滑的S曲线
+        // 使用三次贝塞尔曲线函数获得更自然的高度分布
+        const t = normalizedDistance;
+        const heightMultiplier = 3 * t * t - 2 * t * t * t; // 平滑的S曲线
 
-          const baseAltitude =
-            minAltitude + (maxAltitude - minAltitude) * heightMultiplier;
+        const baseAltitude =
+          minAltitude + (maxAltitude - minAltitude) * heightMultiplier;
 
-          // 短距离连线的特殊处理
-          if (distance < 0.1) {
-            // 距离小于约6度
-            return Math.max(0.08, minAltitude * 0.7);
-          }
-
-          // 中等距离优化
-          if (distance < 0.5) {
-            return baseAltitude * 0.8;
-          }
-
-          // 长距离跨洋航线
-          if (distance > Math.PI * 0.5) {
-            return Math.min(baseAltitude * 1.2, maxAltitude);
-          }
-
-          return baseAltitude;
+        // 短距离连线的特殊处理
+        if (distance < 0.1) {
+          // 距离小于约6度
+          return Math.max(0.08, minAltitude * 0.7);
         }
+
+        // 中等距离优化
+        if (distance < 0.5) {
+          return baseAltitude * 0.8;
+        }
+
+        // 长距离跨洋航线
+        if (distance > Math.PI * 0.5) {
+          return Math.min(baseAltitude * 1.2, maxAltitude);
+        }
+
+        return baseAltitude;
       })
       // 完全移除自动缩放，使用我们的自定义高度计算
       .arcAltitudeAutoScale(0)
@@ -461,37 +457,33 @@ const EarthLine: React.FC<EarthLineProps> = ({
       .arcsTransitionDuration(800) // 平滑过渡
       .arcsData(arcRoutes)
       .arcColor((d: any) => {
-        if (d.isLabelToEarth) {
-          return ["#FFA500", "#FFA500"];
+        // 优化的颜色方案 - 基于成本和距离
+        const distance = d.distance || 0;
+
+        // 根据距离调整透明度
+        const distanceAlpha = Math.max(
+          0.6,
+          Math.min(1, distance / Math.PI + 0.3)
+        );
+
+        if (d.costCategory === "high") {
+          // 高成本：红色到紫色渐变
+          return [
+            `rgba(255, 100, 100, ${distanceAlpha})`,
+            `rgba(150, 0, 150, ${distanceAlpha})`,
+          ];
+        } else if (d.costCategory === "medium") {
+          // 中等成本：橙色到红色渐变
+          return [
+            `rgba(255, 165, 0, ${distanceAlpha})`,
+            `rgba(255, 69, 0, ${distanceAlpha})`,
+          ];
         } else {
-          // 优化的颜色方案 - 基于成本和距离
-          const distance = d.distance || 0;
-
-          // 根据距离调整透明度
-          const distanceAlpha = Math.max(
-            0.6,
-            Math.min(1, distance / Math.PI + 0.3)
-          );
-
-          if (d.costCategory === "high") {
-            // 高成本：红色到紫色渐变
-            return [
-              `rgba(255, 100, 100, ${distanceAlpha})`,
-              `rgba(150, 0, 150, ${distanceAlpha})`,
-            ];
-          } else if (d.costCategory === "medium") {
-            // 中等成本：橙色到红色渐变
-            return [
-              `rgba(255, 165, 0, ${distanceAlpha})`,
-              `rgba(255, 69, 0, ${distanceAlpha})`,
-            ];
-          } else {
-            // 低成本：绿色到青色渐变
-            return [
-              `rgba(0, 255, 100, ${distanceAlpha})`,
-              `rgba(0, 200, 255, ${distanceAlpha})`,
-            ];
-          }
+          // 低成本：绿色到青色渐变
+          return [
+            `rgba(0, 255, 100, ${distanceAlpha})`,
+            `rgba(0, 200, 255, ${distanceAlpha})`,
+          ];
         }
       })
       // 增强的鼠标悬停效果
@@ -500,9 +492,7 @@ const EarthLine: React.FC<EarthLineProps> = ({
         if (!myGlobe) return;
 
         myGlobe.arcColor((d: any) => {
-          if (d.isLabelToEarth) {
-            return ["#FFA500", "#FFA500"];
-          } else if (arc && d === arc) {
+          if (arc && d === arc) {
             // 悬停时的高亮效果 - 金色高亮
             return ["rgba(255, 215, 0, 1)", "rgba(255, 140, 0, 1)"];
           } else {
