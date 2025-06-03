@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Header from "./components/Header";
 import WeeklyStatsDashboard from "./components/WeeklyStatsDashboard.tsx";
 import HistoricalCharts from "./components/HistoricalCharts";
 import POStats from "./components/POStats";
@@ -166,7 +165,6 @@ const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <>
-      <Header />
       {!isCollapsed && (
         <DashboardContainer>
           <MainContent>

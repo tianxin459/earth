@@ -8,6 +8,8 @@ import { useAppDispatch, useAppSelector } from "./redux/hook";
 import { selectAllPorts, setCurrentWeek } from "./redux/store";
 import PortsSidebar from "./components/PortsSidebar";
 import { base } from "./config/constants";
+import { BottomBar } from "./components/bar/BottomBar";
+import { TopBar } from "./components/bar/TopBar";
 
 const FullScreenOverlay = styled.div`
   display: flex;
@@ -184,6 +186,7 @@ const App: React.FC = () => {
 
   return (
     <>
+      <TopBar />
       <ControlPanel
         isLoading={isLoading}
         onRefreshData={loadData}
@@ -207,6 +210,7 @@ const App: React.FC = () => {
             routeData={routeData}
             isDashboardCollapsed={isDashboardCollapsed}
           />
+          <BottomBar />
         </>
       )}
       {hasWmweekData && <Timeline wmweeks={availableWmweeks} />}
