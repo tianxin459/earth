@@ -38,11 +38,9 @@ const TimelineLabel = styled.div`
 const TimelineTrack = styled.div`
   flex: 1;
   height: 6px;
-  background: rgba(77, 208, 225, 0.2);
   border-radius: 3px;
   position: relative;
   cursor: pointer;
-  margin: 0 10px;
 `;
 
 const TimelineProgress = styled.div<{ progress: number }>`
@@ -62,17 +60,21 @@ const TimelineDots = styled.div`
   display: flex;
   justify-content: space-between;
   pointer-events: none;
+  gap: 5px;
+  align-items: center;
 `;
 
 const TimelineDot = styled.div<{ $isActive: boolean }>`
   width: ${(props) => (props.$isActive ? "12px" : "8px")};
   height: ${(props) => (props.$isActive ? "12px" : "8px")};
   border-radius: 50%;
+  box-sizing: border-box;
   background: ${(props) =>
     props.$isActive ? "#00ffe7" : "rgba(77, 208, 225, 0.6)"};
   border: 2px solid ${(props) => (props.$isActive ? "#ffffff" : "transparent")};
   transition: all 0.3s ease;
   cursor: pointer;
+  flex-shrink: 0;
   pointer-events: all;
   box-shadow: ${(props) =>
     props.$isActive ? "0 0 10px rgba(0, 255, 231, 0.5)" : "none"};
@@ -178,7 +180,7 @@ const Timeline: React.FC<TimelineProps> = ({ wmweeks }) => {
       </NavigationButtons>
 
       <TimelineTrack onClick={handleTrackClick}>
-        <TimelineProgress progress={progress} />
+        {/*<TimelineProgress progress={progress} />*/}
         <TimelineDots>
           {wmweeks.map((wmweek) => (
             <TimelineDot
