@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import EarthLine from "./EarthLine";
 import ControlPanel from "./ControlPanel";
 import Dashboard from "./Dashboard";
 import Timeline from "./components/Timeline";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
-import { setCurrentWeek } from "./redux/store";
+import { selectAllPorts, setCurrentWeek } from "./redux/store";
+import PortsSidebar from "./components/PortsSidebar";
 
 const base = import.meta.env.BASE_URL || "/";
 
@@ -62,8 +63,8 @@ const App: React.FC = () => {
   const [availableWmweeks, setAvailableWmweeks] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isDashboardCollapsed, setIsDashboardCollapsed] =
-    useState<boolean>(false);
+  const [isDashboardCollapsed, setIsDashboardCollapsed] = useState<boolean>(false);
+  const [isPortSidebarCollapsed, setIsPortSidebarCollapsed] = useState<boolean>(true); // Start with collapsed state
 
   const currentWmweek = useAppSelector((state) => state.week.currentWeek);
   const dispatch = useAppDispatch();
@@ -124,6 +125,20 @@ const App: React.FC = () => {
     }
   };
 
+  // Extract unique ports from routeData
+  const allPorts = useMemo(()=>{
+    const uniquePorts = new Set<string>();
+    routeData.forEach(route => {
+      uniquePorts.add(route.fromPort);
+      uniquePorts.add(route.toPort.toString());
+    });
+    return Array.from(uniquePorts).sort();
+  },[routeData]);
+
+  useEffect(()=>{
+    dispatch(selectAllPorts(allPorts.concat([])));
+  },[allPorts]);
+
   useEffect(() => {
     loadData();
   }, []);
@@ -164,24 +179,36 @@ const App: React.FC = () => {
     fromData.length > 0 && toData.length > 0 && routeData.length > 0;
   const hasWmweekData = availableWmweeks.length > 0 && currentWmweek;
 
+  const handlePortSidebarToggle = () => {
+    setIsPortSidebarCollapsed(!isPortSidebarCollapsed);
+  };
+
   return (
     <>
       <ControlPanel
         isLoading={isLoading}
         onRefreshData={loadData}
         currentWmweek={currentWmweek}
+        onToggleFilter={() => setIsPortSidebarCollapsed(!isPortSidebarCollapsed)}
       />
       <Dashboard
         isCollapsed={isDashboardCollapsed}
         onToggleCollapse={handleToggleCollapse}
       />
       {hasData && (
-        <EarthLine
-          fromData={fromData}
-          toData={toData}
-          routeData={routeData}
-          isDashboardCollapsed={isDashboardCollapsed}
-        />
+        <>
+          <PortsSidebar
+            isCollapsed={isPortSidebarCollapsed}
+            onToggleCollapse={handlePortSidebarToggle}
+            ports={allPorts}
+          />
+          <EarthLine
+            fromData={fromData}
+            toData={toData}
+            routeData={routeData}
+            isDashboardCollapsed={isDashboardCollapsed}
+          />
+        </>
       )}
       {hasWmweekData && <Timeline wmweeks={availableWmweeks} />}
     </>
