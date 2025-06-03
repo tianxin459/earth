@@ -15,6 +15,13 @@ const GlobeContainer = styled.div`
   height: 100vh;
   background: radial-gradient(ellipse at center, #10131a 0%, #05070d 100%);
   overflow: hidden;
+
+  .float-tooltip-kap{
+    z-index: 2;
+  }
+  canvas{
+    z-index: 1;
+  }
 `;
 
 const base = import.meta.env.BASE_URL || "/";
