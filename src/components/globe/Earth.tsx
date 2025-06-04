@@ -23,7 +23,7 @@ const GlobeContainer = styled.div`
 
 export const GlobeEarth = (props: { isDashboardCollapsed: boolean }) => {
     const refContainer = useRef<HTMLDivElement>(null);
-    const refGlobe = useRef<GlobeInstance>(null);
+    const refGlobe = useRef<any>(null);
 
     const fromData = useAppSelector((state) => state.loader.data?.from);
     const toData = useAppSelector((state) => state.loader.data?.to);
