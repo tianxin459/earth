@@ -7,7 +7,21 @@ import { BottomBar } from "./components/bar/BottomBar";
 import { TopBar } from "./components/bar/TopBar";
 import { useWeekDataLoader } from "./hooks/loader";
 import { GlobeEarth } from "./components/globe/Earth";
+import styled from "styled-components";
 
+const AppContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(ellipse at center, #10131a 0%, #05070d 100%);
+`;
+const AppBody = styled.div`
+    width: 100%;
+    height: calc(100% - 70px);
+    display: flex;
+    flex-direction: column;
+`;
 
 const App: React.FC = () => {
     const [isDashboardCollapsed, setIsDashboardCollapsed] =
@@ -50,20 +64,22 @@ const App: React.FC = () => {
     };
 
     return (
-        <>
+        <AppContainer>
             <TopBar />
-            <Dashboard
-                isCollapsed={isDashboardCollapsed}
-                onToggleCollapse={handleToggleCollapse}
-            />
-            <PortsSidebar
-                isCollapsed={isPortSidebarCollapsed}
-                onToggleCollapse={handlePortSidebarToggle}
-                ports={allPorts}
-            />
-            <GlobeEarth isDashboardCollapsed={isDashboardCollapsed} />
+            <AppBody>
+                <Dashboard
+                    isCollapsed={isDashboardCollapsed}
+                    onToggleCollapse={handleToggleCollapse}
+                />
+                <PortsSidebar
+                    isCollapsed={isPortSidebarCollapsed}
+                    onToggleCollapse={handlePortSidebarToggle}
+                    ports={allPorts}
+                />
+                <GlobeEarth isDashboardCollapsed={isDashboardCollapsed} />
+            </AppBody>
             <BottomBar />
-        </>
+        </AppContainer>
     );
 };
 

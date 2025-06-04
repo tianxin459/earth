@@ -9,9 +9,8 @@ import { useAppSelector } from "../../redux/hook";
 import { styled } from "styled-components";
 
 const GlobeContainer = styled.div`
-    width: 100vw;
-    height: 100vh;
-    background: radial-gradient(ellipse at center, #10131a 0%, #05070d 100%);
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 
     .float-tooltip-kap {
