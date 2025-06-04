@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
-import { base } from "../config/constants";
+import { useAppSelector } from "../redux/hook";
 
 interface POStatsProps {
   formatNumber: (num: number) => string;
@@ -90,26 +90,11 @@ const StatsValue = styled.div`
 `;
 
 const POStats: React.FC<POStatsProps> = ({ formatNumber, currentWeek }) => {
-  const [wmweekData, setWmweekData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // Load wmweek data
-  useEffect(() => {
-    const loadWmweekData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${base}wmweekData.json`);
-        const data = await response.json();
-        setWmweekData(data ?? []);
-      } catch (error) {
-        console.error("Failed to load wmweek data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadWmweekData();
-  }, []);
+  const wmweekData = useAppSelector((state) => {
+    return state.loader.data?.week ?? [];
+  });
 
   // Calculate stats based on current week
   const stats = useMemo(() => {

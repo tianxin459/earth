@@ -168,6 +168,7 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [timeRange, setTimeRange] = useState<string>("");
   const chartRefs = useRef<{ [key: string]: SVGSVGElement | null }>({});
+  const resizeTimeoutRef = useRef<number | null>(null);
 
   // Calculate time range from data
   const calculateTimeRange = useCallback((data: StatisticsData[]) => {
@@ -213,7 +214,9 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
             .sort((a, b) => a.week.localeCompare(b.week));
 
           const margin = { top: 5, right: 8, bottom: 20, left: 40 };
-          const width = 260 - margin.left - margin.right;
+          // 获取容器的实际宽度
+          const containerWidth = svg.node()?.getBoundingClientRect().width || 260;
+          const width = containerWidth - margin.left - margin.right;
           const height = 70 - margin.top - margin.bottom;
 
           const xScale = d3
@@ -305,13 +308,17 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
       d3.select(svgElement).selectAll("*").remove();
 
       const margin = { top: 5, right: 8, bottom: 20, left: 40 };
-      const width = 260 - margin.left - margin.right;
+      // 获取容器的实际宽度
+      const containerWidth = svgElement.getBoundingClientRect().width || 260;
+      const width = containerWidth - margin.left - margin.right;
       const height = 70 - margin.top - margin.bottom;
 
       const svg = d3
         .select(svgElement)
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
+        .attr("width", "100%")
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("viewBox", `0 0 ${containerWidth} ${height + margin.top + margin.bottom}`)
+        .attr("preserveAspectRatio", "xMidYMid meet");
 
       const g = svg
         .append("g")
@@ -561,6 +568,34 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
     };
   }, [statisticsData, handleWeekHover, handleWeekClick]);
 
+  // Add window resize listener for responsive charts
+  useEffect(() => {
+    const handleResize = () => {
+      // Clear previous timeout
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+      
+      // Debounce resize events
+      resizeTimeoutRef.current = setTimeout(() => {
+        // Force re-render of charts with new dimensions
+        if (statisticsData.length > 0) {
+          // Trigger a small state update to force useEffect re-run
+          setTimeRange(calculateTimeRange(statisticsData));
+        }
+      }, 100);
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+    };
+  }, [statisticsData, calculateTimeRange]);
+
   const metricsToChart = [
     { key: "otif", label: "OTIF Performance", color: "#00ff88" },
     { key: "ontimedelivery", label: "On-Time Delivery", color: "#4dd0e1" },
@@ -610,7 +645,12 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
             ref={(el) => {
               chartRefs.current[metric.key] = el;
             }}
-            style={{ width: "100%", height: "auto" }}
+            style={{ 
+              width: "100%", 
+              height: "auto",
+              minHeight: "90px",
+              display: "block" 
+            }}
           />
         </ChartCard>
       ))}
