@@ -2,9 +2,6 @@ import _ from "lodash";
 import type {
     FromPortInfo,
     ToPortInfo,
-    WeekOrder,
-    WeekOrderRouteInfo,
-    ArcRouteInfo,
     TypePortInfo,
 } from "../../../type";
 

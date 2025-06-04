@@ -1,4 +1,4 @@
-import type { ComponentProps, HTMLAttributes } from "react";
+import type { ComponentProps, ButtonHTMLAttributes } from "react";
 import styled from "styled-components";
 
 export const Icon = ({
@@ -147,7 +147,7 @@ const ButtonContainer = styled.button`
 `;
 
 export const IconButton = (
-    props: HTMLAttributes<HTMLButtonElement> & {
+    props: ButtonHTMLAttributes<HTMLButtonElement> & {
         icon: ComponentProps<typeof Icon>["type"];
     }
 ) => {

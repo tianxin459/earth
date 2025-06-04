@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { BarContainer } from "./Container";
 import Timeline from "../Timeline";
 
