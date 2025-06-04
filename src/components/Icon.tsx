@@ -129,13 +129,20 @@ const ButtonContainer = styled.button`
     align-items: center;
     justify-content: center;
     color: inherit;
-    cursor: pointer;
+    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    color: ${(props) => (props.disabled ? "#666" : "inherit")};
+
     > svg {
         color: inherit;
     }
-    &:hover,
-    &:active{
-        background-color: rgba(77, 208, 225, 0.2);
+
+    &:hover:not(:disabled) {
+        background: rgba(77, 208, 225, 0.2);
+        transform: scale(1.1);
+    }
+
+    &:active:not(:disabled) {
+        transform: scale(0.95);
     }
 `;
 

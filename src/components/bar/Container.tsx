@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const BarContainer = styled.div<{ position: "top" | "bottom" }>`
     width: 100%;
-    height: 35px;
+    height: 40px;
+    flex-shrink: 0;
     background: rgba(15, 25, 35, 0.8);
     color: #4dd0e1;
     padding: 0 20px;

@@ -18,7 +18,7 @@ const AppContainer = styled.div`
 `;
 const AppBody = styled.div`
     width: 100%;
-    height: calc(100% - 70px);
+    height: calc(100% - 80px);
     display: flex;
     flex-direction: column;
 `;

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { togglePort, selectAllPorts, clearSelectedPorts } from "../redux/store";
+import { Icon } from "./Icon";
 
 interface PortsSidebarProps {
     isCollapsed: boolean;
@@ -260,7 +261,7 @@ const PortsSidebar: React.FC<PortsSidebarProps> = ({
                 </SidebarContainer>
             )}
             <CollapseButton $collapsed={isCollapsed} onClick={onToggleCollapse}>
-                {isCollapsed ? "▶" : "◀"}
+                {isCollapsed ? <Icon type="right" /> : <Icon type="left" />}
             </CollapseButton>
         </>
     );
