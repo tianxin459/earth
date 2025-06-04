@@ -1,3 +1,6 @@
+import type { ComponentProps, HTMLAttributes } from "react";
+import styled from "styled-components";
+
 export const Icon = ({
     type,
 }: {
@@ -114,4 +117,36 @@ export const Icon = ({
             </svg>
         );
     }
+};
+
+const ButtonContainer = styled.button`
+    background: none;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    cursor: pointer;
+    > svg {
+        color: inherit;
+    }
+    &:hover,
+    &:active{
+        background-color: rgba(77, 208, 225, 0.2);
+    }
+`;
+
+export const IconButton = (
+    props: HTMLAttributes<HTMLButtonElement> & {
+        icon: ComponentProps<typeof Icon>["type"];
+    }
+) => {
+    return (
+        <ButtonContainer type="button" {...props}>
+            <Icon type={props.icon} />
+        </ButtonContainer>
+    );
 };

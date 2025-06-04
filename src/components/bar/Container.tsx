@@ -21,4 +21,5 @@ export const BarContainer = styled.div<{ position: "top" | "bottom" }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-sizing: border-box;
 `;

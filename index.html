@@ -5,67 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Earth Three.js React</title>
-    <style>
-      html,
-      body,
-      #root {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-      }
-      canvas {
-        display: block;
-        width: 100vw;
-        height: 100vh;
-      }
-      .port-label {
-        position: absolute;
-        color: #00ffe7; /* 使用更亮的青色 */
-        font-size: 15px; /* 再次增大字体 */
-        font-weight: 700; /* 使用更粗的字体 */
-        font-family: 'Arial', 'Helvetica', sans-serif;
-        pointer-events: none;
-        z-index: 10000;
-        text-shadow: 
-          0 0 1px rgba(0, 0, 0, 1),
-          0 0 3px rgba(0, 0, 0, 0.8),
-          0 0 5px rgba(0, 255, 231, 0.3); /* 增强对比度的阴影 */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
-        /* 增加文字描边以提高可读性 */
-        -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.8);
-      }
-      #zoom-slider {
-        position: fixed;
-        right: 24px;
-        top: 24px;
-        z-index: 10001;
-        width: 120px;
-      }
-      #loading-bar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        height: 4px;
-        background: #0ff;
-        width: 0;
-        z-index: 99999;
-        transition: width 0.3s, background 0.3s;
-      }
-    </style>
   </head>
   <body>
     <div id="loading-bar"></div>
-    <!-- <input
-      id="zoom-slider"
-      type="range"
-      min="1.5"
-      max="10"
-      step="0.01"
-      value="1.5"
-    /> -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
