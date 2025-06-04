@@ -6,7 +6,7 @@ const FlexBox = styled.div`
     display: flex;
 `;
 
-export const TopBar = ({loading}: { loading: boolean }) => {
+export const TopBar = () => {
     return (
         <BarContainer position="top">
             <FlexBox>

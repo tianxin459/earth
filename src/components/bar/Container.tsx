@@ -11,7 +11,7 @@ export const BarContainer = styled.div<{ position: "top" | "bottom" }>`
     }};
     left: 0;
     right: 0;
-    height: 40px;
+    height: 35px;
     background: rgba(15, 25, 35, 0.8);
     color: #4dd0e1;
     padding: 0 20px;
