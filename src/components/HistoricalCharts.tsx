@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as d3 from "d3";
 import styled from "styled-components";
 import { base } from "../config/constants";
+import { useAppSelector } from "../redux/hook";
 
 interface StatisticsData {
   wmweek: string;
@@ -163,12 +164,19 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
   className,
   onWeekSelect,
 }) => {
-  const [statisticsData, setStatisticsData] = useState<StatisticsData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [timeRange, setTimeRange] = useState<string>("");
   const chartRefs = useRef<{ [key: string]: SVGSVGElement | null }>({});
   const resizeTimeoutRef = useRef<number | null>(null);
+
+  const statisticsData = useAppSelector((state) => {
+    return state.loader.data?.statistics ?? [];
+  });
+
+  useEffect(() => {
+    setTimeRange(calculateTimeRange(statisticsData));
+  }, [statisticsData]);
 
   // Calculate time range from data
   const calculateTimeRange = useCallback((data: StatisticsData[]) => {
@@ -215,7 +223,8 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
 
           const margin = { top: 5, right: 8, bottom: 20, left: 40 };
           // 获取容器的实际宽度
-          const containerWidth = svg.node()?.getBoundingClientRect().width || 260;
+          const containerWidth =
+            svg.node()?.getBoundingClientRect().width || 260;
           const width = containerWidth - margin.left - margin.right;
           const height = 70 - margin.top - margin.bottom;
 
@@ -261,30 +270,6 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
   );
 
   useEffect(() => {
-    // Load statistics data
-    const loadData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${base}data/statistics.json`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data: StatisticsData[] = await response.json();
-        setStatisticsData(data);
-        setTimeRange(calculateTimeRange(data));
-        setError(null);
-      } catch (err) {
-        console.error("Error loading statistics data:", err);
-        setError("Failed to load statistics data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, [calculateTimeRange]);
-
-  useEffect(() => {
     if (statisticsData.length === 0) return;
 
     // Define metrics to chart
@@ -317,7 +302,10 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
         .select(svgElement)
         .attr("width", "100%")
         .attr("height", height + margin.top + margin.bottom)
-        .attr("viewBox", `0 0 ${containerWidth} ${height + margin.top + margin.bottom}`)
+        .attr(
+          "viewBox",
+          `0 0 ${containerWidth} ${height + margin.top + margin.bottom}`
+        )
         .attr("preserveAspectRatio", "xMidYMid meet");
 
       const g = svg
@@ -575,7 +563,7 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
       }
-      
+
       // Debounce resize events
       resizeTimeoutRef.current = setTimeout(() => {
         // Force re-render of charts with new dimensions
@@ -586,10 +574,10 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
       }, 100);
     };
 
-    window.addEventListener('resize', handleResize);
-    
+    window.addEventListener("resize", handleResize);
+
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
       }
@@ -645,11 +633,11 @@ const HistoricalCharts: React.FC<HistoricalChartsProps> = ({
             ref={(el) => {
               chartRefs.current[metric.key] = el;
             }}
-            style={{ 
-              width: "100%", 
+            style={{
+              width: "100%",
               height: "auto",
               minHeight: "90px",
-              display: "block" 
+              display: "block",
             }}
           />
         </ChartCard>

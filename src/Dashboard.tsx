@@ -111,7 +111,6 @@ const Dashboard: React.FC<DashboardProps> = ({
   isCollapsed,
   onToggleCollapse,
 }) => {
-  // const [statisticsData, setStatisticsData] = useState<StatisticsData[]>([]);
   const statisticsData = useAppSelector((state) => {
     return state.loader.data?.statistics ?? [];
   });
@@ -124,31 +123,6 @@ const Dashboard: React.FC<DashboardProps> = ({
   const handleWeekSelect = (wmweek: string) => {
     dispatch(setCurrentWeek(wmweek));
   };
-
-  // Load statistics data
-  //   useEffect(() => {
-  //     const loadData = async () => {
-  //       try {
-  //         // Load statistics data
-  //         const statisticsResponse = await fetch(`${base}data/statistics.json`);
-  //         const statisticsData = await statisticsResponse.json();
-  //         setStatisticsData(statisticsData);
-
-  //         // Set current week to the latest available week (highest wmweek)
-  //         if (statisticsData.length > 0) {
-  //           const latestWeek = statisticsData
-  //             .map((d: StatisticsData) => d.wmweek)
-  //             .sort()
-  //             .reverse()[0]; // Get the latest week
-  //           dispatch(setCurrentWeek(latestWeek));
-  //         }
-  //       } catch (error) {
-  //         console.error("Failed to load data:", error);
-  //       }
-  //     };
-
-  //     loadData();
-  //   }, []);
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";

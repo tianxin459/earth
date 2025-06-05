@@ -186,11 +186,11 @@ const WeeklyStatsDashboard: React.FC<WeeklyStatsDashboardProps> = ({
           />
         )}
 
-        {/* On Time Delivery Pie Chart */}
+        {/* On Delivery Pie Chart */}
         {stats.ontimedelivery && (
           <PieChart
             value={stats.ontimedelivery.value}
-            title="On Time Delivery"
+            title="On Delivery"
             width={70}
             height={70}
             unit={stats.ontimedelivery.unit}

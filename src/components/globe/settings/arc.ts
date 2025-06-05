@@ -74,10 +74,10 @@ export const setArcs = (globe: GlobeInstance, arcsData: ArcRouteInfo[]) => {
         // 完全移除自动缩放，使用我们的自定义高度计算
         .arcAltitudeAutoScale(0) // 完全禁用自动缩放
         // Arc animation and color
-        .arcDashLength(0.25)
-        .arcDashGap(1)
+        .arcDashLength(0.8)
+        .arcDashGap(0.2)
         .arcDashInitialGap(() => Math.random())
-        .arcDashAnimateTime(2000)
+        .arcDashAnimateTime(3000)
         .arcColor(() => [`rgba(0, 255, 0, 1)`, `rgba(255, 0, 0, 1)`])
         .arcsTransitionDuration(0);
     return globe;

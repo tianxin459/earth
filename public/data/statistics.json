@@ -1,165 +1,5 @@
 [
   {
-    "wmweek": "202517",
-    "statistics": {
-      "otif": {
-        "description": "On Time In Full - A measure of delivery performance.",
-        "value": 88.9,
-        "unit": "%"
-      },
-      "ontimedelivery": {
-        "description": "Percentage of orders delivered on time.",
-        "value": 81.4,
-        "unit": "%"
-      },
-      "instock": {
-        "description": "Percentage of items in stock.",
-        "value": 78.4,
-        "unit": "%"
-      },
-      "ordercreation_qty": {
-        "description": "order creation in week",
-        "value": 19821,
-        "unit": ""
-      },
-      "ordercreation_cost": {
-        "description": "order creation by cost in week",
-        "value": 2185577,
-        "unit": "$"
-      },
-      "sales_qty": {
-        "description": "sales in week",
-        "value": 23476,
-        "unit": ""
-      },
-      "sales_price": {
-        "description": "sales by price in week",
-        "value": 2317008,
-        "unit": "$"
-      }
-    }
-  },
-  {
-    "wmweek": "202518",
-    "statistics": {
-      "otif": {
-        "description": "On Time In Full - A measure of delivery performance.",
-        "value": 88.8,
-        "unit": "%"
-      },
-      "ontimedelivery": {
-        "description": "Percentage of orders delivered on time.",
-        "value": 87.2,
-        "unit": "%"
-      },
-      "instock": {
-        "description": "Percentage of items in stock.",
-        "value": 90.7,
-        "unit": "%"
-      },
-      "ordercreation_qty": {
-        "description": "order creation in week",
-        "value": 18721,
-        "unit": ""
-      },
-      "ordercreation_cost": {
-        "description": "order creation by cost in week",
-        "value": 2161466,
-        "unit": "$"
-      },
-      "sales_qty": {
-        "description": "sales in week",
-        "value": 21537,
-        "unit": ""
-      },
-      "sales_price": {
-        "description": "sales by price in week",
-        "value": 2631456,
-        "unit": "$"
-      }
-    }
-  },
-  {
-    "wmweek": "202519",
-    "statistics": {
-      "otif": {
-        "description": "On Time In Full - A measure of delivery performance.",
-        "value": 91.6,
-        "unit": "%"
-      },
-      "ontimedelivery": {
-        "description": "Percentage of orders delivered on time.",
-        "value": 82.5,
-        "unit": "%"
-      },
-      "instock": {
-        "description": "Percentage of items in stock.",
-        "value": 90.9,
-        "unit": "%"
-      },
-      "ordercreation_qty": {
-        "description": "order creation in week",
-        "value": 25977,
-        "unit": ""
-      },
-      "ordercreation_cost": {
-        "description": "order creation by cost in week",
-        "value": 2503165,
-        "unit": "$"
-      },
-      "sales_qty": {
-        "description": "sales in week",
-        "value": 19131,
-        "unit": ""
-      },
-      "sales_price": {
-        "description": "sales by price in week",
-        "value": 1734984,
-        "unit": "$"
-      }
-    }
-  },
-  {
-    "wmweek": "202520",
-    "statistics": {
-      "otif": {
-        "description": "On Time In Full - A measure of delivery performance.",
-        "value": 85.7,
-        "unit": "%"
-      },
-      "ontimedelivery": {
-        "description": "Percentage of orders delivered on time.",
-        "value": 85.4,
-        "unit": "%"
-      },
-      "instock": {
-        "description": "Percentage of items in stock.",
-        "value": 80.5,
-        "unit": "%"
-      },
-      "ordercreation_qty": {
-        "description": "order creation in week",
-        "value": 18553,
-        "unit": ""
-      },
-      "ordercreation_cost": {
-        "description": "order creation by cost in week",
-        "value": 2505682,
-        "unit": "$"
-      },
-      "sales_qty": {
-        "description": "sales in week",
-        "value": 21667,
-        "unit": ""
-      },
-      "sales_price": {
-        "description": "sales by price in week",
-        "value": 2388673,
-        "unit": "$"
-      }
-    }
-  },
-  {
     "wmweek": "202505",
     "statistics": {
       "otif": {
@@ -635,6 +475,166 @@
       "sales_price": {
         "description": "sales by price in week",
         "value": 2593851,
+        "unit": "$"
+      }
+    }
+  },
+  {
+    "wmweek": "202517",
+    "statistics": {
+      "otif": {
+        "description": "On Time In Full - A measure of delivery performance.",
+        "value": 88.9,
+        "unit": "%"
+      },
+      "ontimedelivery": {
+        "description": "Percentage of orders delivered on time.",
+        "value": 81.4,
+        "unit": "%"
+      },
+      "instock": {
+        "description": "Percentage of items in stock.",
+        "value": 78.4,
+        "unit": "%"
+      },
+      "ordercreation_qty": {
+        "description": "order creation in week",
+        "value": 19821,
+        "unit": ""
+      },
+      "ordercreation_cost": {
+        "description": "order creation by cost in week",
+        "value": 2185577,
+        "unit": "$"
+      },
+      "sales_qty": {
+        "description": "sales in week",
+        "value": 23476,
+        "unit": ""
+      },
+      "sales_price": {
+        "description": "sales by price in week",
+        "value": 2317008,
+        "unit": "$"
+      }
+    }
+  },
+  {
+    "wmweek": "202518",
+    "statistics": {
+      "otif": {
+        "description": "On Time In Full - A measure of delivery performance.",
+        "value": 88.8,
+        "unit": "%"
+      },
+      "ontimedelivery": {
+        "description": "Percentage of orders delivered on time.",
+        "value": 87.2,
+        "unit": "%"
+      },
+      "instock": {
+        "description": "Percentage of items in stock.",
+        "value": 90.7,
+        "unit": "%"
+      },
+      "ordercreation_qty": {
+        "description": "order creation in week",
+        "value": 18721,
+        "unit": ""
+      },
+      "ordercreation_cost": {
+        "description": "order creation by cost in week",
+        "value": 2161466,
+        "unit": "$"
+      },
+      "sales_qty": {
+        "description": "sales in week",
+        "value": 21537,
+        "unit": ""
+      },
+      "sales_price": {
+        "description": "sales by price in week",
+        "value": 2631456,
+        "unit": "$"
+      }
+    }
+  },
+  {
+    "wmweek": "202519",
+    "statistics": {
+      "otif": {
+        "description": "On Time In Full - A measure of delivery performance.",
+        "value": 91.6,
+        "unit": "%"
+      },
+      "ontimedelivery": {
+        "description": "Percentage of orders delivered on time.",
+        "value": 82.5,
+        "unit": "%"
+      },
+      "instock": {
+        "description": "Percentage of items in stock.",
+        "value": 90.9,
+        "unit": "%"
+      },
+      "ordercreation_qty": {
+        "description": "order creation in week",
+        "value": 25977,
+        "unit": ""
+      },
+      "ordercreation_cost": {
+        "description": "order creation by cost in week",
+        "value": 2503165,
+        "unit": "$"
+      },
+      "sales_qty": {
+        "description": "sales in week",
+        "value": 19131,
+        "unit": ""
+      },
+      "sales_price": {
+        "description": "sales by price in week",
+        "value": 1734984,
+        "unit": "$"
+      }
+    }
+  },
+  {
+    "wmweek": "202520",
+    "statistics": {
+      "otif": {
+        "description": "On Time In Full - A measure of delivery performance.",
+        "value": 85.7,
+        "unit": "%"
+      },
+      "ontimedelivery": {
+        "description": "Percentage of orders delivered on time.",
+        "value": 85.4,
+        "unit": "%"
+      },
+      "instock": {
+        "description": "Percentage of items in stock.",
+        "value": 80.5,
+        "unit": "%"
+      },
+      "ordercreation_qty": {
+        "description": "order creation in week",
+        "value": 18553,
+        "unit": ""
+      },
+      "ordercreation_cost": {
+        "description": "order creation by cost in week",
+        "value": 2505682,
+        "unit": "$"
+      },
+      "sales_qty": {
+        "description": "sales in week",
+        "value": 21667,
+        "unit": ""
+      },
+      "sales_price": {
+        "description": "sales by price in week",
+        "value": 2388673,
         "unit": "$"
       }
     }
