@@ -9,85 +9,93 @@ import { useAppSelector } from "../../redux/hook";
 import { styled } from "styled-components";
 
 const GlobeContainer = styled.div`
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
 
-    .float-tooltip-kap {
-        z-index: 2;
-    }
-    canvas {
-        z-index: 1;
-    }
+  .float-tooltip-kap {
+    z-index: 2;
+  }
+  canvas {
+    z-index: 1;
+  }
 `;
 
-export const GlobeEarth = (props: { isDashboardCollapsed: boolean }) => {
-    const refContainer = useRef<HTMLDivElement>(null);
-    const refGlobe = useRef<GlobeInstance | null>(null);
+export const GlobeEarth = (props: {
+  isDashboardCollapsed: boolean;
+  isPortSidebarCollapsed: boolean;
+}) => {
+  const refContainer = useRef<HTMLDivElement>(null);
+  const refGlobe = useRef<GlobeInstance | null>(null);
 
-    const fromData = useAppSelector((state) => state.loader.data?.from);
-    const toData = useAppSelector((state) => state.loader.data?.to);
-    const routeData = useAppSelector(
-        (state) =>
-            state.loader.data?.week.find(
-                (item) => item.wmweek === state.week.currentWeek
-            )?.routeData
+  const fromData = useAppSelector((state) => state.loader.data?.from);
+  const toData = useAppSelector((state) => state.loader.data?.to);
+  const routeData = useAppSelector(
+    (state) =>
+      state.loader.data?.week.find(
+        (item) => item.wmweek === state.week.currentWeek
+      )?.routeData
+  );
+  const selectedPorts = useAppSelector((state) => state.ports.selectedPorts);
+
+  const setGlobe = () => {
+    const globe = refGlobe.current!;
+    if (!fromData || !toData || !routeData) {
+      globe.arcsData([]).labelsData([]);
+      resetArcHoverState(); // 重置hover状态
+      return;
+    }
+
+    // 数据变化时重置hover状态，避免状态不一致
+    resetArcHoverState();
+
+    const { arcRoutes, routes } = convertArcData(
+      fromData!,
+      toData!,
+      routeData!,
+      selectedPorts
     );
-    const selectedPorts = useAppSelector((state) => state.ports.selectedPorts);
+    setArcs(globe, arcRoutes);
+    setLabels(globe, fromData!, toData!, routes);
+  };
 
-    const setGlobe = () => {
-        const globe = refGlobe.current!;
-        if (!fromData || !toData || !routeData) {
-            globe.arcsData([]).labelsData([]);
-            resetArcHoverState(); // 重置hover状态
-            return;
-        }
-        
-        // 数据变化时重置hover状态，避免状态不一致
-        resetArcHoverState();
-        
-        const { arcRoutes, routes } = convertArcData(
-            fromData!,
-            toData!,
-            routeData!,
-            selectedPorts
-        );
-        setArcs(globe, arcRoutes);
-        setLabels(globe, fromData!, toData!, routes);
+  useEffect(() => {
+    refGlobe.current = initGlobe(refContainer.current!);
+    const timer = setMaterial(refGlobe.current);
+    applyControls(refGlobe.current, refContainer.current!);
+    setGlobe();
+    return () => {
+      clearInterval(timer);
     };
+  }, []);
 
-    useEffect(() => {
-        refGlobe.current = initGlobe(refContainer.current!);
-        const timer = setMaterial(refGlobe.current);
-        applyControls(refGlobe.current, refContainer.current!);
-        setGlobe();
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
+  useEffect(() => {
+    setGlobe();
+  }, [fromData, toData, routeData, selectedPorts]);
 
-    useEffect(() => {
-        setGlobe();
-    }, [fromData, toData, routeData, selectedPorts]);
+  useEffect(() => {
+    if (refGlobe.current && refContainer.current) {
+      const container = refContainer.current;
+      const containerWidth = container.clientWidth;
 
-    useEffect(() => {
-        if (refGlobe.current && refContainer.current) {
-            const globe = refGlobe.current;
-            const container = refContainer.current;
-            const containerWidth = container.clientWidth;
+      // Calculate horizontal offset based on both sidebars
+      let translateX = 0;
 
-            // Use CSS transform for the container instead of the canvas
-            // This way the entire globe interaction area moves together
-            if (props.isDashboardCollapsed) {
-                // Center the globe when dashboard is collapsed
-                container.style.transform = "translateX(0%)";
-            } else {
-                // Move the entire container to the left when dashboard is expanded
-                container.style.transform = `translateX(-${containerWidth * 0.1}px)`;
-            }
-        }
-    }, [props.isDashboardCollapsed]);
+      // Adjust for dashboard sidebar (left side)
+      if (!props.isDashboardCollapsed) {
+        translateX -= containerWidth * 0.1; // Move left when dashboard is expanded
+      }
 
-    return <GlobeContainer ref={refContainer} />;
+      // Adjust for port sidebar (right side)
+      if (!props.isPortSidebarCollapsed) {
+        translateX += containerWidth * 0.1; // Move right when port sidebar is expanded
+      }
+
+      // Apply the calculated transform to center the globe
+      container.style.transform = `translateX(${translateX}px)`;
+    }
+  }, [props.isDashboardCollapsed, props.isPortSidebarCollapsed]);
+
+  return <GlobeContainer ref={refContainer} />;
 };

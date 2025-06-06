@@ -87,7 +87,7 @@ const App: React.FC = () => {
                     isCollapsed={isPortSidebarCollapsed}
                     onToggleCollapse={handlePortSidebarToggle}
                 />
-                <GlobeEarth isDashboardCollapsed={isDashboardCollapsed} />
+                <GlobeEarth isDashboardCollapsed={isDashboardCollapsed} isPortSidebarCollapsed={isPortSidebarCollapsed} />
             </AppBody>
             <BottomBar />
         </AppContainer>
