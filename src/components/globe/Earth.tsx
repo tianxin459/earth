@@ -12,6 +12,7 @@ const GlobeContainer = styled.div`
     width: 100%;
     height: 100%;
     overflow: hidden;
+    transition: transform 0.3s ease-in-out;
 
     .float-tooltip-kap {
         z-index: 2;
@@ -67,18 +68,18 @@ export const GlobeEarth = (props: { isDashboardCollapsed: boolean }) => {
 
     useEffect(() => {
         if (refGlobe.current && refContainer.current) {
-            const renderer = refGlobe.current.renderer();
+            const globe = refGlobe.current;
             const container = refContainer.current;
             const containerWidth = container.clientWidth;
 
+            // Use CSS transform for the container instead of the canvas
+            // This way the entire globe interaction area moves together
             if (props.isDashboardCollapsed) {
-                // Center the globe when dashboard is collapsed - use transform for smooth transition
-                renderer.domElement.style.transform = "translateX(0%)";
+                // Center the globe when dashboard is collapsed
+                container.style.transform = "translateX(0%)";
             } else {
-                // Move the globe 20% to the left when dashboard is expanded
-                renderer.domElement.style.transform = `translateX(-${
-                    containerWidth * 0.1
-                }px)`;
+                // Move the entire container to the left when dashboard is expanded
+                container.style.transform = `translateX(-${containerWidth * 0.1}px)`;
             }
         }
     }, [props.isDashboardCollapsed]);
