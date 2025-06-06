@@ -3,11 +3,17 @@ import { BarContainer } from "./Container";
 import { IconButton } from "../Icon";
 import { useAppSelector } from "../../redux/hook";
 import { useWeekDataLoader } from "../../hooks/loader";
+import { DropdownMenu } from "../DropdownMenu";
+import { useState, useRef, useEffect } from "react";
 
 const FlexBox = styled.div`
     display: flex;
     flex-shrink: 0;
     align-items: center;
+`;
+
+const MenuContainer = styled.div`
+    position: relative;
 `;
 
 const WeekTag = styled.strong`
@@ -21,16 +27,49 @@ const WeekTag = styled.strong`
     font-weight: normal;
 `;
 
-export const TopBar = () => {
+interface TopBarProps {
+    onMenuClick: () => void;
+}
+
+export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+
     const loading = useAppSelector((state) => state.loader.loading);
     const loaded = useAppSelector((state) => state.loader.loaded);
     const currentWeek = useAppSelector((state) => state.week.currentWeek);
     const loadData = useWeekDataLoader();
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsMenuVisible(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleMenuClick = () => {
+        setIsMenuVisible(!isMenuVisible);
+    };
+
     return (
         <BarContainer position="top">
             <FlexBox>
-                <IconButton icon="menu" />
+                <MenuContainer ref={menuRef}>
+                    <IconButton icon="menu" onClick={handleMenuClick} />
+                    <DropdownMenu
+                        isVisible={isMenuVisible}
+                        onFilterClick={() => {
+                            onMenuClick();
+                            setIsMenuVisible(false);
+                        }}
+                    />
+                </MenuContainer>
             </FlexBox>
             <FlexBox style={{ lineHeight: 1 }}>
                 <b>▪ PO ANALYTICS VISUAL CENTER ▪</b>

@@ -25,23 +25,17 @@ const AppBody = styled.div`
 `;
 
 const App: React.FC = () => {
-    const [isDashboardCollapsed, setIsDashboardCollapsed] =
-        useState<boolean>(false);
-    const [isPortSidebarCollapsed, setIsPortSidebarCollapsed] =
-        useState<boolean>(true); // Start with collapsed state
+    const [isDashboardCollapsed, setIsDashboardCollapsed] = useState<boolean>(false);
+    const [isPortSidebarCollapsed, setIsPortSidebarCollapsed] = useState<boolean>(true);
 
     const loadData = useWeekDataLoader();
-
     const currentWmweek = useAppSelector((state) => state.week.currentWeek);
     const dispatch = useAppDispatch();
-
-    const handleToggleCollapse = () => {
-        setIsDashboardCollapsed(!isDashboardCollapsed);
-    };
 
     const wmweekData = useAppSelector((state) =>
         state.loader.data?.week.find((item) => item.wmweek === currentWmweek)
     );
+
     // Extract unique ports from routeData
     const allPorts = useMemo(() => {
         const uniquePorts = new Set<string>();
@@ -55,9 +49,7 @@ const App: React.FC = () => {
         });
         return {
             allPorts: Array.from(uniquePorts).sort(),
-            fromPorts: Array.from(fromPorts).sort(
-                (a, b) => b.length - a.length
-            ),
+            fromPorts: Array.from(fromPorts).sort((a, b) => b.length - a.length),
             toPorts: Array.from(toPorts).sort((a, b) => b.length - a.length),
         };
     }, [wmweekData]);
@@ -71,13 +63,17 @@ const App: React.FC = () => {
         dispatch(selectAllPorts(allPorts.allPorts.concat([])));
     }, [allPorts]);
 
+    const handleToggleCollapse = () => {
+        setIsDashboardCollapsed(!isDashboardCollapsed);
+    };
+
     const handlePortSidebarToggle = () => {
         setIsPortSidebarCollapsed(!isPortSidebarCollapsed);
     };
 
     return (
         <AppContainer>
-            <TopBar />
+            <TopBar onMenuClick={handlePortSidebarToggle} />
             <AppBody>
                 <Dashboard
                     isCollapsed={isDashboardCollapsed}
@@ -87,7 +83,10 @@ const App: React.FC = () => {
                     isCollapsed={isPortSidebarCollapsed}
                     onToggleCollapse={handlePortSidebarToggle}
                 />
-                <GlobeEarth isDashboardCollapsed={isDashboardCollapsed} isPortSidebarCollapsed={isPortSidebarCollapsed} />
+                <GlobeEarth 
+                    isDashboardCollapsed={isDashboardCollapsed} 
+                    isPortSidebarCollapsed={isPortSidebarCollapsed} 
+                />
             </AppBody>
             <BottomBar />
         </AppContainer>

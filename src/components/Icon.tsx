@@ -12,8 +12,51 @@ export const Icon = ({
         | "menu"
         | "close"
         | "refresh"
-        | "check";
+        | "check"
+        | "ban"
+        | "check-circle"
+        | "check-circle-fill";
 }) => {
+    if (type === "check-circle-fill") {
+        return (
+            <svg
+                fill="currentColor"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14m-1.076-4.076a.6.6 0 0 1-.848 0l-2-2 .848-.848L6.5 9.65l4.576-4.575.848.848z"></path>
+            </svg>
+        );
+    }
+    if (type === "check-circle") {
+        return (
+            <svg
+                fill="currentColor"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="m6.854 10.854 5-5-.707-.708L6.5 9.793 4.854 8.146l-.708.708 2 2a.5.5 0 0 0 .708 0"></path>
+                <path d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0m-1 0A6 6 0 1 0 2 8a6 6 0 0 0 12 0"></path>
+            </svg>
+        );
+    }
+    if (type === "ban") {
+        return (
+            <svg
+                fill="currentColor"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0m-3.126 4.582L3.418 4.126a6 6 0 0 0 8.456 8.456m.707-.708a6 6 0 0 0-8.456-8.456z"></path>
+            </svg>
+        );
+    }
     if (type === "check") {
         return (
             <svg
