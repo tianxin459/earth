@@ -18,10 +18,10 @@ export const useWeekDataLoader = () => {
     return useCallback(() => {
         dispatch(loaderStart());
         return Promise.resolve({
-            from: fromJSON,
-            to: toJSON,
-            week: wmweekDataJSON,
-            statistics: statisticsJSON,
+            from: fromJSON.concat([]),
+            to: toJSON.concat([]),
+            week: wmweekDataJSON.concat([]),
+            statistics: statisticsJSON.concat([]),
         })
             .then((res) => {
                 setTimeout(() => {
@@ -31,7 +31,7 @@ export const useWeekDataLoader = () => {
                             setCurrentWeek(res.week[res.week.length - 1].wmweek)
                         );
                     }
-                }, 800);
+                }, 1200);
             })
             .catch((err) => {
                 dispatch(loaderFail(err.message));
