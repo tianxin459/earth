@@ -13,16 +13,20 @@ const TooltipContainer = styled.div<{ intensity: number; glowColor: string }>`
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
-  padding: 10px 18px;
+  padding: 12px 20px; /* 增加内边距 */
   border-radius: 14px;
-  background: #181c2f;
+  background: rgba(24, 28, 47, 0.98); /* 增加背景不透明度 */
   box-shadow: 0 0 16px 4px #06a292cc, 0 0 32px 8px #ffe4e486;
-  font-size: 1em;
+  font-size: 1.1em; /* 增大字体 */
   color: #f9f9f9;
-  letter-spacing: 1px;
-  text-shadow: 0 2px 8px #000a, 0 0 8px #00ffe7;
+  letter-spacing: 0.5px; /* 减少字间距 */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); /* 优化文字阴影 */
   border: 2px solid #00ffe7;
-  font-weight: bold;
+  font-weight: 600; /* 增加字体粗细 */
+  font-family: 'Arial', 'Helvetica', sans-serif; /* 使用更清晰的字体 */
+  -webkit-font-smoothing: antialiased; /* 字体平滑 */
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility; /* 优化文字渲染 */
 `;
 
 const InfoRow = styled.div`
