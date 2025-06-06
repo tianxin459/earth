@@ -26,6 +26,15 @@ const TimelineDot = styled.div<{ $isActive: boolean }>`
   position: relative;
   background: ${(ps) => (ps.$isActive ? "rgba(77, 208, 225, 0.6)" : "")};
   color: ${(ps) => (ps.$isActive ? "#fff" : "")};
+  font-weight: bold;
+
+  >small{
+    margin-right: 3px;
+    font-size: 60%;
+    position: relative;
+    bottom: -1px;
+    font-weight: normal;
+  }
 
   &:hover {
     color: #fff;
@@ -86,6 +95,7 @@ const Timeline = () => {
           onClick={() => handleDotClick(wmweek)}
           title={formatWMWeek(wmweek)}
         >
+          <small>{wmweek.substring(0,4)}</small>
           {wmweek.substring(4)}
         </TimelineDot>
       ))}
