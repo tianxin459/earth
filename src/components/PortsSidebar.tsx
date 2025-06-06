@@ -7,7 +7,6 @@ import { Icon } from "./Icon";
 interface PortsSidebarProps {
     isCollapsed: boolean;
     onToggleCollapse: () => void;
-    ports: string[];
 }
 
 const SidebarContainer = styled.div`
@@ -87,33 +86,56 @@ const SelectAllButton = styled.button`
 `;
 
 const PortTag = styled.div<{ $selected: boolean }>`
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    padding: 3px 9px; /* 增加内边距 */
-    margin: 2px;
+    justify-content: center;
+    min-height: 30px;
     background: ${(props) =>
         props.$selected ? "rgba(77, 208, 225, 0.3)" : "rgba(15, 25, 35, 0.6)"};
-    border: 1px solid
-        ${(props) => (props.$selected ? "#4dd0e1" : "rgba(77, 208, 225, 0.3)")};
-    border-radius: 4px;
     cursor: pointer;
-    font-size: 12px; /* 增大字体 */
-    font-weight: 600; /* 增加字体粗细 */
+    font-size: 12px;
+    font-weight: 600;
     transition: all 0.2s ease;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    text-align: center;
+    word-break: break-word;
+    grid-column: auto / span 1;
+    position: relative;
+
+    /* 如果内容宽度超过200px，则占据整行 */
+    &:has(> span[data-width="wide"]) {
+        grid-column: 1 / -1;
+    }
 
     &:hover {
-        border-color: #4dd0e1;
         background: rgba(77, 208, 225, 0.2);
+    }
+
+    & > [data-selected] {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        svg {
+            width: 13px;
+            height: 13px;
+        }
     }
 `;
 
 const PortsGrid = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding: 0 4px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+`;
+
+const PortsBox = styled.div`
+    margin-bottom: 10px;
+    >h5{
+        margin-top:0;
+        margin-bottom: 10px;
+    }
 `;
 
 const CollapseButton = styled.button<{ $collapsed: boolean }>`
@@ -204,10 +226,12 @@ const ClearAllButton = styled.button`
 const PortsSidebar: React.FC<PortsSidebarProps> = ({
     isCollapsed,
     onToggleCollapse,
-    ports,
 }) => {
     const dispatch = useAppDispatch();
     const selectedPorts = useAppSelector((state) => state.ports.selectedPorts);
+    const fromPorts = useAppSelector((state) => state.ports.fromPorts);
+    const toPorts = useAppSelector((state) => state.ports.toPorts);
+    const ports = fromPorts.concat(toPorts);
 
     const handlePortToggle = (portId: string) => {
         dispatch(togglePort(portId));
@@ -232,24 +256,59 @@ const PortsSidebar: React.FC<PortsSidebarProps> = ({
                     <MainContent>
                         <PortSection>
                             <SectionHeader>
-                                <span>All Ports</span>
+                                <span>Filter Ports</span>
                                 <SelectAllButton onClick={handleSelectAll}>
                                     {selectedPorts.length === ports.length
                                         ? "Deselect All"
                                         : "Select All"}
                                 </SelectAllButton>
                             </SectionHeader>
-                            <PortsGrid>
-                                {ports.map((port) => (
-                                    <PortTag
-                                        key={port}
-                                        $selected={selectedPorts.includes(port)}
-                                        onClick={() => handlePortToggle(port)}
-                                    >
-                                        {port}
-                                    </PortTag>
-                                ))}
-                            </PortsGrid>
+                            {[
+                                {
+                                    type: "Destination",
+                                    list: toPorts,
+                                },
+                                {
+                                    type: "Departure",
+                                    list: fromPorts,
+                                },
+                            ].map(({ type, list }) => {
+                                return (
+                                    <PortsBox key={type}>
+                                        <h5>{type}</h5>
+                                        <PortsGrid>
+                                            {list.map((port) => (
+                                                <PortTag
+                                                    key={port}
+                                                    $selected={selectedPorts.includes(
+                                                        port
+                                                    )}
+                                                    onClick={() =>
+                                                        handlePortToggle(port)
+                                                    }
+                                                >
+                                                    <span
+                                                        data-width={
+                                                            port.length > 9
+                                                                ? "wide"
+                                                                : "normal"
+                                                        }
+                                                    >
+                                                        {port}
+                                                    </span>
+                                                    {selectedPorts.includes(
+                                                        port
+                                                    ) && (
+                                                        <span data-selected="true">
+                                                            <Icon type="check" />
+                                                        </span>
+                                                    )}
+                                                </PortTag>
+                                            ))}
+                                        </PortsGrid>
+                                    </PortsBox>
+                                );
+                            })}
                         </PortSection>
 
                         {selectedPorts.length > 0 && (

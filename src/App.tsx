@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Dashboard from "./Dashboard";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
-import { selectAllPorts } from "./redux/store";
+import { selectAllPorts, setPorts } from "./redux/store";
 import PortsSidebar from "./components/PortsSidebar";
 import { BottomBar } from "./components/bar/BottomBar";
 import { TopBar } from "./components/bar/TopBar";
@@ -45,11 +45,21 @@ const App: React.FC = () => {
     // Extract unique ports from routeData
     const allPorts = useMemo(() => {
         const uniquePorts = new Set<string>();
+        const fromPorts = new Set<string>();
+        const toPorts = new Set<string>();
         wmweekData?.routeData.forEach((route) => {
             uniquePorts.add(route.fromPort);
+            fromPorts.add(route.fromPort);
             uniquePorts.add(route.toPort.toString());
+            toPorts.add(route.toPort.toString());
         });
-        return Array.from(uniquePorts).sort();
+        return {
+            allPorts: Array.from(uniquePorts).sort(),
+            fromPorts: Array.from(fromPorts).sort(
+                (a, b) => b.length - a.length
+            ),
+            toPorts: Array.from(toPorts).sort((a, b) => b.length - a.length),
+        };
     }, [wmweekData]);
 
     useEffect(() => {
@@ -57,7 +67,8 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(selectAllPorts(allPorts.concat([])));
+        dispatch(setPorts({ from: allPorts.fromPorts, to: allPorts.toPorts }));
+        dispatch(selectAllPorts(allPorts.allPorts.concat([])));
     }, [allPorts]);
 
     const handlePortSidebarToggle = () => {
@@ -75,7 +86,6 @@ const App: React.FC = () => {
                 <PortsSidebar
                     isCollapsed={isPortSidebarCollapsed}
                     onToggleCollapse={handlePortSidebarToggle}
-                    ports={allPorts}
                 />
                 <GlobeEarth isDashboardCollapsed={isDashboardCollapsed} />
             </AppBody>
