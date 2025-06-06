@@ -11,10 +11,10 @@ interface PortsSidebarProps {
 }
 
 const SidebarContainer = styled.div`
-    position: fixed;
-    top: 60px;
+    position: absolute;
+    top: 20px;
     left: 20px;
-    bottom: 60px;
+    bottom: 20px;
     width: 15%;
     color: #4dd0e1;
     background: rgba(15, 25, 35, 0.6);
@@ -117,7 +117,7 @@ const PortsGrid = styled.div`
 `;
 
 const CollapseButton = styled.button<{ $collapsed: boolean }>`
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: ${(props) => (props.$collapsed ? "25px" : "16.5%")};
     transform: translateY(-50%);

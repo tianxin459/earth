@@ -21,6 +21,7 @@ const AppBody = styled.div`
     height: calc(100% - 80px);
     display: flex;
     flex-direction: column;
+    position: relative;
 `;
 
 const App: React.FC = () => {

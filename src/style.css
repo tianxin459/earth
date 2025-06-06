@@ -23,13 +23,6 @@ body,
     /* 增加文字描边以提高可读性 */
     -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.8);
 }
-#zoom-slider {
-    position: fixed;
-    right: 24px;
-    top: 24px;
-    z-index: 10001;
-    width: 120px;
-}
 #loading-bar {
     position: fixed;
     left: 0;
