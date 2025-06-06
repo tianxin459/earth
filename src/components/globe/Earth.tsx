@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import type { GlobeInstance } from "globe.gl";
 import { initGlobe } from "./settings/init";
 import { setMaterial } from "./settings/material";
-import { convertArcData, setArcs } from "./settings/arc";
+import { convertArcData, setArcs, resetArcHoverState } from "./settings/arc";
 import { setLabels } from "./settings/label";
 import { applyControls } from "./settings/control";
 import { useAppSelector } from "../../redux/hook";
@@ -40,8 +40,13 @@ export const GlobeEarth = (props: { isDashboardCollapsed: boolean }) => {
         const globe = refGlobe.current!;
         if (!fromData || !toData || !routeData) {
             globe.arcsData([]).labelsData([]);
+            resetArcHoverState(); // 重置hover状态
             return;
         }
+        
+        // 数据变化时重置hover状态，避免状态不一致
+        resetArcHoverState();
+        
         const { arcRoutes, routes } = convertArcData(
             fromData!,
             toData!,

@@ -55,4 +55,6 @@ export interface ArcRouteInfo extends WeekOrderRouteInfo {
   costCategory: "high" | "medium" | "low";
   // 优先级字段用于渲染顺序
   priority: number;
+  // 用于hover识别的唯一ID
+  id?: string;
 }
