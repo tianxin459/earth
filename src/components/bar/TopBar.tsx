@@ -32,11 +32,11 @@ export const TopBar = () => {
             <FlexBox>
                 <IconButton icon="menu" />
             </FlexBox>
-            <FlexBox style={{lineHeight:1}}>
+            <FlexBox style={{ lineHeight: 1 }}>
                 <b>▪ PO ANALYTICS VISUAL CENTER ▪</b>
                 <WeekTag>{currentWeek}</WeekTag>
             </FlexBox>
-            <FlexBox style={{ gap: "5px" }}>
+            <FlexBox style={{ gap: "5px", width: "200px", justifyContent: "flex-end" }}>
                 <b style={{ fontSize: "80%", color: loading ? "orange" : "" }}>
                     {loading ? "LOADING" : loaded ? "READY" : ""}
                 </b>
