@@ -115,7 +115,7 @@ export const setArcs = (globe: GlobeInstance, arcsData: ArcRouteInfo[]) => {
     .arcStroke((d: any) => {
       const route = d as ArcRouteInfo & { id: string };
       const isHovered = hoveredArcId === route.id;
-      return isHovered ? 0.8 : 0.5; // hover时增加线宽
+      return isHovered ? 0.5 : 0.3; // hover时增加线宽
     })
     // 添加hover事件处理
     .onArcHover((arc, _prevArc) => {
