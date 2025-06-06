@@ -166,12 +166,12 @@ const WeeklyStatsDashboard: React.FC<WeeklyStatsDashboardProps> = ({
 
   return (
     <DashboardContainer>
-      <WeekSelector>
+      {/* <WeekSelector>
         <div className="week-label">Current Period</div>
         <div className="week-number">
           {formatWMWeek(currentWeek || "")}
         </div>
-      </WeekSelector>
+      </WeekSelector> */}
 
       <PieChartsContainer>
         {/* OTIF Pie Chart */}
