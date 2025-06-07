@@ -174,7 +174,7 @@ interface TimelineProps {
 
 ```typescript
 interface HeaderProps {
-  title?: string; // Header title (default: "PO ANALYTICS VISUAL CENTER")
+  title?: string; // Header title (default: "Global Sourcing Purchase Order Dashboard")
 }
 ```
 

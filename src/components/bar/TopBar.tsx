@@ -116,7 +116,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                 </MenuContainer>
             </FlexBox>
             <FlexBox style={{ lineHeight: 1 }}>
-                <b>▪ PO ANALYTICS VISUAL CENTER ▪</b>
+                <b>▪ Global Sourcing Purchase Order Dashboard ▪</b>
                 <WeekTag>{currentWeek}</WeekTag>
             </FlexBox>
             <FlexBox style={{ gap: "5px", width: "200px", justifyContent: "flex-end" }}>

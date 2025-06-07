@@ -25,7 +25,7 @@ const HeaderContainer = styled.div`
   z-index: 1000;
 `;
 
-const Header: React.FC<HeaderProps> = ({ title = "PO ANALYTICS VISUAL CENTER" }) => {
+const Header: React.FC<HeaderProps> = ({ title = "Global Sourcing Purchase Order Dashboard" }) => {
   return (
     <HeaderContainer>
       ▪ {title} ▪
