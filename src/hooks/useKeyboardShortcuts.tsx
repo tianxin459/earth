@@ -5,6 +5,7 @@ interface KeyboardShortcutsProps {
   globe: GlobeInstance | null;
   isEnabled?: boolean;
   onShortcutTriggered?: (shortcut: string, action: string) => void;
+  tourControlRef?: React.RefObject<{ startDemoWithId: (demoId?: string) => void }>;
 }
 
 interface ShortcutAction {
@@ -17,7 +18,8 @@ interface ShortcutAction {
 export const useKeyboardShortcuts = ({
   globe,
   isEnabled = true,
-  onShortcutTriggered
+  onShortcutTriggered,
+  tourControlRef
 }: KeyboardShortcutsProps) => {
 
   // Predefined camera positions for quick navigation
@@ -114,57 +116,35 @@ export const useKeyboardShortcuts = ({
     // Demo shortcuts
     {
       key: 'q',
-      description: 'Quick Asia-US Route Demo',
+      description: 'Quick Overview Demo',
       category: 'demo',
       action: () => {
-        if (!globe) return;
-        // Quick demo sequence
-        transitionToPosition(cameraPositions.asia);
-        setTimeout(() => {
-          transitionToPosition({ lat: 35, lng: -140, altitude: 1.8 }); // Mid-Pacific
-        }, 2000);
-        setTimeout(() => {
-          transitionToPosition(cameraPositions.northAmerica);
-        }, 4000);
-        onShortcutTriggered?.('demo', 'Asia-US route demo started');
+        if (tourControlRef?.current) {
+          tourControlRef.current.startDemoWithId('quick-overview');
+          onShortcutTriggered?.('demo', 'Quick Overview demo started');
+        }
       }
     },
     {
       key: 'w',
-      description: 'Europe-US Route Demo',
+      description: 'Detailed Analysis Demo',
       category: 'demo',
       action: () => {
-        if (!globe) return;
-        transitionToPosition(cameraPositions.europe);
-        setTimeout(() => {
-          transitionToPosition({ lat: 50, lng: -30, altitude: 1.8 }); // Mid-Atlantic
-        }, 2000);
-        setTimeout(() => {
-          transitionToPosition(cameraPositions.northAmerica);
-        }, 4000);
-        onShortcutTriggered?.('demo', 'Europe-US route demo started');
+        if (tourControlRef?.current) {
+          tourControlRef.current.startDemoWithId('detailed-analysis');
+          onShortcutTriggered?.('demo', 'Detailed Analysis demo started');
+        }
       }
     },
     {
       key: 'e',
-      description: 'Global Trade Flow Demo',
+      description: 'Regional Deep Dive Demo',
       category: 'demo',
       action: () => {
-        if (!globe) return;
-        const positions = [
-          cameraPositions.asia,
-          cameraPositions.europe,
-          cameraPositions.northAmerica,
-          cameraPositions.southAmerica,
-          cameraPositions.global
-        ];
-        
-        positions.forEach((pos, index) => {
-          setTimeout(() => {
-            transitionToPosition(pos);
-          }, index * 3000);
-        });
-        onShortcutTriggered?.('demo', 'Global trade flow demo started');
+        if (tourControlRef?.current) {
+          tourControlRef.current.startDemoWithId('regional-deep-dive');
+          onShortcutTriggered?.('demo', 'Regional Deep Dive demo started');
+        }
       }
     },
 

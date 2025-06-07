@@ -128,6 +128,7 @@ export const GlobeEarth = (props: {
   const { shortcuts } = useKeyboardShortcuts({
     globe: refGlobe.current,
     isEnabled: true,
+    tourControlRef: tourControlRef,
     onShortcutTriggered: (_, action) => {
       dispatch(setTourMessage(action));
       setTimeout(() => dispatch(clearTourMessage()), 3000);
@@ -215,8 +216,6 @@ export const GlobeEarth = (props: {
         onDemoComplete={() => {
           // Demo completed - return to initial state
           setIsTourActive(false);
-          dispatch(setTourMessage("Demo completed - Returned to initial state"));
-          setTimeout(() => dispatch(clearTourMessage()), 3000);
           props.onDemoComplete?.();
         }}
       />
