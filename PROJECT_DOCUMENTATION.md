@@ -23,6 +23,30 @@
 
 The **Global Sourcing Purchase Order Dashboard** is an interactive 3D globe application designed to showcase company's weekly Purchase Order (PO) data in a visually stunning and intuitive format. This system provides a cost-centric visualization of departure ports, destination ports, and comprehensive statistical analytics, transforming complex business data into an engaging 3D Earth interface.
 
+### Project Background
+
+This dashboard was specifically developed to serve as a **real-time visualization solution for corporate reception areas**, providing an impressive and informative display that showcases the company's global sourcing operations to visitors, clients, and stakeholders. The system transforms complex purchase order data into an easily digestible, visually striking presentation that demonstrates the company's international business scope and operational efficiency.
+
+### Target Usage Scenarios
+
+#### **Primary Use Case: Corporate Reception Display**
+- **Large Screen Deployment**: Designed for deployment on large displays (55"+ screens) in company reception areas and lobbies
+- **Real-time PO Status Visualization**: Continuously displays current purchase order activities, shipping routes, and operational metrics
+- **Professional Presentation**: Creates an impressive visual representation of global business operations for visitors and clients
+- **Automated Operation**: Runs autonomously with minimal intervention, automatically cycling through weekly data and updates
+
+#### **Secondary Use Case: Daily Operations Support**
+- **Operational Dashboard**: Supports daily purchase order monitoring and analysis for procurement teams
+- **Performance Tracking**: Enables real-time tracking of OTIF (On Time In Full) metrics, delivery performance, and inventory status
+- **Decision Support**: Provides data-driven insights for supply chain optimization and vendor performance evaluation
+- **Executive Reporting**: Offers high-level overview of global sourcing activities for management review
+
+#### **Key Business Objectives**
+- **Brand Impression**: Demonstrates technological sophistication and global operational scale to visitors
+- **Operational Transparency**: Provides real-time visibility into purchase order flows and performance metrics
+- **Data Democratization**: Makes complex supply chain data accessible through intuitive 3D visualization
+- **Continuous Monitoring**: Enables 24/7 monitoring of critical supply chain KPIs and purchase order status
+
 ### Key Features
 - **3D Interactive Globe**: Real-time rotating Earth with day/night cycle for immersive data exploration
 - **PO Route Visualization**: Dynamic arcs displaying purchase order flows between departure and destination ports
