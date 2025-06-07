@@ -12,11 +12,6 @@ body,
     align-items: center;
     justify-content: center;
 }
-.rec-mode #root {
-    /* 16:9 */
-    width: 1600px;
-    height: 900px;
-}
 .port-label {
     position: absolute;
     color: #00ffe7; /* 使用更亮的青色 */

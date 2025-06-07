@@ -90,7 +90,7 @@ export const setArcs = (globe: GlobeInstance, arcsData: ArcRouteInfo[]) => {
     // 完全移除自动缩放，使用我们的自定义高度计算
     .arcAltitudeAutoScale(0) // 完全禁用自动缩放
     // Arc animation and color with hover highlight
-    .arcDashLength(0.8)
+    .arcDashLength(1.5)
     .arcDashGap(0.2)
     .arcDashInitialGap(() => Math.random())
     .arcDashAnimateTime(3000)
