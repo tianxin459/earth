@@ -1,4 +1,4 @@
-# Earth Visualization Project - Purchase Order (PO) Analytics Platform - Comprehensive Documentation
+# Global Sourcing Purchase Order Dashboard - Comprehensive Documentation
 
 ## 📋 Table of Contents
 1. [Project Overview](#project-overview)
@@ -21,7 +21,7 @@
 
 ## 🌍 Project Overview
 
-The **Earth Visualization Project** is an interactive 3D globe application designed to showcase company's weekly Purchase Order (PO) data in a visually stunning and intuitive format. This system provides a cost-centric visualization of departure ports, destination ports, and comprehensive statistical analytics, transforming complex business data into an engaging 3D Earth interface.
+The **Global Sourcing Purchase Order Dashboard** is an interactive 3D globe application designed to showcase company's weekly Purchase Order (PO) data in a visually stunning and intuitive format. This system provides a cost-centric visualization of departure ports, destination ports, and comprehensive statistical analytics, transforming complex business data into an engaging 3D Earth interface.
 
 ### Key Features
 - **3D Interactive Globe**: Real-time rotating Earth with day/night cycle for immersive data exploration
