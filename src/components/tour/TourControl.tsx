@@ -1,6 +1,13 @@
 import React, { useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import styled from 'styled-components';
 import type { GlobeInstance } from 'globe.gl';
+import { useAppSelector, useAppDispatch } from '../../redux/hook';
+import { 
+  setDemoActive, 
+  setCurrentDemo, 
+  setCurrentStep, 
+  setProgress 
+} from '../../redux/store';
 import { DemoInfo } from './DemoInfo';
 
 interface TourControlProps {
@@ -175,7 +182,7 @@ const ControlContainer = styled.div`
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  display: flex;
+  display: none; // Hide the control panel
   gap: 12px;
   align-items: center;
 `;
@@ -262,15 +269,6 @@ const DemoSelector = styled.select`
   }
 `;
 
-const StatusIndicator = styled.div<{ isActive: boolean }>`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: ${props => props.isActive ? '#00ff88' : '#78909c'};
-  box-shadow: ${props => props.isActive ? '0 0 8px rgba(0, 255, 136, 0.6)' : 'none'};
-  transition: all 0.3s ease;
-`;
-
 export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
   globe,
   className,
@@ -278,15 +276,15 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
   onRegionShowcaseToggle,
   onDemoComplete
 }, ref) => {
+  const dispatch = useAppDispatch();
+  const demoState = useAppSelector((state) => state.demo);
+  
   const [selectedDemo, setSelectedDemo] = useState<string>('quick-overview');
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [progress, setProgress] = useState(0);
   const [stepTimer, setStepTimer] = useState<number | null>(null);
   const [timeRemaining, setTimeRemaining] = useState(0);
 
   const currentDemo = DEMO_SCRIPTS.find(demo => demo.id === selectedDemo);
-  const currentStepData = currentDemo?.steps[currentStep];
+  const currentStepData = currentDemo?.steps[demoState.currentStep];
 
   const executeStep = useCallback((step: DemoStep) => {
     if (!globe) return;
@@ -332,9 +330,9 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       setStepTimer(null);
     }
     
-    setIsPlaying(false);
-    setCurrentStep(0);
-    setProgress(0);
+    dispatch(setDemoActive(false));
+    dispatch(setCurrentStep(0));
+    dispatch(setProgress(0));
     setTimeRemaining(0);
     onTourStateChange?.(false);
     
@@ -343,7 +341,7 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       const controls = globe.controls();
       controls.autoRotateSpeed = 0.3;
     }
-  }, [globe, onTourStateChange, stepTimer]);
+  }, [globe, onTourStateChange, stepTimer, dispatch]);
 
   const startStepTimer = useCallback((step: DemoStep, stepIndex: number) => {
     const stepDuration = step.duration * 1000;
@@ -358,7 +356,7 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       const stepProgress = Math.min((elapsed / stepDuration) * 100, 100);
       const remaining = Math.max(0, step.duration - (elapsed / 1000));
       
-      setProgress(stepProgress);
+      dispatch(setProgress(stepProgress));
       setTimeRemaining(remaining);
       
       if (stepProgress < 100) {
@@ -378,9 +376,9 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       
       if (nextStepIndex >= (currentDemo?.steps.length || 0)) {
         // Demo completed
-        setIsPlaying(false);
-        setCurrentStep(0);
-        setProgress(0);
+        dispatch(setDemoActive(false));
+        dispatch(setCurrentStep(0));
+        dispatch(setProgress(0));
         setTimeRemaining(0);
         onTourStateChange?.(false);
         onDemoComplete?.();
@@ -394,8 +392,8 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       }
       
       // Continue to next step
-      setCurrentStep(nextStepIndex);
-      setProgress(0);
+      dispatch(setCurrentStep(nextStepIndex));
+      dispatch(setProgress(0));
       
       const nextStep = currentDemo!.steps[nextStepIndex];
       executeStep(nextStep);
@@ -410,12 +408,12 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
         cancelAnimationFrame(animationFrame);
       }
     };
-  }, [currentDemo, executeStep, globe, onTourStateChange, onDemoComplete]);
+  }, [currentDemo, executeStep, globe, onTourStateChange, onDemoComplete, dispatch]);
 
   const processNextStep = useCallback(() => {
-    if (!currentDemo || !isPlaying) return;
+    if (!currentDemo || !demoState.isActive) return;
     
-    const nextStepIndex = currentStep + 1;
+    const nextStepIndex = demoState.currentStep + 1;
     
     if (nextStepIndex >= currentDemo.steps.length) {
       // Demo complete - stop the demo
@@ -423,8 +421,8 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       return;
     }
     
-    setCurrentStep(nextStepIndex);
-    setProgress(0);
+    dispatch(setCurrentStep(nextStepIndex));
+    dispatch(setProgress(0));
     
     const step = currentDemo.steps[nextStepIndex];
     executeStep(step);
@@ -435,11 +433,11 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
     let animationFrame: number;
     
     const progressUpdate = () => {
-      if (!isPlaying) return;
+      if (!demoState.isActive) return;
       
       const elapsed = Date.now() - startTime;
       const stepProgress = Math.min((elapsed / stepDuration) * 100, 100);
-      setProgress(stepProgress);
+      dispatch(setProgress(stepProgress));
       
       if (stepProgress < 100) {
         animationFrame = requestAnimationFrame(progressUpdate);
@@ -449,7 +447,7 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
     progressUpdate();
     
     const timer = setTimeout(() => {
-      if (isPlaying) {
+      if (demoState.isActive) {
         processNextStep();
       }
     }, stepDuration);
@@ -463,7 +461,7 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
         cancelAnimationFrame(animationFrame);
       }
     };
-  }, [currentDemo, currentStep, isPlaying, executeStep, stopDemo]);
+  }, [currentDemo, demoState.currentStep, demoState.isActive, executeStep, stopDemo, dispatch]);
 
   const startDemoWithId = useCallback((demoId?: string) => {
     const targetDemo = demoId ? DEMO_SCRIPTS.find(demo => demo.id === demoId) : currentDemo;
@@ -484,9 +482,9 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
     // Interrupt any active region showcase
     onRegionShowcaseToggle?.(false);
     
-    setIsPlaying(true);
-    setCurrentStep(0);
-    setProgress(0);
+    dispatch(setDemoActive(true));
+    dispatch(setCurrentStep(0));
+    dispatch(setProgress(0));
     setTimeRemaining(0);
     onTourStateChange?.(true);
     
@@ -506,7 +504,7 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       const stepProgress = Math.min((elapsed / stepDuration) * 100, 100);
       const remaining = Math.max(0, step.duration - (elapsed / 1000));
       
-      setProgress(stepProgress);
+      dispatch(setProgress(stepProgress));
       setTimeRemaining(remaining);
       
       if (stepProgress < 100) {
@@ -526,9 +524,9 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       
       if (nextStepIndex >= targetDemo.steps.length) {
         // Demo completed
-        setIsPlaying(false);
-        setCurrentStep(0);
-        setProgress(0);
+        dispatch(setDemoActive(false));
+        dispatch(setCurrentStep(0));
+        dispatch(setProgress(0));
         setTimeRemaining(0);
         onTourStateChange?.(false);
         onDemoComplete?.();
@@ -542,8 +540,8 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       }
       
       // Continue to next step
-      setCurrentStep(nextStepIndex);
-      setProgress(0);
+      dispatch(setCurrentStep(nextStepIndex));
+      dispatch(setProgress(0));
       
       const nextStep = targetDemo.steps[nextStepIndex];
       executeStep(nextStep);
@@ -551,21 +549,21 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
     }, stepDuration);
     
     setStepTimer(timer);
-  }, [currentDemo, globe, stepTimer, onTourStateChange, executeStep, startStepTimer, selectedDemo, onDemoComplete]);
+  }, [currentDemo, globe, stepTimer, onTourStateChange, executeStep, startStepTimer, selectedDemo, onDemoComplete, dispatch]);
 
   const startDemo = useCallback(() => {
     startDemoWithId();
   }, [startDemoWithId]);
 
   const handleDemoChange = useCallback((demoId: string) => {
-    if (isPlaying) {
+    if (demoState.isActive) {
       // If currently playing a demo, interrupt it and start the new one
       startDemoWithId(demoId);
     } else {
       // If not playing, just update the selection
       setSelectedDemo(demoId);
     }
-  }, [isPlaying, startDemoWithId]);
+  }, [demoState.isActive, startDemoWithId]);
 
   // Expose methods through ref
   useImperativeHandle(ref, () => ({
@@ -605,19 +603,18 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
         </ControlPanel>
 
         <QuickActionButton
-          variant={isPlaying ? 'accent' : 'primary'}
-          onClick={isPlaying ? stopDemo : startDemo}
+          variant={demoState.isActive ? 'accent' : 'primary'}
+          onClick={demoState.isActive ? stopDemo : startDemo}
           disabled={!globe}
         >
-          <StatusIndicator isActive={isPlaying} />
-          {isPlaying ? 'Stop Demo' : 'Start Demo'}
+          {demoState.isActive ? 'Stop Demo' : 'Start Demo'}
         </QuickActionButton>
 
         <QuickActionButton
           variant="primary"
           onClick={() => {
             // Stop any active demo first
-            if (isPlaying) {
+            if (demoState.isActive) {
               stopDemo();
             }
             onRegionShowcaseToggle?.(true);
@@ -630,7 +627,7 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
         <QuickActionButton
           variant="secondary"
           onClick={jumpToGlobalView}
-          disabled={isPlaying}
+          disabled={demoState.isActive}
         >
           🌍 Global
         </QuickActionButton>
@@ -638,7 +635,7 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
         <QuickActionButton
           variant="secondary"
           onClick={focusOnAsia}
-          disabled={isPlaying}
+          disabled={demoState.isActive}
         >
           🏭 Asia
         </QuickActionButton>
@@ -646,21 +643,22 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
         <QuickActionButton
           variant="secondary"
           onClick={focusOnUSA}
-          disabled={isPlaying}
+          disabled={demoState.isActive}
         >
           🏛️ USA
         </QuickActionButton>
       </ControlContainer>
 
       <DemoInfo
-        isVisible={isPlaying && !!currentStepData}
+        isVisible={demoState.isActive && !!currentStepData}
         currentStep={currentStepData || null}
-        stepIndex={currentStep}
+        stepIndex={demoState.currentStep}
         totalSteps={currentDemo?.steps.length || 0}
-        progress={progress}
+        progress={demoState.progress}
         timeRemaining={timeRemaining}
         demoName={currentDemo?.name}
         onStop={stopDemo}
+        isActive={demoState.isActive}
       />
     </>
   );

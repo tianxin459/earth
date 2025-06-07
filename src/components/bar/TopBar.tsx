@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { BarContainer } from "./Container";
 import { IconButton } from "../Icon";
 import { useAppSelector } from "../../redux/hook";
@@ -27,6 +27,23 @@ const WeekTag = styled.strong`
     font-weight: normal;
 `;
 
+const heartbeat = keyframes`
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+`;
+
+const DemoStatusIndicator = styled.div<{ isActive: boolean }>`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: ${props => props.isActive ? '#00ff88' : 'transparent'};
+  box-shadow: ${props => props.isActive ? '0 0 8px rgba(0, 255, 136, 0.6)' : 'none'};
+  margin-right: 8px;
+  animation: ${props => props.isActive ? heartbeat : 'none'} 1.5s ease-in-out infinite;
+  transition: all 0.3s ease;
+`;
+
 interface RegionOption {
     id: string;
     name: string;
@@ -41,12 +58,14 @@ interface TopBarProps {
     onMenuClick: () => void;
     onDemoSelect?: (demoId: string) => void;
     onRegionSelect?: (region: RegionOption) => void;
+    onHelpToggle?: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({ 
     onMenuClick, 
     onDemoSelect, 
-    onRegionSelect 
+    onRegionSelect,
+    onHelpToggle 
 }) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -54,6 +73,7 @@ export const TopBar: React.FC<TopBarProps> = ({
     const loading = useAppSelector((state) => state.loader.loading);
     const loaded = useAppSelector((state) => state.loader.loaded);
     const currentWeek = useAppSelector((state) => state.week.currentWeek);
+    const isDemoActive = useAppSelector((state) => state.demo.isActive);
     const loadData = useWeekDataLoader();
 
     useEffect(() => {
@@ -100,6 +120,8 @@ export const TopBar: React.FC<TopBarProps> = ({
                 <WeekTag>{currentWeek}</WeekTag>
             </FlexBox>
             <FlexBox style={{ gap: "5px", width: "200px", justifyContent: "flex-end" }}>
+                <DemoStatusIndicator isActive={isDemoActive} />
+                <IconButton icon="help" onClick={onHelpToggle} title="Keyboard Shortcuts (H)" />
                 <b style={{ fontSize: "80%", color: loading ? "orange" : "" }}>
                     {loading ? "LOADING" : loaded ? "READY" : ""}
                 </b>

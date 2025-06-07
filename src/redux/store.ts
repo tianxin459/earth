@@ -20,6 +20,14 @@ interface PortsState {
     toPorts: string[];
 }
 
+interface DemoState {
+    isActive: boolean;
+    currentDemo: string | null;
+    currentStep: number;
+    progress: number;
+    tourMessage: string;
+}
+
 const weekInitialState: WeekState = {
     currentWeek: "",
 };
@@ -28,6 +36,14 @@ const portsInitialState: PortsState = {
     selectedPorts: [],
     fromPorts: [],
     toPorts: [],
+};
+
+const demoInitialState: DemoState = {
+    isActive: false,
+    currentDemo: null,
+    currentStep: 0,
+    progress: 0,
+    tourMessage: "",
 };
 
 const weekSlice = createSlice({
@@ -69,9 +85,47 @@ const portsSlice = createSlice({
     },
 });
 
+const demoSlice = createSlice({
+    name: "demo",
+    initialState: demoInitialState,
+    reducers: {
+        setDemoActive: (state, action: PayloadAction<boolean>) => {
+            state.isActive = action.payload;
+            if (!action.payload) {
+                state.currentDemo = null;
+                state.currentStep = 0;
+                state.progress = 0;
+            }
+        },
+        setCurrentDemo: (state, action: PayloadAction<string | null>) => {
+            state.currentDemo = action.payload;
+        },
+        setCurrentStep: (state, action: PayloadAction<number>) => {
+            state.currentStep = action.payload;
+        },
+        setProgress: (state, action: PayloadAction<number>) => {
+            state.progress = action.payload;
+        },
+        setTourMessage: (state, action: PayloadAction<string>) => {
+            state.tourMessage = action.payload;
+        },
+        clearTourMessage: (state) => {
+            state.tourMessage = "";
+        },
+    },
+});
+
 export const { setCurrentWeek } = weekSlice.actions;
 export const { togglePort, selectAllPorts, clearSelectedPorts, setPorts } =
     portsSlice.actions;
+export const { 
+    setDemoActive, 
+    setCurrentDemo, 
+    setCurrentStep, 
+    setProgress, 
+    setTourMessage, 
+    clearTourMessage 
+} = demoSlice.actions;
 
 interface LoaderState {
     loading?: boolean;
@@ -124,6 +178,7 @@ export const store = configureStore({
         week: weekSlice.reducer,
         ports: portsSlice.reducer,
         loader: loaderSlice.reducer,
+        demo: demoSlice.reducer,
     },
 });
 

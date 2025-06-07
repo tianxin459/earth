@@ -5,11 +5,13 @@ import { setMaterial } from "./settings/material";
 import { convertArcData, setArcs, resetArcHoverState } from "./settings/arc";
 import { setLabels } from "./settings/label";
 import { applyControls } from "./settings/control";
-import { useAppSelector } from "../../redux/hook";
+import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import { styled } from "styled-components";
 import RegionShowcase from "../tour/RegionShowcase";
 import TourControl from "../tour/TourControl";
+import TourMessage from "../tour/TourMessage";
 import { useKeyboardShortcuts, ShortcutsHelp } from "../../hooks/useKeyboardShortcuts";
+import { setTourMessage, clearTourMessage } from "../../redux/store";
 
 const GlobeContainer = styled.div`
   width: 100%;
@@ -23,50 +25,6 @@ const GlobeContainer = styled.div`
   canvas {
     z-index: 1;
   }
-`;
-
-const HelpToggle = styled.button`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  background: rgba(77, 208, 225, 0.1);
-  border: 1px solid rgba(77, 208, 225, 0.3);
-  color: #4dd0e1;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: bold;
-
-  &:hover {
-    background: rgba(77, 208, 225, 0.2);
-    transform: scale(1.1);
-  }
-`;
-
-const TourStatusNotification = styled.div<{ isVisible: boolean }>`
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 999;
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(77, 208, 225, 0.15));
-  border: 1px solid rgba(0, 255, 136, 0.3);
-  border-radius: 8px;
-  padding: 12px 20px;
-  color: #00ff88;
-  font-size: 14px;
-  font-weight: 500;
-  opacity: ${props => props.isVisible ? 1 : 0};
-  visibility: ${props => props.isVisible ? 'visible' : 'hidden'};
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
 `;
 
 interface RegionOption {
@@ -86,14 +44,17 @@ export const GlobeEarth = (props: {
   selectedRegion?: RegionOption | null;
   onDemoComplete?: () => void;
   onRegionComplete?: () => void;
+  showHelp?: boolean;
+  onHelpToggle?: () => void;
 }) => {
   const refContainer = useRef<HTMLDivElement>(null);
   const refGlobe = useRef<GlobeInstance | null>(null);
   const [isTourActive, setIsTourActive] = useState(false);
   const [isRegionShowcaseActive, setIsRegionShowcaseActive] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
-  const [tourMessage, setTourMessage] = useState("");
   const tourControlRef = useRef<any>(null);
+  
+  const dispatch = useAppDispatch();
+  const tourMessage = useAppSelector((state) => state.demo.tourMessage);
 
   const fromData = useAppSelector((state) => state.loader.data?.from);
   const toData = useAppSelector((state) => state.loader.data?.to);
@@ -168,8 +129,8 @@ export const GlobeEarth = (props: {
     globe: refGlobe.current,
     isEnabled: true,
     onShortcutTriggered: (_, action) => {
-      setTourMessage(action);
-      setTimeout(() => setTourMessage(""), 3000);
+      dispatch(setTourMessage(action));
+      setTimeout(() => dispatch(clearTourMessage()), 3000);
     }
   });
 
@@ -180,34 +141,34 @@ export const GlobeEarth = (props: {
         const target = event.target as HTMLElement;
         if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
           event.preventDefault();
-          setShowHelp(prev => !prev);
+          props.onHelpToggle?.();
         }
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [props.onHelpToggle]);
 
   // Handle external demo selection from dropdown menu
   useEffect(() => {
     if (props.selectedDemo && tourControlRef.current) {
       // Start the selected demo
       tourControlRef.current.startDemoWithId(props.selectedDemo);
-      setTourMessage(`Starting demo: ${props.selectedDemo}`);
-      setTimeout(() => setTourMessage(""), 3000);
+      dispatch(setTourMessage(`Starting demo: ${props.selectedDemo}`));
+      setTimeout(() => dispatch(clearTourMessage()), 3000);
     }
-  }, [props.selectedDemo]);
+  }, [props.selectedDemo, dispatch]);
 
   // Handle external region selection from dropdown menu
   useEffect(() => {
     if (props.selectedRegion && refGlobe.current) {
       // Navigate to the selected region
       refGlobe.current.pointOfView(props.selectedRegion.viewpoint, 2000);
-      setTourMessage(`Navigating to: ${props.selectedRegion.name}`);
-      setTimeout(() => setTourMessage(""), 3000);
+      dispatch(setTourMessage(`Navigating to: ${props.selectedRegion.name}`));
+      setTimeout(() => dispatch(clearTourMessage()), 3000);
     }
-  }, [props.selectedRegion]);
+  }, [props.selectedRegion, dispatch]);
 
   return (
     <>
@@ -217,20 +178,20 @@ export const GlobeEarth = (props: {
         globe={refGlobe.current}
         isActive={isRegionShowcaseActive}
         onRegionChange={(region) => {
-          setTourMessage(`Showcasing: ${region.name}`);
-          setTimeout(() => setTourMessage(""), 4000);
+          dispatch(setTourMessage(`Showcasing: ${region.name}`));
+          setTimeout(() => dispatch(clearTourMessage()), 4000);
         }}
         onTourComplete={() => {
           // Region tour completed - hide showcase and return to initial state
           setIsRegionShowcaseActive(false);
-          setTourMessage("Region showcase completed");
-          setTimeout(() => setTourMessage(""), 3000);
+          dispatch(setTourMessage("Region showcase completed"));
+          setTimeout(() => dispatch(clearTourMessage()), 3000);
         }}
         onTourInterrupted={() => {
           // Region tour was interrupted - hide showcase
           setIsRegionShowcaseActive(false);
-          setTourMessage("Region tour interrupted");
-          setTimeout(() => setTourMessage(""), 2000);
+          dispatch(setTourMessage("Region tour interrupted"));
+          setTimeout(() => dispatch(clearTourMessage()), 2000);
         }}
       />
       
@@ -240,39 +201,36 @@ export const GlobeEarth = (props: {
         onTourStateChange={(isActive) => {
           setIsTourActive(isActive);
           if (isActive) {
-            setTourMessage("Demo started - Use keyboard shortcuts for quick navigation");
-            setTimeout(() => setTourMessage(""), 4000);
+            dispatch(setTourMessage("Demo started - Use keyboard shortcuts for quick navigation"));
+            setTimeout(() => dispatch(clearTourMessage()), 4000);
           }
         }}
         onRegionShowcaseToggle={(isActive) => {
           setIsRegionShowcaseActive(isActive);
           if (isActive) {
-            setTourMessage("Region showcase activated - Tour will start automatically");
-            setTimeout(() => setTourMessage(""), 4000);
+            dispatch(setTourMessage("Region showcase activated - Tour will start automatically"));
+            setTimeout(() => dispatch(clearTourMessage()), 4000);
           }
         }}
         onDemoComplete={() => {
           // Demo completed - return to initial state
           setIsTourActive(false);
-          setTourMessage("Demo completed - Returned to initial state");
-          setTimeout(() => setTourMessage(""), 3000);
+          dispatch(setTourMessage("Demo completed - Returned to initial state"));
+          setTimeout(() => dispatch(clearTourMessage()), 3000);
           props.onDemoComplete?.();
         }}
       />
       
-      <TourStatusNotification isVisible={!!tourMessage}>
-        {tourMessage}
-      </TourStatusNotification>
+      <TourMessage 
+        isVisible={!!tourMessage}
+        message={tourMessage}
+      />
       
       <ShortcutsHelp 
         shortcuts={shortcuts}
-        isVisible={showHelp}
-        onClose={() => setShowHelp(false)}
+        isVisible={props.showHelp || false}
+        onClose={() => props.onHelpToggle?.()}
       />
-      
-      <HelpToggle onClick={() => setShowHelp(prev => !prev)}>
-        H
-      </HelpToggle>
     </>
   );
 };

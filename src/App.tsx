@@ -39,6 +39,7 @@ const App: React.FC = () => {
     const [isPortSidebarCollapsed, setIsPortSidebarCollapsed] = useState<boolean>(true);
     const [selectedDemo, setSelectedDemo] = useState<string | null>(null);
     const [selectedRegion, setSelectedRegion] = useState<RegionOption | null>(null);
+    const [showHelp, setShowHelp] = useState<boolean>(false);
 
     const loadData = useWeekDataLoader();
     const currentWmweek = useAppSelector((state) => state.week.currentWeek);
@@ -93,12 +94,17 @@ const App: React.FC = () => {
         console.log('Region selected:', region);
     };
 
+    const handleHelpToggle = () => {
+        setShowHelp(!showHelp);
+    };
+
     return (
         <AppContainer>
             <TopBar 
                 onMenuClick={handlePortSidebarToggle}
                 onDemoSelect={handleDemoSelect}
                 onRegionSelect={handleRegionSelect}
+                onHelpToggle={handleHelpToggle}
             />
             <AppBody>
                 <Dashboard
@@ -116,6 +122,8 @@ const App: React.FC = () => {
                     selectedRegion={selectedRegion}
                     onDemoComplete={() => setSelectedDemo(null)}
                     onRegionComplete={() => setSelectedRegion(null)}
+                    showHelp={showHelp}
+                    onHelpToggle={handleHelpToggle}
                 />
             </AppBody>
             <BottomBar />
