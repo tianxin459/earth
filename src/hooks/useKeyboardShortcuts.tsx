@@ -121,7 +121,7 @@ export const useKeyboardShortcuts = ({
       action: () => {
         if (tourControlRef?.current) {
           tourControlRef.current.startDemoWithId('quick-overview');
-          onShortcutTriggered?.('demo', 'Quick Overview demo started');
+          onShortcutTriggered?.('demo', 'Quick Overview');
         }
       }
     },
@@ -132,7 +132,7 @@ export const useKeyboardShortcuts = ({
       action: () => {
         if (tourControlRef?.current) {
           tourControlRef.current.startDemoWithId('detailed-analysis');
-          onShortcutTriggered?.('demo', 'Detailed Analysis demo started');
+          onShortcutTriggered?.('demo', 'Detailed Analysis');
         }
       }
     },
@@ -143,7 +143,7 @@ export const useKeyboardShortcuts = ({
       action: () => {
         if (tourControlRef?.current) {
           tourControlRef.current.startDemoWithId('regional-deep-dive');
-          onShortcutTriggered?.('demo', 'Regional Deep Dive demo started');
+          onShortcutTriggered?.('demo', 'Regional Deep Dive');
         }
       }
     },
