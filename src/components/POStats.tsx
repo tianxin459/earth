@@ -31,6 +31,16 @@ const WeekHeader = styled.div`
   opacity: 0.8;
 `;
 
+const HighlightedWeek = styled.span`
+  color: #00ff88;
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.05));
+  padding: 1px 3px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+`;
+
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -165,7 +175,11 @@ const POStats: React.FC<POStatsProps> = ({ formatNumber, currentWeek }) => {
 
   return (
     <StatsContainer>
-      {currentWeek && <WeekHeader>PO Stats - Week {currentWeek}</WeekHeader>}
+      {currentWeek && (
+        <WeekHeader>
+          PO Stats - Week <HighlightedWeek>{currentWeek}</HighlightedWeek>
+        </WeekHeader>
+      )}
       <StatsGrid>
         {statsData.map((stat, index) => (
           <StatsCard key={index}>
