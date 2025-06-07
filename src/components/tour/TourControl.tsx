@@ -6,7 +6,10 @@ import {
   setDemoActive, 
   setCurrentDemo, 
   setCurrentStep, 
-  setProgress 
+  setProgress,
+  setCurrentWeek,
+  setTourMessage,
+  clearTourMessage
 } from '../../redux/store';
 import { DemoInfo } from './DemoInfo';
 
@@ -33,7 +36,7 @@ interface DemoStep {
   id: string;
   title: string;
   description: string;
-  action: 'camera' | 'highlight' | 'data' | 'pause' | 'message';
+  action: 'camera' | 'highlight' | 'data' | 'pause' | 'message' | 'timeline';
   duration: number;
   parameters?: any;
 }
@@ -131,6 +134,18 @@ const DEMO_SCRIPTS: ScriptedDemo[] = [
         action: 'data',
         duration: 12,
         parameters: { focus: 'timeline' }
+      },
+      {
+        id: 'time-navigation',
+        title: 'Time Navigation Demo',
+        description: 'Exploring data across different time periods using wmweek navigation',
+        action: 'timeline',
+        duration: 15,
+        parameters: { 
+          focus: 'wmweek-demo',
+          timeSteps: ['202519', '202520', '202521'],
+          description: 'Demonstrating how shipping patterns change over different weeks'
+        }
       }
     ]
   },
@@ -320,8 +335,48 @@ export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
       case 'pause':
         // Simple pause step
         break;
+        
+      case 'timeline':
+        // Execute time navigation demo
+        console.log('Timeline action started:', step.parameters);
+        dispatch(setTourMessage('Starting time navigation demo...'));
+        
+        if (step.parameters?.timeSteps) {
+          const timeSteps = step.parameters.timeSteps;
+          const stepDuration = step.duration * 1000 / timeSteps.length;
+          console.log('Timeline steps:', timeSteps, 'Duration per step:', stepDuration);
+          
+          timeSteps.forEach((weekString: string, index: number) => {
+            setTimeout(() => {
+              console.log(`Switching to week: ${weekString} (step ${index + 1}/${timeSteps.length})`);
+              dispatch(setCurrentWeek(weekString));
+              dispatch(setTourMessage(`Viewing week ${weekString} (${index + 1}/${timeSteps.length})`));
+              
+              // Add highlight effect to timeline
+              const timelineElement = document.querySelector('.timeline-container');
+              if (timelineElement) {
+                console.log('Adding highlight to timeline element');
+                timelineElement.classList.add('demo-highlight');
+                setTimeout(() => {
+                  timelineElement.classList.remove('demo-highlight');
+                }, Math.min(stepDuration - 200, 1500)); // Remove highlight before next step
+              } else {
+                console.log('Timeline element not found');
+              }
+            }, stepDuration * index);
+          });
+          
+          // Clear message after demo completes
+          setTimeout(() => {
+            dispatch(clearTourMessage());
+          }, step.duration * 1000);
+        } else {
+          console.log('No timeSteps found in parameters');
+          dispatch(setTourMessage('Time navigation demo: No time steps configured'));
+        }
+        break;
     }
-  }, [globe]);
+  }, [globe, dispatch]);
 
   const stopDemo = useCallback(() => {
     // Clear any existing timers

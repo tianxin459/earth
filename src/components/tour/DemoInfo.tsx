@@ -5,7 +5,7 @@ interface DemoStep {
   id: string;
   title: string;
   description: string;
-  action: 'camera' | 'highlight' | 'data' | 'pause' | 'message';
+  action: 'camera' | 'highlight' | 'data' | 'pause' | 'message' | 'timeline';
   duration: number;
   parameters?: any;
 }

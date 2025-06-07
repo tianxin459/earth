@@ -9,6 +9,31 @@ const TimelineContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: all 0.3s ease;
+  
+  &.demo-highlight {
+    background: linear-gradient(90deg, 
+      rgba(77, 208, 225, 0.3) 0%, 
+      rgba(0, 255, 136, 0.3) 50%, 
+      rgba(77, 208, 225, 0.3) 100%
+    );
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 0 20px rgba(77, 208, 225, 0.5);
+    transform: scale(1.02);
+    animation: pulse 1s ease-in-out infinite alternate;
+  }
+  
+  @keyframes pulse {
+    from {
+      box-shadow: 0 0 20px rgba(77, 208, 225, 0.5);
+      transform: scale(1.02);
+    }
+    to {
+      box-shadow: 0 0 30px rgba(77, 208, 225, 0.8);
+      transform: scale(1.05);
+    }
+  }
 `;
 
 const TimelineDot = styled.div<{ $isActive: boolean }>`
@@ -58,6 +83,7 @@ const TimelineDot = styled.div<{ $isActive: boolean }>`
 
 const Timeline = () => {
   const currentWmweek = useAppSelector((state) => state.week.currentWeek);
+  const demoState = useAppSelector((state) => state.demo);
   const wmweeks = useAppSelector((state) => {
     return (state.loader.data?.week || []).map((item) => item.wmweek);
   });
@@ -81,7 +107,7 @@ const Timeline = () => {
   };
 
   return (
-    <TimelineContainer>
+    <TimelineContainer className="timeline-container">
       <IconButton
         onClick={handlePrevious}
         disabled={currentIndex <= 0}
