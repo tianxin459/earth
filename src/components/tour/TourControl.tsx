@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import styled from 'styled-components';
 import type { GlobeInstance } from 'globe.gl';
 import { DemoInfo } from './DemoInfo';
@@ -9,6 +9,10 @@ interface TourControlProps {
   onTourStateChange?: (isActive: boolean) => void;
   onRegionShowcaseToggle?: (isActive: boolean) => void;
   onDemoComplete?: () => void;
+}
+
+interface TourControlRef {
+  startDemoWithId: (demoId?: string) => void;
 }
 
 interface ScriptedDemo {
@@ -267,13 +271,13 @@ const StatusIndicator = styled.div<{ isActive: boolean }>`
   transition: all 0.3s ease;
 `;
 
-export const TourControl: React.FC<TourControlProps> = ({
+export const TourControl = forwardRef<TourControlRef, TourControlProps>(({
   globe,
   className,
   onTourStateChange,
   onRegionShowcaseToggle,
   onDemoComplete
-}) => {
+}, ref) => {
   const [selectedDemo, setSelectedDemo] = useState<string>('quick-overview');
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -563,6 +567,11 @@ export const TourControl: React.FC<TourControlProps> = ({
     }
   }, [isPlaying, startDemoWithId]);
 
+  // Expose methods through ref
+  useImperativeHandle(ref, () => ({
+    startDemoWithId
+  }), [startDemoWithId]);
+
   const jumpToGlobalView = useCallback(() => {
     if (!globe) return;
     globe.pointOfView({ lat: 20, lng: 0, altitude: 2.5 }, 2000);
@@ -655,6 +664,6 @@ export const TourControl: React.FC<TourControlProps> = ({
       />
     </>
   );
-};
+});
 
 export default TourControl;

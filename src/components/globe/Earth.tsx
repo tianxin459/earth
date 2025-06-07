@@ -69,9 +69,23 @@ const TourStatusNotification = styled.div<{ isVisible: boolean }>`
   backdrop-filter: blur(10px);
 `;
 
+interface RegionOption {
+  id: string;
+  name: string;
+  viewpoint: {
+    lat: number;
+    lng: number;
+    altitude: number;
+  };
+}
+
 export const GlobeEarth = (props: {
   isDashboardCollapsed: boolean;
   isPortSidebarCollapsed: boolean;
+  selectedDemo?: string | null;
+  selectedRegion?: RegionOption | null;
+  onDemoComplete?: () => void;
+  onRegionComplete?: () => void;
 }) => {
   const refContainer = useRef<HTMLDivElement>(null);
   const refGlobe = useRef<GlobeInstance | null>(null);
@@ -79,6 +93,7 @@ export const GlobeEarth = (props: {
   const [isRegionShowcaseActive, setIsRegionShowcaseActive] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [tourMessage, setTourMessage] = useState("");
+  const tourControlRef = useRef<any>(null);
 
   const fromData = useAppSelector((state) => state.loader.data?.from);
   const toData = useAppSelector((state) => state.loader.data?.to);
@@ -174,6 +189,26 @@ export const GlobeEarth = (props: {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Handle external demo selection from dropdown menu
+  useEffect(() => {
+    if (props.selectedDemo && tourControlRef.current) {
+      // Start the selected demo
+      tourControlRef.current.startDemoWithId(props.selectedDemo);
+      setTourMessage(`Starting demo: ${props.selectedDemo}`);
+      setTimeout(() => setTourMessage(""), 3000);
+    }
+  }, [props.selectedDemo]);
+
+  // Handle external region selection from dropdown menu
+  useEffect(() => {
+    if (props.selectedRegion && refGlobe.current) {
+      // Navigate to the selected region
+      refGlobe.current.pointOfView(props.selectedRegion.viewpoint, 2000);
+      setTourMessage(`Navigating to: ${props.selectedRegion.name}`);
+      setTimeout(() => setTourMessage(""), 3000);
+    }
+  }, [props.selectedRegion]);
+
   return (
     <>
       <GlobeContainer ref={refContainer} />
@@ -200,6 +235,7 @@ export const GlobeEarth = (props: {
       />
       
       <TourControl 
+        ref={tourControlRef}
         globe={refGlobe.current}
         onTourStateChange={(isActive) => {
           setIsTourActive(isActive);
@@ -220,6 +256,7 @@ export const GlobeEarth = (props: {
           setIsTourActive(false);
           setTourMessage("Demo completed - Returned to initial state");
           setTimeout(() => setTourMessage(""), 3000);
+          props.onDemoComplete?.();
         }}
       />
       

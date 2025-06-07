@@ -27,11 +27,27 @@ const WeekTag = styled.strong`
     font-weight: normal;
 `;
 
-interface TopBarProps {
-    onMenuClick: () => void;
+interface RegionOption {
+    id: string;
+    name: string;
+    viewpoint: {
+        lat: number;
+        lng: number;
+        altitude: number;
+    };
 }
 
-export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
+interface TopBarProps {
+    onMenuClick: () => void;
+    onDemoSelect?: (demoId: string) => void;
+    onRegionSelect?: (region: RegionOption) => void;
+}
+
+export const TopBar: React.FC<TopBarProps> = ({ 
+    onMenuClick, 
+    onDemoSelect, 
+    onRegionSelect 
+}) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -66,6 +82,14 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                         isVisible={isMenuVisible}
                         onFilterClick={() => {
                             onMenuClick();
+                            setIsMenuVisible(false);
+                        }}
+                        onDemoSelect={(demoId) => {
+                            onDemoSelect?.(demoId);
+                            setIsMenuVisible(false);
+                        }}
+                        onRegionSelect={(region) => {
+                            onRegionSelect?.(region);
                             setIsMenuVisible(false);
                         }}
                     />

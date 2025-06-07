@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Dashboard from "./Dashboard";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
 import { selectAllPorts, setPorts } from "./redux/store";
@@ -8,6 +8,16 @@ import { TopBar } from "./components/bar/TopBar";
 import { useWeekDataLoader } from "./hooks/loader";
 import { GlobeEarth } from "./components/globe/Earth";
 import styled from "styled-components";
+
+interface RegionOption {
+    id: string;
+    name: string;
+    viewpoint: {
+        lat: number;
+        lng: number;
+        altitude: number;
+    };
+}
 
 const AppContainer = styled.div`
     width: 100%;
@@ -27,6 +37,8 @@ const AppBody = styled.div`
 const App: React.FC = () => {
     const [isDashboardCollapsed, setIsDashboardCollapsed] = useState<boolean>(false);
     const [isPortSidebarCollapsed, setIsPortSidebarCollapsed] = useState<boolean>(true);
+    const [selectedDemo, setSelectedDemo] = useState<string | null>(null);
+    const [selectedRegion, setSelectedRegion] = useState<RegionOption | null>(null);
 
     const loadData = useWeekDataLoader();
     const currentWmweek = useAppSelector((state) => state.week.currentWeek);
@@ -71,9 +83,23 @@ const App: React.FC = () => {
         setIsPortSidebarCollapsed(!isPortSidebarCollapsed);
     };
 
+    const handleDemoSelect = (demoId: string) => {
+        setSelectedDemo(demoId);
+        console.log('Demo selected:', demoId);
+    };
+
+    const handleRegionSelect = (region: RegionOption) => {
+        setSelectedRegion(region);
+        console.log('Region selected:', region);
+    };
+
     return (
         <AppContainer>
-            <TopBar onMenuClick={handlePortSidebarToggle} />
+            <TopBar 
+                onMenuClick={handlePortSidebarToggle}
+                onDemoSelect={handleDemoSelect}
+                onRegionSelect={handleRegionSelect}
+            />
             <AppBody>
                 <Dashboard
                     isCollapsed={isDashboardCollapsed}
@@ -85,7 +111,11 @@ const App: React.FC = () => {
                 />
                 <GlobeEarth 
                     isDashboardCollapsed={isDashboardCollapsed} 
-                    isPortSidebarCollapsed={isPortSidebarCollapsed} 
+                    isPortSidebarCollapsed={isPortSidebarCollapsed}
+                    selectedDemo={selectedDemo}
+                    selectedRegion={selectedRegion}
+                    onDemoComplete={() => setSelectedDemo(null)}
+                    onRegionComplete={() => setSelectedRegion(null)}
                 />
             </AppBody>
             <BottomBar />
