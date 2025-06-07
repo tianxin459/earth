@@ -19,8 +19,8 @@ const fadeIn = keyframes`
 
 const TourMessageContainer = styled.div<{ isVisible: boolean }>`
   position: fixed;
-  top: 100px; /* Below the header */
-  left: 20px;
+  top: 30px; /* Moved closer to top */
+  left: 5px; /* Moved closer to left edge */
   z-index: 1000;
   background: transparent;
   padding: 14px;
