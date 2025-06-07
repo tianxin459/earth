@@ -16,15 +16,19 @@ const MenuContainer = styled.div`
     position: relative;
 `;
 
-const WeekTag = styled.strong`
-    display: block;
-    padding: 2px 5px;
-    color: #fff;
-    background-color: orange;
-    border-radius: 5px;
-    margin-left: 20px;
-    font-size: 80%;
-    font-weight: normal;
+const HeaderTitle = styled.div`
+    font-size: 14px;
+    font-style: italic;
+    color: #83eefc;
+    letter-spacing: 1.5px;
+    text-shadow: 
+        1px 1px 0px #000,
+        -1px -1px 0px #000,
+        1px -1px 0px #000,
+        -1px 1px 0px #000,
+        2px 2px 2px rgba(0, 0, 0, 0.8);
+    filter: contrast(1.2) brightness(1.1);
+    font-family: "Arial Black", Arial, sans-serif;
 `;
 
 const heartbeat = keyframes`
@@ -72,7 +76,6 @@ export const TopBar: React.FC<TopBarProps> = ({
 
     const loading = useAppSelector((state) => state.loader.loading);
     const loaded = useAppSelector((state) => state.loader.loaded);
-    const currentWeek = useAppSelector((state) => state.week.currentWeek);
     const isDemoActive = useAppSelector((state) => state.demo.isActive);
     const loadData = useWeekDataLoader();
 
@@ -116,8 +119,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                 </MenuContainer>
             </FlexBox>
             <FlexBox style={{ lineHeight: 1 }}>
-                <b>▪ Global Sourcing Purchase Order Dashboard ▪</b>
-                <WeekTag>{currentWeek}</WeekTag>
+                <HeaderTitle>▪ Global Sourcing Purchase Order Dashboard ▪</HeaderTitle>
             </FlexBox>
             <FlexBox style={{ gap: "5px", width: "200px", justifyContent: "flex-end" }}>
                 <DemoStatusIndicator isActive={isDemoActive} />
