@@ -185,6 +185,23 @@ export const useKeyboardShortcuts = ({
         controls.autoRotateSpeed = 0.3;
         onShortcutTriggered?.('navigation', 'Reset to default view');
       }
+    },
+    {
+      key: 'i',
+      description: 'Zoom In Animation (From Far to Initial)',
+      category: 'view',
+      action: () => {
+        if (!globe) return;
+        // First move camera to a very far position (Earth appears as a small dot)
+        globe.pointOfView({ lat: 39.6, lng: -98.5, altitude: 32 }, 500);
+        
+        // Then animate to initial position after a short delay
+        setTimeout(() => {
+          globe.pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 }, 2500);
+        }, 600);
+        
+        onShortcutTriggered?.('view', '');
+      }
     }
   ];
 
@@ -204,7 +221,7 @@ export const useKeyboardShortcuts = ({
       event.preventDefault();
       shortcut.action();
     }
-  }, [isEnabled, globe, shortcuts]);
+  }, [isEnabled, globe, shortcuts, onShortcutTriggered, tourControlRef]);
 
   // Setup event listeners
   useEffect(() => {
