@@ -1,49 +1,49 @@
 # Earth Visualization
 
-基于 [Three.js](https://threejs.org/) 的地球可视化项目，展示地球表面及主要航运线路，并支持交互缩放与旋转。
+A 3D Earth visualization project based on [Three.js](https://threejs.org/), displaying the Earth's surface with major shipping routes and supporting interactive zooming and rotation.
 
-## 技术栈
+## Tech Stack
 
 - [TypeScript](https://www.typescriptlang.org/)
-- [Three.js](https://threejs.org/) —— 3D 可视化
-- [Vite](https://vitejs.dev/) —— 前端开发与构建工具
+- [Three.js](https://threejs.org/) — 3D visualization
+- [Vite](https://vitejs.dev/) — Frontend development and build tool
 
-## 项目结构
+## Project Structure
 
-- `src/`：主要 TypeScript 源码
-- `public/`：静态资源（地球贴图、航运线路数据等）
-- `index.html`：入口 HTML 文件
+- `src/`: Main TypeScript source code
+- `public/`: Static assets (Earth textures, shipping route data, etc.)
+- `index.html`: Entry HTML file
 
-## 启动与调试
+## Development & Debugging
 
-1. 安装依赖
+1. Install dependencies
 
    ```sh
    npm install
    ```
 
-2. 启动开发服务器（支持热更新和调试）
+2. Start development server (with hot reload and debugging support)
 
    ```sh
    npm run dev
    ```
 
-   启动后访问 [http://localhost:5173](http://localhost:5173)（端口可能因环境不同而变化，终端会显示实际端口）。
+   After starting, visit [http://localhost:5173](http://localhost:5173) (port may vary depending on your environment, the terminal will display the actual port).
 
-3. 调试
+3. Debugging
 
-   - 推荐使用 [Visual Studio Code](https://code.visualstudio.com/)。
-   - 可直接在 `src/` 目录下设置断点，利用浏览器开发者工具调试 TypeScript 源码（Vite 支持源码映射）。
-   - 调整地球缩放可用右上角滑块，鼠标拖拽旋转地球。
+   - [Visual Studio Code](https://code.visualstudio.com/) is recommended.
+   - You can set breakpoints directly in the `src/` directory and debug TypeScript source code using browser developer tools (Vite supports source mapping).
+   - Adjust Earth zoom using the slider in the top-right corner, and drag with mouse to rotate the Earth.
 
-## 构建生产包
+## Production Build
 
 ```sh
 npm run build
 ```
 
-构建输出在 `dist/` 目录。
+Build output is in the `dist/` directory.
 
 ---
 
-如需自定义航运线路或地球贴图，请替换 `public/` 目录下的相关文件。
+To customize shipping routes or Earth textures, replace the relevant files in the `public/` directory.
