@@ -9,13 +9,12 @@
 6. [Data Structure & APIs](#data-structure--apis)
 7. [Features & Functionality](#features--functionality)
 8. [Setup & Installation](#setup--installation)
-9. [Development Guide](#development-guide)
-10. [Configuration](#configuration)
-11. [Performance & Optimization](#performance--optimization)
-12. [Troubleshooting](#troubleshooting)
-13. [API Reference](#api-reference)
-14. [Deployment Guide](#deployment-guide)
-15. [Advanced Configuration](#advanced-configuration)
+9. [Configuration](#configuration)
+10. [Performance & Optimization](#performance--optimization)
+11. [API Reference](#api-reference)
+12. [Deployment Guide](#deployment-guide)
+13. [Advanced Configuration](#advanced-configuration)
+14. [Authors & Contributors](#authors--contributors)
 
 ---
 
@@ -72,6 +71,7 @@ This dashboard was specifically developed to serve as a **real-time visualizatio
 |------------|---------|---------|
 | **React** | ^18.2.0 | UI Framework |
 | **TypeScript** | ~5.8.3 | Type-safe development |
+| **Redux Toolkit** | Latest | State management |
 | **Three.js** | ^0.176.0 | 3D graphics and WebGL |
 | **Globe.gl** | ^2.41.4 | 3D globe rendering library |
 | **D3.js** | ^7.9.0 | Data visualization and charts |
@@ -94,40 +94,69 @@ This dashboard was specifically developed to serve as a **real-time visualizatio
 
 ### Application Architecture
 
+The application follows a Redux-based state management architecture with React components for UI rendering and Three.js for 3D visualization.
+
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        App.tsx                              │
-│  ┌─────────────────────┬─────────────────────┬─────────────┐ │
-│  │    EarthLine.tsx    │   Dashboard.tsx     │ Timeline.tsx│ │
-│  │  (3D Globe Core)    │  (Statistics)       │ (Navigation)│ │
-│  └─────────────────────┴─────────────────────┴─────────────┘ │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                App.tsx                                      │
+│  ┌──────────────┬──────────────────┬──────────────────┬─────────────────────┐ │
+│  │  TopBar.tsx  │   Dashboard.tsx  │ PortsSidebar.tsx │   GlobeEarth.tsx    │ │
+│  │ (Navigation) │  (Analytics)     │ (Port Controls)  │    (3D Globe)       │ │
+│  └──────────────┴──────────────────┴──────────────────┴─────────────────────┘ │
+│  ┌─────────────────────────────────────────────────────────────────────────┐ │
+│  │                          BottomBar.tsx                                 │ │
+│  │                         (Timeline & Controls)                          │ │
+│  └─────────────────────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Redux State Management
+
+The application uses Redux Toolkit for centralized state management with four main slices:
+
+```typescript
+interface RootState {
+  week: WeekState;      // Current week selection
+  ports: PortsState;    // Port selection state
+  loader: LoaderState;  // Data loading state
+  demo: DemoState;      // Demo/tour system state
+}
 ```
 
 ### Component Hierarchy
 
-```
+```arcade
 App
-├── EarthLine (3D Globe)
-│   ├── Globe.gl Integration
-│   ├── Three.js Scene
-│   ├── Shader Materials
-│   └── Interactive Tooltips
+├── TopBar (Navigation & Demo Controls)
+│   ├── DropdownMenu
+│   └── IconButton Components
 ├── Dashboard (Analytics Panel)
-│   ├── Header
 │   ├── WeeklyStatsDashboard
-│   │   └── PieChart (×3)
-│   └── Route Statistics
-├── Timeline (Navigation)
-└── ControlPanel
+│   │   └── PieChart (×3: OTIF, OnTime, InStock)
+│   ├── POStats (Purchase Order Statistics)
+│   └── HistoricalCharts (Trend Analysis)
+├── PortsSidebar (Port Management)
+│   └── Port Selection Controls
+├── GlobeEarth (3D Visualization)
+│   ├── Globe.gl Integration
+│   ├── Three.js Scene Management
+│   ├── TourControl (Demo System)
+│   │   ├── DemoInfo (Step Information)
+│   │   └── RegionShowcase (Regional Tours)
+│   ├── ArcTooltip (Route Information)
+│   └── PortTooltip (Port Details)
+└── BottomBar (Timeline Navigation)
+    └── Timeline (Week Selection)
 ```
 
 ### Design Principles
-- **Modular Architecture**: Separated concerns with dedicated components
-- **Performance-First**: Optimized 3D rendering and data processing
-- **Responsive Design**: Adaptive UI with collapsible panels
-- **Type Safety**: Full TypeScript integration
-- **Real-time Updates**: Dynamic data binding and live updates
+- **Redux-First Architecture**: Centralized state management with predictable data flow
+- **Modular Components**: Separated concerns with dedicated, reusable components
+- **Performance-First**: Optimized 3D rendering and data processing with memoization
+- **Responsive Design**: Adaptive UI with collapsible panels and responsive layouts
+- **Type Safety**: Full TypeScript integration across components and state management
+- **Real-time Updates**: Dynamic data binding with Redux subscriptions and live updates
+- **Demo System**: Interactive tour system with scripted demonstrations and regional showcases
 
 ---
 
@@ -143,26 +172,74 @@ earth/
 │   │   ├── 2k_earth_day.jpg       # Day texture
 │   │   ├── 2k_earth_night.jpg     # Night texture with city lights
 │   │   └── night-sky.png          # Star field background
+│   ├── *.json                      # Core data files (routes, ports, statistics)
 │   └── gen_routes.js               # Route generation script
 ├── src/                            # Source code
 │   ├── components/                 # Reusable UI components
+│   │   ├── bar/                   # Navigation bar components
+│   │   │   ├── TopBar.tsx         # Top navigation with menu
+│   │   │   ├── BottomBar.tsx      # Bottom timeline bar
+│   │   │   └── Container.tsx      # Bar container styling
+│   │   ├── globe/                 # 3D globe components
+│   │   │   ├── Earth.tsx          # Main globe component
+│   │   │   ├── type.ts            # Globe-specific types
+│   │   │   ├── util.ts            # Globe utilities
+│   │   │   ├── assets/            # Globe textures
+│   │   │   └── settings/          # Globe configuration
+│   │   ├── tour/                  # Demo and tour system
+│   │   │   ├── TourControl.tsx    # Demo orchestration
+│   │   │   ├── DemoInfo.tsx       # Step information display
+│   │   │   ├── RegionShowcase.tsx # Regional tours
+│   │   │   └── TourMessage.tsx    # Tour messaging
 │   │   ├── ArcTooltip.tsx         # Shipping route tooltips
 │   │   ├── ArcTooltipRenderer.tsx # Tooltip rendering utility
+│   │   ├── DropdownMenu.tsx       # Navigation dropdown
 │   │   ├── Header.tsx             # Application header
+│   │   ├── HistoricalCharts.tsx   # Trend analysis charts
+│   │   ├── Icon.tsx               # Icon component system
+│   │   ├── IconButton.tsx         # Interactive icon buttons
 │   │   ├── PieChart.tsx           # D3.js pie chart component
 │   │   ├── PortTooltip.tsx        # Port information tooltips
 │   │   ├── PortTooltipRenderer.tsx# Port tooltip renderer
+│   │   ├── PortsSidebar.tsx       # Port selection sidebar
+│   │   ├── POStats.tsx            # Purchase order statistics
 │   │   ├── StatisticsChart.tsx    # Bar chart component
 │   │   ├── Timeline.tsx           # Week navigation timeline
 │   │   └── WeeklyStatsDashboard.tsx# KPI dashboard
 │   ├── config/                    # Configuration files
+│   │   ├── constants.ts           # Application constants
 │   │   ├── dayNightShader.ts      # Custom GLSL shaders
 │   │   └── utils.ts               # Utility functions
+│   ├── hooks/                     # Custom React hooks
+│   │   ├── loader.ts              # Data loading hooks
+│   │   └── useKeyboardShortcuts.tsx# Keyboard navigation
+│   ├── redux/                     # State management
+│   │   ├── hook.ts                # Redux hooks (useAppSelector, useAppDispatch)
+│   │   └── store.ts               # Redux store configuration
+│   ├── store/                     # Additional store configuration
+│   │   ├── hooks.ts               # Legacy store hooks
+│   │   ├── index.ts               # Store exports
+│   │   └── slices/                # Redux slices
+│   │       └── dashboardSlice.ts  # Dashboard state slice
 │   ├── App.tsx                    # Main application component
 │   ├── Dashboard.tsx              # Statistics dashboard
-│   ├── EarthLine.tsx              # 3D Globe component
+│   ├── EarthLine.tsx              # Legacy 3D Globe component
 │   ├── ControlPanel.tsx           # Controls interface
-│   └── Bg.ts                      # Starfield background
+│   ├── main.tsx                   # Application entry point
+│   ├── type.ts                    # TypeScript type definitions
+│   └── style.css                  # Global styles
+├── asset/                         # Additional assets
+│   └── video/                     # Demo video assets
+│       ├── videoscript.txt        # Demo scripts
+│       └── srt/                   # Subtitle files
+│           ├── *-english.srt      # English subtitles
+│           └── *-chinese.srt      # Chinese subtitles
+├── document/                      # Project documentation
+│   ├── PROJECT_DOCUMENTATION.md   # This comprehensive guide
+│   ├── COMPONENT_REFERENCE.md     # Component API reference
+│   ├── DEMO_SUMMARY.md           # Demo system documentation
+│   ├── DATA_FORMAT_GUIDE.md      # Data structure guide
+│   └── *.md                      # Additional documentation
 ├── package.json                   # Dependencies and scripts
 ├── index.html                     # Entry HTML file
 ├── vite.config.ts                 # Vite configuration
@@ -173,80 +250,197 @@ earth/
 
 ## 🧩 Core Components
 
-### 1. **EarthLine.tsx** - 3D Globe Engine
-The heart of the application, responsible for rendering the interactive 3D Earth.
+### 1. **App.tsx** - Main Application Container
+The root component that orchestrates the entire application, managing global state and component coordination.
 
 **Key Features:**
-- **Three.js Integration**: Custom shader materials for day/night cycles
-- **Globe.gl Library**: High-performance 3D globe rendering
-- **Dynamic Textures**: Real-time day/night texture blending
-- **Route Rendering**: Great circle arcs between ports
-- **Port Labels**: Interactive 3D labels with altitude layering
-- **Auto-rotation**: Continuous globe rotation with mouse controls
+- **Redux Integration**: Connects to Redux store for state management
+- **Layout Management**: Handles collapsible sidebar and dashboard states
+- **Demo Coordination**: Manages demo selection and regional showcases
+- **Data Loading**: Initiates data loading through custom hooks
+- **Port Management**: Processes and manages port data for visualization
 
 **Technical Details:**
 ```typescript
-// Shader material setup
-material = new ShaderMaterial({
-  uniforms: {
-    dayTexture: { value: dayTexture },
-    nightTexture: { value: nightTexture },
-    sunDirection: { value: calculateSunDirection() },
-  },
-  vertexShader: dayNightShader.vertexShader,
-  fragmentShader: dayNightShader.fragmentShader,
-});
+const App: React.FC = () => {
+  const [isDashboardCollapsed, setIsDashboardCollapsed] = useState<boolean>(false);
+  const [isPortSidebarCollapsed, setIsPortSidebarCollapsed] = useState<boolean>(true);
+  const [selectedDemo, setSelectedDemo] = useState<string | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<RegionOption | null>(null);
+  
+  const loadData = useWeekDataLoader();
+  const dispatch = useAppDispatch();
+  // Component orchestration logic...
+};
 ```
 
-### 2. **Dashboard.tsx** - PO Analytics Panel
-Real-time purchase order statistics and KPI visualization panel.
+### 2. **GlobeEarth.tsx** - 3D Globe Visualization Engine
+The core 3D visualization component powered by Three.js and Globe.gl.
 
-**Components:**
-- **Collapsible Interface**: Smooth expand/collapse animations for space optimization
-- **PO Route Statistics**: Active purchase order routes, cost analytics, PO counts per port
-- **Weekly KPIs**: OTIF, On-time delivery performance, In-stock percentages
-- **Cost-Centric Metrics**: Formatted displays for departure/destination port costs
-
-### 3. **WeeklyStatsDashboard.tsx** - PO Performance Visualizations
-Displays weekly purchase order performance indicators using interactive pie charts.
-
-**Features:**
-- **Three Key Pie Charts**: OTIF (On Time In Full), On-time Delivery rates, In-stock levels
-- **PO Data Integration**: JSON-driven weekly purchase order statistics
-- **Week Selection**: Dynamic data updates based on timeline
-
-### 4. **PieChart.tsx** - D3.js Charts
-Reusable donut chart component for KPI visualization.
+**Key Features:**
+- **Three.js Integration**: Custom shader materials for day/night cycles
+- **Globe.gl Library**: High-performance 3D globe rendering with WebGL
+- **Redux State Binding**: Real-time updates based on Redux state changes
+- **Interactive Tours**: Integration with TourControl for scripted demonstrations
+- **Dynamic Rendering**: Route arcs, port labels, and interactive tooltips
+- **Performance Optimization**: Efficient rendering with requestAnimationFrame
 
 **Technical Implementation:**
 ```typescript
-// D3.js pie chart generation
-const pie = d3.pie<typeof pieData[0]>()
-  .value(d => d.value)
-  .sort(null)
-  .startAngle(-Math.PI / 2); // Start at top
+// Globe integration with Redux state
+const selectedPorts = useAppSelector((state) => state.ports.selectedPorts);
+const currentWeek = useAppSelector((state) => state.week.currentWeek);
+const isDemoActive = useAppSelector((state) => state.demo.isActive);
 
-const arc = d3.arc<d3.PieArcDatum<typeof pieData[0]>>()
-  .innerRadius(radius * 0.6) // Creates donut chart
-  .outerRadius(radius);
+// Dynamic data binding for real-time updates
+const filteredRoutes = useMemo(() => {
+  return routeData.filter(route => selectedPorts.includes(route.fromPort));
+}, [routeData, selectedPorts]);
 ```
 
-### 5. **Timeline.tsx** - Navigation Component
-Week-by-week navigation interface for temporal data exploration.
+### 3. **Dashboard.tsx** - Analytics and Statistics Panel
+Comprehensive analytics dashboard with real-time purchase order insights.
+
+**Components:**
+- **WeeklyStatsDashboard**: KPI visualization with interactive pie charts
+- **POStats**: Purchase order statistics and cost analysis
+- **HistoricalCharts**: Trend analysis and historical data visualization
+- **Collapsible Interface**: Space-optimized design with smooth animations
+
+**Redux Integration:**
+```typescript
+const statisticsData = useAppSelector((state) => state.loader.data?.statistics ?? []);
+const currentWeek = useAppSelector((state) => state.week.currentWeek);
+```
+
+### 4. **TopBar.tsx** - Navigation and Control Center
+Primary navigation component with demo controls and menu system.
 
 **Features:**
-- **Progress Visualization**: Linear timeline with progress indicator
-- **Interactive Dots**: Clickable week markers
-- **Navigation Buttons**: Previous/Next week controls
-- **Week Formatting**: Display format conversion (e.g., "202517" → "2025W17")
+- **Demo Selection**: Dropdown menu for scripted demonstrations
+- **Region Navigation**: Regional showcase selection
+- **Loading States**: Visual feedback for data loading operations
+- **Responsive Menu**: Collapsible navigation for different screen sizes
+- **Keyboard Integration**: Support for keyboard shortcuts
+
+### 5. **TourControl.tsx** - Demo and Tour Orchestration
+Advanced demo system for guided tours and regional showcases.
+
+**Capabilities:**
+- **Scripted Demonstrations**: Pre-defined demo sequences with timing control
+- **Regional Tours**: Geographic focus tours for different shipping regions
+- **Step-by-Step Navigation**: Guided progression through demo content
+- **Progress Tracking**: Visual progress indicators and completion status
+- **Integration with Globe**: Seamless camera control and data highlighting
+
+**Demo Scripts:**
+```typescript
+const DEMO_SCRIPTS: ScriptedDemo[] = [
+  {
+    id: 'quick-overview',
+    name: 'Quick Overview',
+    description: 'A 2-minute overview of global shipping routes',
+    steps: [...] // Detailed step configuration
+  },
+  // Additional demo configurations...
+];
+```
+
+### 6. **PortsSidebar.tsx** - Port Management Interface
+Interactive port selection and filtering system.
+
+**Features:**
+- **Port Selection**: Multi-select interface for port filtering
+- **Redux State Management**: Synchronized with global port selection state
+- **Visual Feedback**: Real-time updates reflecting current selections
+- **Bulk Operations**: Select all, clear all functionality
+
+### 7. **Timeline.tsx** - Temporal Navigation
+Week-by-week navigation interface for historical data exploration.
+
+**Redux Integration:**
+```typescript
+const wmweeks = useAppSelector((state) => 
+  (state.loader.data?.week || []).map((item) => item.wmweek)
+);
+const currentWmweek = useAppSelector((state) => state.week.currentWeek);
+const dispatch = useAppDispatch();
+
+const handleDotClick = (wmweek: string) => {
+  dispatch(setCurrentWeek(wmweek));
+};
+```
 
 ---
 
 ## 📊 Data Structure & APIs
 
-### Purchase Order Data Sources
+### Redux State Management
 
-#### 1. **PO Route Data** (Dynamic)
+The application uses Redux Toolkit for centralized state management with four primary slices:
+
+#### 1. **Week State Slice**
+```typescript
+interface WeekState {
+  currentWeek: string;  // Currently selected week (YYYYWW format)
+}
+
+// Actions
+const weekSlice = createSlice({
+  name: "week",
+  initialState: { currentWeek: "" },
+  reducers: {
+    setCurrentWeek: (state, action: PayloadAction<string>) => {
+      state.currentWeek = action.payload;
+    },
+  },
+});
+```
+
+#### 2. **Ports State Slice**
+```typescript
+interface PortsState {
+  selectedPorts: string[];  // Currently selected ports for filtering
+  fromPorts: string[];      // Available departure ports
+  toPorts: string[];        // Available destination ports
+}
+
+// Actions: togglePort, selectAllPorts, clearSelectedPorts, setPorts
+```
+
+#### 3. **Demo State Slice**
+```typescript
+interface DemoState {
+  isActive: boolean;        // Demo system active state
+  currentDemo: string | null; // Active demo ID
+  currentStep: number;      // Current step in demo sequence
+  progress: number;         // Demo completion progress (0-1)
+  tourMessage: string;      // Current tour message text
+}
+
+// Actions: setDemoActive, setCurrentDemo, setCurrentStep, setProgress, setTourMessage
+```
+
+#### 4. **Loader State Slice**
+```typescript
+interface LoaderState {
+  loading?: boolean;        // Data loading state
+  loaded?: boolean;         // Data loaded successfully
+  error?: string;          // Error message if loading failed
+  data?: {                 // Loaded application data
+    from: FromPortInfo[];
+    to: ToPortInfo[];
+    week: WeekOrderCollection[];
+    statistics: StatisticsData[];
+  };
+}
+
+// Actions: loaderStart, loaderSuccess, loaderFail
+```
+
+### Data Sources and Interfaces
+
+#### 1. **Purchase Order Route Data**
 ```typescript
 interface RouteData {
   fromPort: string;      // Departure port name
@@ -257,48 +451,126 @@ interface RouteData {
 }
 ```
 
-#### 2. **Port Data** (Dynamic)
+#### 2. **Port Information Data**
 ```typescript
 interface PortData {
   name: string;          // Port name
-  lat: number;           // Latitude
-  lng: number;           // Longitude
+  lat: number;           // Latitude coordinate
+  lng: number;           // Longitude coordinate
   idc?: string;          // Alternative identifier
 }
 ```
 
-#### 3. **Statistics Data** (JSON)
-```json
-{
-  "wmweek": "202517",
-  "sataistics": {
-    "otif": {
-      "description": "On Time In Full - A measure of delivery performance.",
-      "value": 95.5,
-      "unit": "%"
-    },
-    "ontimedelivery": {
-      "description": "Percentage of orders delivered on time.",
-      "value": 92.3,
-      "unit": "%"
-    },
-    "instock": {
-      "description": "Percentage of items in stock.",
-      "value": 88.7,
-      "unit": "%"
-    }
-  }
+#### 3. **Weekly Statistics Data**
+```typescript
+interface StatisticsData {
+  wmweek: string;        // Week identifier
+  statistics: {
+    otif: {
+      description: string;
+      value: number;
+      unit: string;
+    };
+    ontimedelivery: {
+      description: string;
+      value: number;
+      unit: string;
+    };
+    instock: {
+      description: string;
+      value: number;
+      unit: string;
+    };
+  };
 }
 ```
 
-### Data Flow
+### Data Flow Architecture
+
+The application follows a unidirectional data flow pattern using Redux:
 
 ```mermaid
 graph TD
-    A[Data Files] --> B[App.tsx]
-    B --> C[EarthLine.tsx]
-    B --> D[Dashboard.tsx]
-    B --> E[Timeline.tsx]
+    A[Data Files] --> B[Custom Hooks]
+    B --> C[Redux Actions]
+    C --> D[Redux Store]
+    D --> E[React Components]
+    E --> F[User Interactions]
+    F --> C
+    
+    subgraph "Data Sources"
+        A1[wmweekData.json] --> A
+        A2[statistics.json] --> A
+        A3[from.json] --> A
+        A4[to.json] --> A
+    end
+    
+    subgraph "Redux Store"
+        D1[Week Slice] --> D
+        D2[Ports Slice] --> D
+        D3[Demo Slice] --> D
+        D4[Loader Slice] --> D
+    end
+    
+    subgraph "Components"
+        E1[App.tsx] --> E
+        E2[GlobeEarth.tsx] --> E
+        E3[Dashboard.tsx] --> E
+        E4[Timeline.tsx] --> E
+    end
+```
+
+### Custom Hooks Integration
+
+#### **useWeekDataLoader Hook**
+```typescript
+export const useWeekDataLoader = () => {
+  const dispatch = useAppDispatch();
+  
+  const loadData = useCallback(async () => {
+    dispatch(loaderStart());
+    try {
+      const [fromData, toData, weekData, statisticsData] = await Promise.all([
+        fetch(`${base}from.json`).then(res => res.json()),
+        fetch(`${base}to.json`).then(res => res.json()),
+        fetch(`${base}wmweekData.json`).then(res => res.json()),
+        fetch(`${base}data/statistics.json`).then(res => res.json())
+      ]);
+      
+      dispatch(loaderSuccess({ 
+        from: fromData, 
+        to: toData, 
+        week: weekData, 
+        statistics: statisticsData 
+      }));
+    } catch (error) {
+      dispatch(loaderFail(error.message));
+    }
+  }, [dispatch]);
+  
+  return loadData;
+};
+```
+
+### Component State Subscription Patterns
+
+#### **Redux State Access in Components**
+```typescript
+// Example: Dashboard component accessing Redux state
+const Dashboard: React.FC<DashboardProps> = ({ isCollapsed, onToggleCollapse }) => {
+  // Subscribe to relevant Redux state slices
+  const statisticsData = useAppSelector((state) => state.loader.data?.statistics ?? []);
+  const currentWeek = useAppSelector((state) => state.week.currentWeek);
+  
+  // Dispatch actions to update state
+  const dispatch = useAppDispatch();
+  const handleWeekSelect = (wmweek: string) => {
+    dispatch(setCurrentWeek(wmweek));
+  };
+  
+  // Component renders based on Redux state...
+};
+```
     C --> F[3D Visualization]
     D --> G[Statistics Display]
     E --> H[Week Navigation]
@@ -371,6 +643,35 @@ graph TD
 - **Pause on Hover**: Rotation stops during interaction
 - **Smooth Transitions**: Fluid camera movements
 
+### Demo and Tour System
+
+#### **Scripted Demonstrations**
+- **Quick Overview**: 2-minute overview of global shipping routes with automated camera movement
+- **Detailed Analysis**: 20-second detailed analysis of specific regions and routes
+- **Regional Deep Dive**: 30-second focused exploration of major shipping hubs
+- **Comprehensive Demo**: 36-second complete tour showcasing all system features
+
+#### **Interactive Tour Features**
+- **Step-by-Step Navigation**: Guided progression through demo content with visual cues
+- **Progress Tracking**: Real-time progress indicators and completion status
+- **Tour Messaging**: Contextual information display during demonstrations
+- **Keyboard Shortcuts**: Quick access controls for demo navigation (spacebar, arrow keys)
+
+#### **Regional Showcases**
+- **Asia Pacific Hub**: Focus on China, Japan, and Southeast Asian shipping routes
+- **European Gateway**: Key European ports and Mediterranean trade routes
+- **North American Corridor**: Major US and Canadian shipping destinations
+- **Global Overview**: Worldwide shipping network visualization
+- **Custom Regions**: User-defined regional focus areas with flexible viewpoints
+
+#### **Port Management System**
+- **Multi-Select Interface**: Interactive port selection with visual feedback
+- **Bulk Operations**: Select all, clear all, and filtered selection options
+- **Real-time Filtering**: Dynamic route visualization based on port selections
+- **State Persistence**: Port selections maintained across demo sessions
+
+> **📖 For detailed demo system documentation, including subtitle files and technical implementation details, see [DEMO_SUMMARY.md](./DEMO_SUMMARY.md)**
+
 ---
 
 ## 🚀 Setup & Installation
@@ -419,62 +720,7 @@ npm run preview
 
 ---
 
-## 🔧 Development Guide
 
-### Development Workflow
-
-1. **Local Development**
-   ```bash
-   npm run dev
-   ```
-   - Hot module replacement enabled
-   - TypeScript type checking
-   - Source maps for debugging
-
-2. **Code Structure Guidelines**
-   - **Components**: Functional React components with TypeScript
-   - **Styling**: Styled Components for CSS-in-JS
-   - **State Management**: React hooks (useState, useEffect)
-   - **Type Safety**: Full TypeScript coverage
-
-3. **Performance Optimization**
-   - **Lazy Loading**: Dynamic imports for large dependencies
-   - **Memoization**: React.memo for expensive components
-   - **Efficient Rendering**: Throttled updates for 3D scenes
-
-### Debugging
-
-#### **Browser Developer Tools**
-- **Console**: TypeScript source maps enabled
-- **Performance**: Monitor WebGL performance
-- **Network**: Track data loading times
-
-#### **VS Code Integration**
-- **Breakpoints**: Direct TypeScript debugging
-- **Extensions**: TypeScript, Styled Components support
-- **IntelliSense**: Full type information
-
-### Adding New Features
-
-#### **New Chart Types**
-1. Create component in `src/components/`
-2. Implement D3.js visualization
-3. Add TypeScript interfaces
-4. Integrate with Dashboard
-
-#### **New Data Sources**
-1. Add JSON files to `public/data/`
-2. Update data loading in `App.tsx`
-3. Add TypeScript interfaces
-4. Pass data to components
-
-#### **Custom Shaders**
-1. Add shader files to `src/config/`
-2. Update Three.js materials
-3. Add uniform variables
-4. Test across devices
-
----
 
 ## ⚙️ Configuration
 
@@ -573,70 +819,6 @@ const HeavyComponent = lazy(() => import('./HeavyComponent'));
 - **Image Compression**: WebP format when possible
 - **Tree Shaking**: Remove unused code
 - **Minification**: Production build optimizations
-
----
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-#### **WebGL Compatibility**
-```typescript
-// Check WebGL support
-if (!canvas.getContext('webgl2')) {
-  console.error('WebGL 2.0 not supported');
-}
-```
-
-#### **Performance Issues**
-- **Reduce Arc Resolution**: Lower `arcCurveResolution` value
-- **Limit Label Count**: Filter ports by traffic volume
-- **Disable Auto-rotation**: For low-end devices
-
-#### **Data Loading Errors**
-```typescript
-// Error handling for data fetching
-try {
-  const response = await fetch('/data/routes.json');
-  if (!response.ok) throw new Error('Data fetch failed');
-  const data = await response.json();
-} catch (error) {
-  console.error('Data loading error:', error);
-}
-```
-
-### Browser Compatibility
-
-| Browser | Minimum Version | WebGL Support |
-|---------|----------------|---------------|
-| Chrome | 90+ | ✅ Full |
-| Firefox | 88+ | ✅ Full |
-| Safari | 14+ | ✅ Limited |
-| Edge | 90+ | ✅ Full |
-
-### Performance Monitoring
-
-#### **Frame Rate Monitoring**
-```typescript
-// Monitor rendering performance
-const stats = new Stats();
-document.body.appendChild(stats.dom);
-
-function animate() {
-  stats.begin();
-  // Rendering code
-  stats.end();
-  requestAnimationFrame(animate);
-}
-```
-
-#### **Memory Usage**
-```typescript
-// Monitor WebGL memory
-const info = renderer.info;
-console.log('Geometries:', info.memory.geometries);
-console.log('Textures:', info.memory.textures);
-```
 
 ---
 
@@ -782,90 +964,9 @@ server {
 }
 ```
 
-#### **Apache Configuration**
-```apache
-<VirtualHost *:80>
-    ServerName your-domain.com
-    DocumentRoot /path/to/dist
-    
-    # Handle SPA routing
-    <Directory "/path/to/dist">
-        RewriteEngine On
-        RewriteBase /
-        RewriteRule ^index\.html$ - [L]
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteCond %{REQUEST_FILENAME} !-d
-        RewriteRule . /index.html [L]
-    </Directory>
-</VirtualHost>
-```
-
-### CDN Deployment
-
-#### **AWS CloudFront**
-1. Upload `dist/` contents to S3 bucket
-2. Create CloudFront distribution
-3. Set custom error page: `/index.html` for 404 errors
-4. Enable Gzip compression
-
-#### **Vercel Deployment**
-```json
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
-    }
-  ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
-```
-
 ---
 
 ## 🔧 Advanced Configuration
-
-### Custom Shader Development
-
-#### **Creating New Shaders**
-```typescript
-// Define custom shader in config/
-export const customShader = {
-  vertexShader: `
-    varying vec2 vUv;
-    void main() {
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `,
-  fragmentShader: `
-    uniform float time;
-    varying vec2 vUv;
-    void main() {
-      vec3 color = vec3(sin(time + vUv.x * 10.0));
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `
-};
-```
-
-#### **Applying Custom Shaders**
-```typescript
-// In EarthLine.tsx
-const material = new ShaderMaterial({
-  uniforms: {
-    time: { value: 0.0 },
-    customParam: { value: 1.0 }
-  },
-  vertexShader: customShader.vertexShader,
-  fragmentShader: customShader.fragmentShader
-});
-```
 
 ### Data Source Customization
 
@@ -908,175 +1009,24 @@ const material = new ShaderMaterial({
    }
    ```
 
-### Performance Tuning
-
-#### **WebGL Optimization Settings**
-```typescript
-// Optimize renderer settings
-const renderer = new WebGLRenderer({
-  canvas: canvasElement,
-  antialias: false,        // Disable for better performance
-  powerPreference: "high-performance",
-  stencil: false,
-  depth: true
-});
-
-// Set pixel ratio for high-DPI displays
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-```
-
-#### **LOD (Level of Detail) Implementation**
-```typescript
-// Adjust detail based on distance
-const cameraDistance = camera.position.distanceTo(globeCenter);
-const arcResolution = cameraDistance > 5 ? 32 : 64;
-
-myGlobe.arcCurveResolution(arcResolution);
-```
-
-#### **Texture Optimization**
-```typescript
-// Compress textures for better performance
-const textureLoader = new TextureLoader();
-const dayTexture = textureLoader.load('/img/2k_earth_day.jpg');
-dayTexture.generateMipmaps = false;
-dayTexture.minFilter = LinearFilter;
-dayTexture.magFilter = LinearFilter;
-```
-
-### Custom Styling
-
-#### **Theme Configuration**
-```typescript
-// Define color theme
-export const theme = {
-  primary: '#4dd0e1',
-  secondary: '#ffa500',
-  background: 'rgba(15, 25, 35, 0.8)',
-  text: '#ebebeb',
-  success: '#00ff00',
-  warning: '#ff8c00',
-  error: '#ff0080'
-};
-
-// Use in styled components
-const StyledComponent = styled.div`
-  color: ${theme.primary};
-  background: ${theme.background};
-`;
-```
-
-#### **Responsive Breakpoints**
-```typescript
-const breakpoints = {
-  mobile: '768px',
-  tablet: '1024px',
-  desktop: '1440px'
-};
-
-const ResponsiveComponent = styled.div`
-  @media (max-width: ${breakpoints.mobile}) {
-    width: 100%;
-  }
-  @media (min-width: ${breakpoints.tablet}) {
-    width: 50%;
-  }
-`;
-```
-
 ---
 
-## 🧪 Testing & Quality Assurance
+## 👥 Authors & Contributors
 
-### Performance Testing
+This project was developed by the Walmart Global Souring Technology team:
 
-#### **FPS Monitoring**
-```typescript
-// Add FPS counter for performance monitoring
-import Stats from 'stats.js';
+### **Development Team**
+- **Ellis Tian** - [Ellis.tian@walmart.com](mailto:Ellis.tian@walmart.com)
+  - Lead Developer & Project Architect
+- **Fletcher Yuan** - [Fletcher.yuan@walmart.com](mailto:Fletcher.yuan@walmart.com)  
+  - Frontend Developer & UI/UX Design
+- **Huaiwei Zhu** - [huaiwei.zhu@walmart.com](mailto:huaiwei.zhu@walmart.com)
+  - Backend Integration & Data Analytics
+- **Tiantian Fan** - [tiantian.fan@walmart.com](mailto:tiantian.fan@walmart.com)
+  - Frontend Developer & Data Visualization & Performance Optimization
 
-const stats = new Stats();
-stats.showPanel(0); // 0: fps, 1: ms, 2: mb
-document.body.appendChild(stats.dom);
-
-function animate() {
-  stats.begin();
-  // Render scene
-  renderer.render(scene, camera);
-  stats.end();
-  requestAnimationFrame(animate);
-}
-```
-
-#### **Memory Usage Monitoring**
-```typescript
-// Monitor WebGL memory usage
-setInterval(() => {
-  const info = renderer.info;
-  console.log({
-    geometries: info.memory.geometries,
-    textures: info.memory.textures,
-    calls: info.render.calls,
-    triangles: info.render.triangles
-  });
-}, 5000);
-```
-
-### Cross-Browser Testing
-
-#### **WebGL Feature Detection**
-```typescript
-function checkWebGLSupport(): boolean {
-  try {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-    return !!gl;
-  } catch (e) {
-    return false;
-  }
-}
-
-// Fallback for unsupported browsers
-if (!checkWebGLSupport()) {
-  // Display fallback UI or error message
-  console.error('WebGL not supported');
-}
-```
-
-#### **Device Performance Detection**
-```typescript
-function getDevicePerformance(): 'high' | 'medium' | 'low' {
-  const canvas = document.createElement('canvas');
-  const gl = canvas.getContext('webgl');
-  
-  if (!gl) return 'low';
-  
-  const renderer = gl.getParameter(gl.RENDERER);
-  const vendor = gl.getParameter(gl.VENDOR);
-  
-  // Basic heuristics for performance classification
-  if (renderer.includes('Intel HD')) return 'low';
-  if (renderer.includes('NVIDIA') || renderer.includes('AMD')) return 'high';
-  
-  return 'medium';
-}
-```
-
----
-
-## 📄 License & Credits
-
-### Technology Credits
-- **Three.js**: 3D graphics library
-- **Globe.gl**: Globe rendering framework
-- **D3.js**: Data visualization library
-- **React**: UI framework
-- **Vite**: Build tool
-
-### Asset Credits
-- **Earth Textures**: NASA Earth Observatory
-- **Star Field**: Space imagery sources
-- **Port Data**: Maritime industry databases
+### **Project Acknowledgments**
+Special thanks to the Walmart Global Sourcing and Supply Chain teams for providing the business requirements, data specifications, and continuous feedback that made this visualization platform possible.
 
 ---
 
