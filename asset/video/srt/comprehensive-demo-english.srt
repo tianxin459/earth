@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:06,000
+AI-powered PO Intelligence System automatically generates comprehensive weekly purchase order summaries and shipping insights.
+
+2
+00:00:06,000 --> 00:00:12,000
+Quick Overview module intelligently identifies major PO origins across Asia-Pacific shipping centers and global trade routes.
+
+3
+00:00:12,000 --> 00:00:18,000
+Detailed Analysis engine performs deep cost optimization, route efficiency analysis, and seasonal demand pattern recognition.
+
+4
+00:00:18,000 --> 00:00:24,000
+Regional Deep Dive provides focused intelligence on Asia-Pacific manufacturing hubs, European trade centers, and American shipping corridors.
+
+5
+00:00:24,000 --> 00:00:30,000
+Smart algorithms automatically highlight optimal shipping routes, US port networks, and cost-effective European gateways based on PO data.
+
+6
+00:00:30,000 --> 00:00:36,000
+Dynamic global network visualization synthesizes all PO information into actionable business intelligence and strategic logistics insights.

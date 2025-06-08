@@ -1,7 +1,8 @@
-1
-00:00:00,000 --> 00:00:08,000
-Hello everyone! Today we're introducing a professional global purchase order analysis platform.
 
+00:00:00,000 --> 00:00:08,000
+Hey there! Today we're introducing "Global Sourcing Purchase Order Dashboard". 
+
+Which is an interactive 3D globe application designed to present the company's weekly Purchase Order data in a visually striking and intuitive manner, with the goal of being deployed on large screens in the company's lobbies.
 2
 00:00:08,000 --> 00:00:18,000
 It uses Three.js to build a realistic 3D Earth model, visually displaying global purchase order distribution density through color heatmaps.

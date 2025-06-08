@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:06,000
+Regional intelligence engine provides focused PO analysis for specific geographical trade zones.
+
+2
+00:00:06,000 --> 00:00:12,000
+Asia-Pacific commerce analysis highlights major manufacturing hubs: Shanghai, Shenzhen, Hong Kong, and Singapore.
+
+3
+00:00:12,000 --> 00:00:18,000
+European trade center intelligence focuses on key ports: Hamburg, Rotterdam, Antwerp, and Barcelona.
+
+4
+00:00:18,000 --> 00:00:24,000
+American corridor analysis covers North and South American networks: Los Angeles, New York, Houston, and Callao.
+
+5
+00:00:24,000 --> 00:00:30,000
+Transform regional PO data into targeted logistics strategies and zone-specific shipping optimization.
