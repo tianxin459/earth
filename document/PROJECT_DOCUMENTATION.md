@@ -571,6 +571,8 @@ const Dashboard: React.FC<DashboardProps> = ({ isCollapsed, onToggleCollapse }) 
   // Component renders based on Redux state...
 };
 ```
+
+```
     C --> F[3D Visualization]
     D --> G[Statistics Display]
     E --> H[Week Navigation]
