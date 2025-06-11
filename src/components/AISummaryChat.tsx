@@ -87,16 +87,45 @@ const Container = styled.div.withConfig({
     backdrop-filter: blur(15px);
     border: 1px solid rgba(77, 208, 225, 0.3);
     border-radius: 12px;
-    padding: ${props => props.isExpanded ? '16px' : '0'};
     margin-left: 50px; /* Leave space for robot button */
     color: #ebebeb;
     font-family: "Courier New", monospace;
-    overflow: ${props => props.isExpanded ? 'auto' : 'hidden'};
+    overflow: hidden; /* 隐藏溢出，防止内容显示在标题上方 */
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     opacity: ${props => props.isExpanded ? 1 : 0};
     animation: ${props => props.isExpanded ? fadeIn : 'none'} 0.3s ease-out;
     transition: all 0.3s ease-out;
+    display: ${props => props.isExpanded ? 'flex' : 'none'};
+    flex-direction: column;
+`;
+
+const Header = styled.div`
+    position: sticky;
+    top: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(20, 25, 30, 0.98),
+        rgba(30, 35, 40, 0.98)
+    );
+    backdrop-filter: blur(15px);
+    color: #4dd0e1;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    text-shadow: 0 0 8px rgba(77, 208, 225, 0.4);
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(77, 208, 225, 0.2);
+    border-radius: 12px 12px 0 0;
+    z-index: 10;
+    flex-shrink: 0; /* 防止标题被压缩 */
+`;
+
+const ContentWrapper = styled.div`
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
 
     &::-webkit-scrollbar {
         width: 6px;
@@ -117,15 +146,6 @@ const Container = styled.div.withConfig({
     }
 `;
 
-const Header = styled.div`
-    color: #4dd0e1;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    text-shadow: 0 0 8px rgba(77, 208, 225, 0.4);
-`;
-
 const Content = styled.div<{ isVisible: boolean }>`
     font-size: 13px;
     line-height: 1.5;
@@ -136,8 +156,6 @@ const Content = styled.div<{ isVisible: boolean }>`
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     padding-top: 8px;
-    margin-top: 12px;
-    border-top: 1px solid rgba(77, 208, 225, 0.2);
 
     p {
         margin: 0 0 12px 0;
@@ -255,22 +273,24 @@ const AISummaryChat: React.FC = () => {
                 />
             </RobotButton>
             {isExpanded && (
-                <Container isExpanded={isExpanded} ref={containerRef}>
+                <Container isExpanded={isExpanded}>
                     <Header>
                         {aiLoading
                             ? "AI Summary loading..."
                             : aiLoaded
-                            ? "AI Summary"
+                            ? `AI Summary for wk${currentWeek}`
                             : "AI Summary Failed"}
                     </Header>
-                    {!aiLoading && aiLoaded && !aiError ? (
-                        <Content isVisible={isVisible}>
-                            <ReactMarkdown>{displayedContent}</ReactMarkdown>
-                            {displayedContent !== aiContent && <Cursor />}
-                        </Content>
-                    ) : (
-                        <></>
-                    )}
+                    <ContentWrapper ref={containerRef}>
+                        {!aiLoading && aiLoaded && !aiError ? (
+                            <Content isVisible={isVisible}>
+                                <ReactMarkdown>{displayedContent}</ReactMarkdown>
+                                {displayedContent !== aiContent && <Cursor />}
+                            </Content>
+                        ) : (
+                            <></>
+                        )}
+                    </ContentWrapper>
                 </Container>
             )}
         </>
