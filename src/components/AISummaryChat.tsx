@@ -125,6 +125,7 @@ const Header = styled.div`
 const ContentWrapper = styled.div`
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden; /* 隐藏水平滚动条 */
     padding: 16px;
 
     &::-webkit-scrollbar {
