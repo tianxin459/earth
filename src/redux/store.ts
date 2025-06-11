@@ -118,14 +118,21 @@ const demoSlice = createSlice({
 export const { setCurrentWeek } = weekSlice.actions;
 export const { togglePort, selectAllPorts, clearSelectedPorts, setPorts } =
     portsSlice.actions;
-export const { 
-    setDemoActive, 
-    setCurrentDemo, 
-    setCurrentStep, 
-    setProgress, 
-    setTourMessage, 
-    clearTourMessage 
+export const {
+    setDemoActive,
+    setCurrentDemo,
+    setCurrentStep,
+    setProgress,
+    setTourMessage,
+    clearTourMessage,
 } = demoSlice.actions;
+
+interface LoadingState<T> {
+    loading?: boolean;
+    loaded?: boolean;
+    error?: string;
+    data?: T;
+}
 
 interface LoaderState {
     loading?: boolean;
@@ -173,12 +180,42 @@ const loaderSlice = createSlice({
 const { loaderStart, loaderSuccess, loaderFail } = loaderSlice.actions;
 export { loaderStart, loaderSuccess, loaderFail };
 
+type AISummaryData = { content: string; week: string };
+type AISummaryState = LoadingState<Partial<AISummaryData>>;
+
+const aiSummarySlice = createSlice({
+    name: "aiSummary",
+    initialState: {} as AISummaryState,
+    reducers: {
+        aiSummaryStart(state) {
+            state.loading = true;
+            state.error = "";
+        },
+        aiSummarySuccess(state, action: PayloadAction<AISummaryData>) {
+            state.loading = false;
+            state.error = "";
+            state.loaded = true;
+            state.data = action.payload;
+        },
+        aiSummaryFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.loaded = true;
+            state.error = action.payload;
+        },
+    },
+});
+
+const { aiSummarySuccess, aiSummaryStart, aiSummaryFail } =
+    aiSummarySlice.actions;
+export { aiSummarySuccess, aiSummaryStart, aiSummaryFail };
+
 export const store = configureStore({
     reducer: {
         week: weekSlice.reducer,
         ports: portsSlice.reducer,
         loader: loaderSlice.reducer,
         demo: demoSlice.reducer,
+        aiSummary: aiSummarySlice.reducer,
     },
 });
 

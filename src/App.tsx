@@ -5,9 +5,10 @@ import { selectAllPorts, setPorts } from "./redux/store";
 import PortsSidebar from "./components/PortsSidebar";
 import { BottomBar } from "./components/bar/BottomBar";
 import { TopBar } from "./components/bar/TopBar";
-import { useWeekDataLoader } from "./hooks/loader";
+import { useAISummary, useWeekDataLoader } from "./hooks/loader";
 import { GlobeEarth } from "./components/globe/Earth";
 import styled from "styled-components";
+import AISummaryChat from "./components/AISummaryChat";
 
 interface RegionOption {
     id: string;
@@ -98,6 +99,8 @@ const App: React.FC = () => {
         setShowHelp(!showHelp);
     };
 
+    useAISummary();
+
     return (
         <AppContainer>
             <TopBar 
@@ -125,6 +128,7 @@ const App: React.FC = () => {
                     showHelp={showHelp}
                     onHelpToggle={handleHelpToggle}
                 />
+                <AISummaryChat />
             </AppBody>
             <BottomBar />
         </AppContainer>

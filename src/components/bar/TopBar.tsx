@@ -21,12 +21,8 @@ const HeaderTitle = styled.div`
     font-style: italic;
     color: #83eefc;
     letter-spacing: 1.5px;
-    text-shadow: 
-        1px 1px 0px #000,
-        -1px -1px 0px #000,
-        1px -1px 0px #000,
-        -1px 1px 0px #000,
-        2px 2px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000,
+        -1px 1px 0px #000, 2px 2px 2px rgba(0, 0, 0, 0.8);
     filter: contrast(1.2) brightness(1.1);
     font-family: "Arial Black", Arial, sans-serif;
 `;
@@ -38,14 +34,16 @@ const heartbeat = keyframes`
 `;
 
 const DemoStatusIndicator = styled.div<{ isActive: boolean }>`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: ${props => props.isActive ? '#00ff88' : 'transparent'};
-  box-shadow: ${props => props.isActive ? '0 0 8px rgba(0, 255, 136, 0.6)' : 'none'};
-  margin-right: 8px;
-  animation: ${props => props.isActive ? heartbeat : 'none'} 1.5s ease-in-out infinite;
-  transition: all 0.3s ease;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: ${(props) => (props.isActive ? "#00ff88" : "transparent")};
+    box-shadow: ${(props) =>
+        props.isActive ? "0 0 8px rgba(0, 255, 136, 0.6)" : "none"};
+    margin-right: 8px;
+    animation: ${(props) => (props.isActive ? heartbeat : "none")} 1.5s
+        ease-in-out infinite;
+    transition: all 0.3s ease;
 `;
 
 interface RegionOption {
@@ -65,11 +63,11 @@ interface TopBarProps {
     onHelpToggle?: () => void;
 }
 
-export const TopBar: React.FC<TopBarProps> = ({ 
-    onMenuClick, 
-    onDemoSelect, 
+export const TopBar: React.FC<TopBarProps> = ({
+    onMenuClick,
+    onDemoSelect,
     onRegionSelect,
-    onHelpToggle 
+    onHelpToggle,
 }) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -81,16 +79,20 @@ export const TopBar: React.FC<TopBarProps> = ({
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node)
+            ) {
                 setIsMenuVisible(false);
             }
         };
 
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
 
     const handleMenuClick = () => {
         setIsMenuVisible(!isMenuVisible);
@@ -119,11 +121,23 @@ export const TopBar: React.FC<TopBarProps> = ({
                 </MenuContainer>
             </FlexBox>
             <FlexBox style={{ lineHeight: 1 }}>
-                <HeaderTitle>▪ Global Sourcing Purchase Order Dashboard ▪</HeaderTitle>
+                <HeaderTitle>
+                    ▪ Global Sourcing Purchase Order Dashboard ▪
+                </HeaderTitle>
             </FlexBox>
-            <FlexBox style={{ gap: "5px", width: "200px", justifyContent: "flex-end" }}>
+            <FlexBox
+                style={{
+                    gap: "5px",
+                    width: "200px",
+                    justifyContent: "flex-end",
+                }}
+            >
                 <DemoStatusIndicator isActive={isDemoActive} />
-                <IconButton icon="help" onClick={onHelpToggle} title="Keyboard Shortcuts (H)" />
+                <IconButton
+                    icon="help"
+                    onClick={onHelpToggle}
+                    title="Keyboard Shortcuts (H)"
+                />
                 <b style={{ fontSize: "80%", color: loading ? "orange" : "" }}>
                     {loading ? "LOADING" : loaded ? "READY" : ""}
                 </b>

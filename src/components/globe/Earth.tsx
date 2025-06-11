@@ -8,7 +8,7 @@ import { applyControls } from "./settings/control";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import { styled } from "styled-components";
 import RegionShowcase from "../tour/RegionShowcase";
-import TourControl from "../tour/TourControl";
+import TourControl, { type TourControlRef } from "../tour/TourControl";
 import TourMessage from "../tour/TourMessage";
 import { useKeyboardShortcuts, ShortcutsHelp } from "../../hooks/useKeyboardShortcuts";
 import { setTourMessage, clearTourMessage } from "../../redux/store";
@@ -51,7 +51,7 @@ export const GlobeEarth = (props: {
   const refGlobe = useRef<GlobeInstance | null>(null);
   const [isTourActive, setIsTourActive] = useState(false);
   const [isRegionShowcaseActive, setIsRegionShowcaseActive] = useState(false);
-  const tourControlRef = useRef<any>(null);
+  const tourControlRef = useRef<TourControlRef>(null);
   
   const dispatch = useAppDispatch();
   const tourMessage = useAppSelector((state) => state.demo.tourMessage);
