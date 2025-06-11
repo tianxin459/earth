@@ -1,0 +1,28 @@
+时间,Type,target,selector,,,
+00:02,key,A,,,,
+00:20,key,Q,,,,
+00:30,click,,"[
+                [
+                    ""aria/Expand AI Summary (A)""
+                ],
+                [
+                    ""div.jVSNaJ > div:nth-of-type(1) button:nth-of-type(2)""
+                ],
+                [
+                    ""xpath///*[@id=\""root\""]/div/div[1]/div[1]/div/button[2]""
+                ],
+                [
+                    ""pierce/div.jVSNaJ > div:nth-of-type(1) button:nth-of-type(2)""
+                ]
+            ]",,,
+00:40,click,,"[
+                [
+                    ""div.sc-hARSoJ > button""
+                ],
+                [
+                    ""xpath///*[@id=\""root\""]/div/div[2]/button""
+                ],
+                [
+                    ""pierce/div.sc-hARSoJ > button""
+                ]
+            ]",,,
