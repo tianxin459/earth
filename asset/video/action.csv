@@ -1,0 +1,30 @@
+时间,Type,target,selector,Desc,,
+00:01,key,I,,,,
+00:09,click,,"[
+                [
+                    ""div.sc-hARSoJ > button""
+                ],
+                [
+                    ""xpath///*[@id=\""root\""]/div/div[2]/button""
+                ],
+                [
+                    ""pierce/div.sc-hARSoJ > button""
+                ]
+            ]",dashboard,,
+00:15,key,Q,,,,
+00:56,key,W,,,,
+01:43,key,F,,,,
+02:30,click,,"[
+                [
+                    ""aria/Expand AI Summary (A)""
+                ],
+                [
+                    ""div.jVSNaJ > div:nth-of-type(1) button:nth-of-type(2)""
+                ],
+                [
+                    ""xpath///*[@id=\""root\""]/div/div[1]/div[1]/div/button[2]""
+                ],
+                [
+                    ""pierce/div.jVSNaJ > div:nth-of-type(1) button:nth-of-type(2)""
+                ]
+            ]",机器人图标,,
