@@ -217,9 +217,9 @@ const AISummaryChat: React.FC<AISummaryChatProps> = ({ isExpanded }) => {
         <Container isExpanded={isExpanded}>
             <Header>
                 {aiLoading
-                    ? "AI Summary loading..."
+                    ? "Thinking..."
                     : aiLoaded
-                    ? `AI Summary for wk${currentWeek}`
+                    ? `Summary for wk${currentWeek}`
                     : "AI Summary Failed"}
             </Header>
             <ContentWrapper ref={containerRef}>
