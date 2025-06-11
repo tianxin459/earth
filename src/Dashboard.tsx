@@ -14,9 +14,9 @@ interface DashboardProps {
 
 const DashboardContainer = styled.div`
   position: absolute;
-  top: 20px;
-  right: 20px;
-  bottom: 20px;
+  top: 15px;
+  right: 15px;
+  bottom: 15px;
   width: 20%;
   color: #4dd0e1;
   background: rgba(15, 25, 35, 0.6);

@@ -11,9 +11,9 @@ interface PortsSidebarProps {
 
 const SidebarContainer = styled.div`
     position: absolute;
-    top: 20px;
-    left: 20px;
-    bottom: 20px;
+    top: 15px;
+    left: 15px;
+    bottom: 15px;
     width: 15%;
     color: #4dd0e1;
     background: rgba(15, 25, 35, 0.6);

@@ -20,10 +20,10 @@ const blink = keyframes`
 `;
 
 const Container = styled.div`
-    position: fixed;
-    top: 60px;
-    left: 20px;
-    max-width: 300px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    max-width: 15%;
     max-height: 70%;
     background: linear-gradient(
         135deg,

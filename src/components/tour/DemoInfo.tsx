@@ -29,7 +29,7 @@ const blink = keyframes`
 const DemoContainer = styled.div<{ isVisible: boolean }>`
   position: fixed;
   bottom: 100px;
-  left: 20px;
+  left: 15px;
   z-index: 1000;
   background: transparent;
   padding: 20px;

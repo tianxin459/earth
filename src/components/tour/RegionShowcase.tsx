@@ -78,7 +78,7 @@ const REGIONS: RegionConfig[] = [
 const ShowcaseContainer = styled.div<{ isActive: boolean }>`
   position: fixed;
   bottom: 20px;
-  left: 20px;
+  left: 15px;
   z-index: 1000;
   background: linear-gradient(135deg, rgba(20, 25, 30, 0.95), rgba(30, 35, 40, 0.95));
   backdrop-filter: blur(15px);
