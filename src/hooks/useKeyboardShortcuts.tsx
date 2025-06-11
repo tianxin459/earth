@@ -81,7 +81,7 @@ export const useKeyboardShortcuts = ({
 
     // View control shortcuts
     {
-      key: 'r',
+      key: 'm',
       description: 'Toggle Auto-Rotation',
       category: 'view',
       action: () => {

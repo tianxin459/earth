@@ -251,7 +251,7 @@ const AISummaryChat: React.FC = () => {
                 <IconButton 
                     icon="robot" 
                     onClick={toggleExpanded}
-                    title={isExpanded ? "收起 AI 总结" : "展开 AI 总结"}
+                    title={isExpanded ? "Collapse AI Summary" : "Expand AI Summary"}
                 />
             </RobotButton>
             {isExpanded && (
