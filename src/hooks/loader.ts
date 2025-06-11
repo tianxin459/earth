@@ -4,6 +4,7 @@ import fromJSON from "../data/from.json";
 import toJSON from "../data/to.json";
 import wmweekDataJSON from "../data/wmweekData.json";
 import statisticsJSON from "../data/statistics.json";
+import aiJSON from "../data/ai.json";
 import {
     loaderStart,
     loaderSuccess,
@@ -42,6 +43,29 @@ export const useWeekDataLoader = () => {
     }, [currentWeek]);
 };
 
+const requestAI = (week: string): Promise<{ data: string }> => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({
+                data: (aiJSON as any)[week],
+            });
+        }, 1200);
+    });
+    return axios.request({
+        url: "https://cn09060nt103app.s09060.cn.wal-mart.com:8015/api/Earth/query-summary-by-ai",
+        method: "POST",
+        withCredentials: true,
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+        },
+        data: {
+            prompt: "按发货港口所在hub（全球航运网络、亚太网络、跨太平洋航线、欧洲门户、完整网络）总结数据，英文回复，300个单词以内",
+            wmweek: week,
+        },
+    });
+};
+
 export const useAISummary = () => {
     const dispatch = useAppDispatch();
     const currentWeek = useAppSelector((state) => state.week.currentWeek);
@@ -50,21 +74,11 @@ export const useAISummary = () => {
 
     useEffect(() => {
         const week = currentWeek;
+        if (!week) {
+            return;
+        }
         dispatch(aiSummaryStart());
-        axios
-            .request({
-                url: "https://cn09060nt103app.s09060.cn.wal-mart.com:8015/api/Earth/query-summary-by-ai",
-                method: "POST",
-                withCredentials: true,
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "*/*",
-                },
-                data: {
-                    prompt: "按发货港口所在hub（全球航运网络、亚太网络、跨太平洋航线、欧洲门户、完整网络）总结数据，英文回复，300个单词以内",
-                    wmweek: week,
-                },
-            })
+        requestAI(week)
             .then((res) => {
                 if (week !== refWeek.current) {
                     return;
