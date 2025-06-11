@@ -46,6 +46,7 @@ export const GlobeEarth = (props: {
   onRegionComplete?: () => void;
   showHelp?: boolean;
   onHelpToggle?: () => void;
+  onAISummaryToggle?: () => void;
 }) => {
   const refContainer = useRef<HTMLDivElement>(null);
   const refGlobe = useRef<GlobeInstance | null>(null);
@@ -129,6 +130,7 @@ export const GlobeEarth = (props: {
     globe: refGlobe.current,
     isEnabled: true,
     tourControlRef: tourControlRef,
+    onAISummaryToggle: props.onAISummaryToggle,
     onShortcutTriggered: (_, action) => {
       dispatch(setTourMessage(action));
       setTimeout(() => dispatch(clearTourMessage()), 3000);

@@ -6,6 +6,7 @@ interface KeyboardShortcutsProps {
   isEnabled?: boolean;
   onShortcutTriggered?: (shortcut: string, action: string) => void;
   tourControlRef?: React.RefObject<{ startDemoWithId: (demoId?: string) => void }>;
+  onAISummaryToggle?: () => void;
 }
 
 interface ShortcutAction {
@@ -19,7 +20,8 @@ export const useKeyboardShortcuts = ({
   globe,
   isEnabled = true,
   onShortcutTriggered,
-  tourControlRef
+  tourControlRef,
+  onAISummaryToggle
 }: KeyboardShortcutsProps) => {
 
   // Predefined camera positions for quick navigation
@@ -147,6 +149,17 @@ export const useKeyboardShortcuts = ({
         }
       }
     },
+    {
+      key: 'a',
+      description: 'Toggle AI Summary Chat',
+      category: 'view',
+      action: () => {
+        if (onAISummaryToggle) {
+          onAISummaryToggle();
+          onShortcutTriggered?.('view', 'AI Summary Chat toggled');
+        }
+      }
+    },
 
     // Speed controls
     {
@@ -221,7 +234,7 @@ export const useKeyboardShortcuts = ({
       event.preventDefault();
       shortcut.action();
     }
-  }, [isEnabled, globe, shortcuts, onShortcutTriggered, tourControlRef]);
+  }, [isEnabled, globe, shortcuts, onShortcutTriggered, tourControlRef, onAISummaryToggle]);
 
   // Setup event listeners
   useEffect(() => {

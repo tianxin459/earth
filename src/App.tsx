@@ -41,6 +41,7 @@ const App: React.FC = () => {
     const [selectedDemo, setSelectedDemo] = useState<string | null>(null);
     const [selectedRegion, setSelectedRegion] = useState<RegionOption | null>(null);
     const [showHelp, setShowHelp] = useState<boolean>(false);
+    const [isAISummaryExpanded, setIsAISummaryExpanded] = useState<boolean>(false);
 
     const loadData = useWeekDataLoader();
     const currentWmweek = useAppSelector((state) => state.week.currentWeek);
@@ -99,6 +100,10 @@ const App: React.FC = () => {
         setShowHelp(!showHelp);
     };
 
+    const handleAISummaryToggle = () => {
+        setIsAISummaryExpanded(!isAISummaryExpanded);
+    };
+
     useAISummary();
 
     return (
@@ -108,6 +113,8 @@ const App: React.FC = () => {
                 onDemoSelect={handleDemoSelect}
                 onRegionSelect={handleRegionSelect}
                 onHelpToggle={handleHelpToggle}
+                onAISummaryToggle={handleAISummaryToggle}
+                isAISummaryExpanded={isAISummaryExpanded}
             />
             <AppBody>
                 <Dashboard
@@ -127,8 +134,9 @@ const App: React.FC = () => {
                     onRegionComplete={() => setSelectedRegion(null)}
                     showHelp={showHelp}
                     onHelpToggle={handleHelpToggle}
+                    onAISummaryToggle={handleAISummaryToggle}
                 />
-                <AISummaryChat />
+                <AISummaryChat isExpanded={isAISummaryExpanded} />
             </AppBody>
             <BottomBar />
         </AppContainer>

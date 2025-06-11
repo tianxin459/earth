@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useAppSelector } from "../redux/hook";
 import ReactMarkdown from "react-markdown";
-import { IconButton } from "./Icon";
+
+interface AISummaryChatProps {
+    isExpanded: boolean;
+}
 
 const fadeIn = keyframes`
   from {
@@ -18,55 +21,6 @@ const fadeIn = keyframes`
 const blink = keyframes`
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-`;
-
-const RobotButton = styled.div<{ isExpanded: boolean }>`
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    z-index: 1001;
-    
-    button {
-        width: 42px !important;
-        height: 42px !important;
-        background: ${props => props.isExpanded 
-            ? 'linear-gradient(135deg, rgba(77, 208, 225, 0.3), rgba(77, 208, 225, 0.2))' 
-            : 'linear-gradient(135deg, rgba(20, 25, 30, 0.9), rgba(30, 35, 40, 0.9))'
-        } !important;
-        backdrop-filter: blur(15px);
-        border: 2px solid ${props => props.isExpanded 
-            ? 'rgba(77, 208, 225, 0.8)' 
-            : 'rgba(77, 208, 225, 0.4)'
-        } !important;
-        border-radius: 12px !important;
-        color: ${props => props.isExpanded ? '#4dd0e1' : '#4dd0e1'} !important;
-        box-shadow: ${props => props.isExpanded 
-            ? '0 0 20px rgba(77, 208, 225, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3)' 
-            : '0 4px 15px rgba(0, 0, 0, 0.3)'
-        };
-        transition: all 0.3s ease;
-        cursor: pointer;
-
-        &:hover {
-            background: linear-gradient(135deg, rgba(77, 208, 225, 0.4), rgba(77, 208, 225, 0.3)) !important;
-            border-color: rgba(77, 208, 225, 1) !important;
-            box-shadow: 0 0 25px rgba(77, 208, 225, 0.7), 0 6px 20px rgba(0, 0, 0, 0.4) !important;
-            transform: scale(1.05) !important;
-        }
-
-        &:active {
-            transform: scale(0.95) !important;
-        }
-
-        svg {
-            width: 20px !important;
-            height: 20px !important;
-            filter: ${props => props.isExpanded 
-                ? 'drop-shadow(0 0 8px rgba(77, 208, 225, 0.8))' 
-                : 'drop-shadow(0 0 4px rgba(77, 208, 225, 0.4))'
-            };
-        }
-    }
 `;
 
 const Container = styled.div.withConfig({
@@ -87,7 +41,7 @@ const Container = styled.div.withConfig({
     backdrop-filter: blur(15px);
     border: 1px solid rgba(77, 208, 225, 0.3);
     border-radius: 12px;
-    margin-left: 50px; /* Leave space for robot button */
+    margin-left: 0; /* Remove margin since robot button is now in TopBar */
     color: #ebebeb;
     font-family: "Courier New", monospace;
     overflow: hidden; /* 隐藏溢出，防止内容显示在标题上方 */
@@ -204,8 +158,7 @@ const Cursor = styled.span`
     animation: ${blink} 0.8s step-start infinite;
 `;
 
-const AISummaryChat: React.FC = () => {
-    const [isExpanded, setIsExpanded] = useState(false);
+const AISummaryChat: React.FC<AISummaryChatProps> = ({ isExpanded }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [displayedContent, setDisplayedContent] = useState("");
     const aiLoading = useAppSelector((state) => state.aiSummary?.loading);
@@ -216,10 +169,6 @@ const AISummaryChat: React.FC = () => {
     const currentWeek = useAppSelector((state) => state.week.currentWeek);
     const refTimer = useRef<any>();
     const containerRef = useRef<HTMLDivElement>(null);
-
-    const toggleExpanded = () => {
-        setIsExpanded(!isExpanded);
-    };
 
     const scrollToBottom = () => {
         if (containerRef.current) {
@@ -265,36 +214,25 @@ const AISummaryChat: React.FC = () => {
     if (!aiLoaded && !aiLoading && !aiError) return null;
 
     return (
-        <>
-            <RobotButton isExpanded={isExpanded}>
-                <IconButton 
-                    icon="robot" 
-                    onClick={toggleExpanded}
-                    title={isExpanded ? "Collapse AI Summary" : "Expand AI Summary"}
-                />
-            </RobotButton>
-            {isExpanded && (
-                <Container isExpanded={isExpanded}>
-                    <Header>
-                        {aiLoading
-                            ? "AI Summary loading..."
-                            : aiLoaded
-                            ? `AI Summary for wk${currentWeek}`
-                            : "AI Summary Failed"}
-                    </Header>
-                    <ContentWrapper ref={containerRef}>
-                        {!aiLoading && aiLoaded && !aiError ? (
-                            <Content isVisible={isVisible}>
-                                <ReactMarkdown>{displayedContent}</ReactMarkdown>
-                                {displayedContent !== aiContent && <Cursor />}
-                            </Content>
-                        ) : (
-                            <></>
-                        )}
-                    </ContentWrapper>
-                </Container>
-            )}
-        </>
+        <Container isExpanded={isExpanded}>
+            <Header>
+                {aiLoading
+                    ? "AI Summary loading..."
+                    : aiLoaded
+                    ? `AI Summary for wk${currentWeek}`
+                    : "AI Summary Failed"}
+            </Header>
+            <ContentWrapper ref={containerRef}>
+                {!aiLoading && aiLoaded && !aiError ? (
+                    <Content isVisible={isVisible}>
+                        <ReactMarkdown>{displayedContent}</ReactMarkdown>
+                        {displayedContent !== aiContent && <Cursor />}
+                    </Content>
+                ) : (
+                    <></>
+                )}
+            </ContentWrapper>
+        </Container>
     );
 };
 

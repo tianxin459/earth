@@ -14,6 +14,9 @@ const FlexBox = styled.div`
 
 const MenuContainer = styled.div`
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 `;
 
 const HeaderTitle = styled.div`
@@ -61,6 +64,8 @@ interface TopBarProps {
     onDemoSelect?: (demoId: string) => void;
     onRegionSelect?: (region: RegionOption) => void;
     onHelpToggle?: () => void;
+    onAISummaryToggle?: () => void;
+    isAISummaryExpanded?: boolean;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -68,6 +73,8 @@ export const TopBar: React.FC<TopBarProps> = ({
     onDemoSelect,
     onRegionSelect,
     onHelpToggle,
+    onAISummaryToggle,
+    isAISummaryExpanded = false,
 }) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -103,6 +110,25 @@ export const TopBar: React.FC<TopBarProps> = ({
             <FlexBox>
                 <MenuContainer ref={menuRef}>
                     <IconButton icon="menu" onClick={handleMenuClick} />
+                    {onAISummaryToggle && (
+                        <IconButton 
+                            icon="robot" 
+                            onClick={onAISummaryToggle}
+                            title={isAISummaryExpanded ? "Collapse AI Summary (A)" : "Expand AI Summary (A)"}
+                            style={{
+                                marginLeft: '8px',
+                                background: isAISummaryExpanded 
+                                    ? 'linear-gradient(135deg, rgba(77, 208, 225, 0.3), rgba(77, 208, 225, 0.2))' 
+                                    : 'linear-gradient(135deg, rgba(20, 25, 30, 0.9), rgba(30, 35, 40, 0.9))',
+                                borderColor: isAISummaryExpanded 
+                                    ? 'rgba(77, 208, 225, 0.8)' 
+                                    : 'rgba(77, 208, 225, 0.4)',
+                                boxShadow: isAISummaryExpanded 
+                                    ? '0 0 20px rgba(77, 208, 225, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3)' 
+                                    : '0 4px 15px rgba(0, 0, 0, 0.3)',
+                            }}
+                        />
+                    )}
                     <DropdownMenu
                         isVisible={isMenuVisible}
                         onFilterClick={() => {
