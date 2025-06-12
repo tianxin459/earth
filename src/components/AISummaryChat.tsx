@@ -29,8 +29,8 @@ const Container = styled.div.withConfig({
     position: absolute;
     top: 15px;
     left: 15px;
-    max-width: ${props => props.isExpanded ? '15%' : '0'};
-    max-height: ${props => props.isExpanded ? '70%' : '0'};
+    max-width: ${props => props.isExpanded ? '20%' : '0'};
+    max-height: ${props => props.isExpanded ? '60%' : '0'};
     width: ${props => props.isExpanded ? 'auto' : '0'};
     height: ${props => props.isExpanded ? 'auto' : '0'};
     background: linear-gradient(
