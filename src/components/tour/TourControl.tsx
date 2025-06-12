@@ -155,7 +155,7 @@ const DEMO_SCRIPTS: ScriptedDemo[] = [
                 action: "timeline",
                 duration: 15,
                 parameters: {
-                    focus: "wmweek-demo",
+                    focus: "timeline",
                     timeSteps: ["202519", "202520", "202521"],
                     description:
                         "Demonstrating how shipping patterns change over different weeks",
